@@ -24,6 +24,9 @@ public class H_PlayerMove : MonoBehaviour
         dir.Normalize();
 
         transform.position += dir * pMoveSpeed * Time.deltaTime;
-        model.transform.forward = dir;
+        if(dir != Vector3.zero)
+        {
+            model.transform.forward = dir;
+        }
     }
 }
