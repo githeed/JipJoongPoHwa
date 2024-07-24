@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class H_PlayerAttack : MonoBehaviour
 {
-    public List<GameObject> enemies = new List<GameObject>();
+    //public List<GameObject> enemies = new List<GameObject>();
 
     public float attTime = 5;
     private float curAttTime = 0;
+
+    public float scanRange = 5f;
+    public LayerMask targetLayer;
+    public Collider[] targets;
+    public Transform nearestTarget;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,40 +25,35 @@ public class H_PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BasicWeaponAttack();
+        targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
     }
 
-    GameObject FindClosestEnemy()
+    Transform GetNearest()
     {
+        Transform result = null;
         float dist = 9999f;
-        GameObject closestEnemy = null;
-        if(enemies.Count != 0)
+
+        foreach(Collider target in targets)
         {
-            for(int i = 0; i < enemies.Count; i++)
+            float curDist = Vector3.Distance(transform.position, target.transform.position);
+            if(curDist < dist)
             {
-                if (Vector3.Distance(transform.position, enemies[i].transform.position) < dist)
-                {
-                    dist = Vector3.Distance(transform.position, enemies[i].transform.position);
-                    closestEnemy = enemies[i];
-                }
+                dist = curDist;
+                result = target.transform;
             }
         }
-        return closestEnemy;
+        return result;
     }
 
-    void BasicWeaponAttack()
+    void BasicAttack()
     {
+        nearestTarget = GetNearest();
+
         curAttTime += Time.deltaTime;
-        if (curAttTime > attTime)
+
+        if(curAttTime > attTime)
         {
-            if (FindClosestEnemy() != null)
-            {
-                print(FindClosestEnemy());
-            }
-            else
-            {
-                print("null");
-            }
+
             curAttTime = 0;
         }
     }
