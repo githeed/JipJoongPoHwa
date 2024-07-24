@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AllyFSM_Y : MonoBehaviour
+public class Y_AllyFSM : MonoBehaviour
 {
     enum AllyState
     {
@@ -18,11 +18,18 @@ public class AllyFSM_Y : MonoBehaviour
     public float findDistance = 20f;
     Transform enemy;
 
+    public float attackDistance = 10f;
+    public float moveSpeed = 5f;
+
+    CharacterController cc;
+
     // Start is called before the first frame update
     void Start()
     {
         a_State = AllyState.Idle;
         enemy = GameObject.Find("Enemy").transform;
+
+        cc = GetComponent<CharacterController>();
         
     }
 
@@ -57,13 +64,19 @@ public class AllyFSM_Y : MonoBehaviour
         if(Vector3.Distance(transform.position, enemy.position) < findDistance)
         {
             a_State = AllyState.Move;
-            print("���� ��ȯ: Idle -> Move");
+            print("상태 전환: Idle -> Move");
         }
 
     }
 
     void Move()
     {
+        // 퀘스트가 있으면 몬스터를 피하면서 퀘스트 목표 장소로 이동
+
+        // 퀘스트가 없으면 몬스터를 피해 이동
+        // 8방 or 가 + normalized 잊지 말 것
+
+        // 일단은 3초마다 한번씩 랜덤한 방향으로 움직이게 해놓고 기본공격/스킬 하나 구현한 이후에 생각해보자
 
     }
 
