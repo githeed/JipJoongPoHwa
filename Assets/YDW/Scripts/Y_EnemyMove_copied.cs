@@ -5,7 +5,7 @@ using UnityEngine;
 public class Y_EnemyMove_copied : MonoBehaviour
 {
     [SerializeField]
-    float pMoveSpeed = 7.0f;
+    float pMoveSpeed = 10.0f;
     [SerializeField]
     GameObject model;
     // Start is called before the first frame update
