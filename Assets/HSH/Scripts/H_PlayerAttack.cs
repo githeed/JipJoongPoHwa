@@ -53,7 +53,6 @@ public class H_PlayerAttack : MonoBehaviour
                 result = target.transform;
             }
         }
-
         //print(stopwatch.ElapsedMilliseconds);
         //print(stopwatch.Elapsed);
         //print(stopwatch.ElapsedTicks);
@@ -71,16 +70,14 @@ public class H_PlayerAttack : MonoBehaviour
             targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
             nearestTarget = GetNearest();
 
+            if (nearestTarget == null) return;
             // 공격하기
-            if (nearestTarget.gameObject != null)
+            else
+            //if (nearestTarget.gameObject != null)
             {
                 nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);
                 //print(nearestTarget.gameObject + ": " + attackDmg);
                 //ObjectPoolManager.instance
-            }
-            else
-            {
-                print("null");
             }
             curAttTime = 0;
         } 
@@ -89,6 +86,7 @@ public class H_PlayerAttack : MonoBehaviour
     public void UpdateHp(float dmg)
     {
         curHP -= dmg;
+        print(curHP);
         if (curHP <= 0)
         {
             Destroy(gameObject);
