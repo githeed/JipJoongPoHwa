@@ -10,7 +10,7 @@ public class EnemyMove : MonoBehaviour
 {
     public IObjectPool<GameObject> pool { get; set; }
     GameObject target;
-    PlayerTest_K playerCs;
+    H_PlayerAttack playerCs;
     public float attackPower;
 
     bool canAttack;
@@ -32,7 +32,7 @@ public class EnemyMove : MonoBehaviour
     private void Awake()
     {
         target = GameObject.FindWithTag("Player");
-        playerCs = target.GetComponent<PlayerTest_K>();
+        playerCs = target.GetComponent<H_PlayerAttack>();
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -69,7 +69,7 @@ public class EnemyMove : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             canAttack = true;
-            //attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
+            attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
         }
     }
 
@@ -77,7 +77,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            //StopCoroutine(attackCoroutine); // 코루틴을 하나만 할 수 있게.
+            StopCoroutine(attackCoroutine); // 코루틴을 하나만 할 수 있게.
             canAttack = false;
             
         }
@@ -98,7 +98,7 @@ public class EnemyMove : MonoBehaviour
     {
         while (canAttack)
         {
-            playerCs.UpdateHP(attackPower);
+            playerCs.UpdateHp(attackPower);
             yield return new WaitForSeconds(1.0f);
         }
     }
