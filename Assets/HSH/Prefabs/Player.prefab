@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 3230356971856568298}
   - component: {fileID: 5959696519517719031}
   - component: {fileID: 1649481074804074421}
-  - component: {fileID: 3269898551029548226}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,29 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3269898551029548226
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 163744845531281031}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6241572764430644585
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8847779311411820427}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: CamPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +128,7 @@ GameObject:
   - component: {fileID: 8958262706023633913}
   - component: {fileID: 2430391447401280405}
   - component: {fileID: 7646230970700246255}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -289,7 +265,7 @@ GameObject:
   - component: {fileID: 5139813395294081456}
   - component: {fileID: 1965512753116563735}
   - component: {fileID: 1079308496657152229}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,10 +369,10 @@ GameObject:
   - component: {fileID: 788302660717785358}
   - component: {fileID: 7521801770065509275}
   - component: {fileID: 125704264292031012}
-  - component: {fileID: 4434568531282280668}
-  m_Layer: 0
+  - component: {fileID: 3893785315710580834}
+  m_Layer: 31
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -433,6 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pMoveSpeed: 7
   model: {fileID: 163744845531281031}
+  cc: {fileID: 0}
 --- !u!114 &125704264292031012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,33 +429,32 @@ MonoBehaviour:
     m_Bits: 536870912
   targets: []
   nearestTarget: {fileID: 0}
---- !u!54 &4434568531282280668
-Rigidbody:
+--- !u!143 &3893785315710580834
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7623563075463257369}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1555710781854992712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -541,6 +517,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ParticleTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277527485036658192, guid: 3335ee83fd4d0c5438d2690911777ac7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277527485036658192, guid: 3335ee83fd4d0c5438d2690911777ac7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

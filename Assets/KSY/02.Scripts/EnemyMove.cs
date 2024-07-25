@@ -59,6 +59,7 @@ public class EnemyMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(agent.enabled)
         agent.destination = target.transform.position;
     }
 
@@ -68,7 +69,7 @@ public class EnemyMove : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             canAttack = true;
-            attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
+            //attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
         }
     }
 
@@ -76,7 +77,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            StopCoroutine(attackCoroutine); // 코루틴을 하나만 할 수 있게.
+            //StopCoroutine(attackCoroutine); // 코루틴을 하나만 할 수 있게.
             canAttack = false;
             
         }
@@ -87,6 +88,7 @@ public class EnemyMove : MonoBehaviour
         curHp -= dmg;
         if(curHp <= 0)
         {
+            print(curHp);
             agent.enabled = false;
             pool.Release(this.gameObject);
         }
