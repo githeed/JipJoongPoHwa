@@ -43,7 +43,6 @@ public class SpawnEnemy : MonoBehaviour
             GameObject go = Resources.Load<GameObject>("Enemy");
             go.transform.position = player.position + (dir.normalized*rand);
             Instantiate(go);
-            print("소환된 거리" + (go.transform.position - player.position).magnitude);
         }
     }
 }

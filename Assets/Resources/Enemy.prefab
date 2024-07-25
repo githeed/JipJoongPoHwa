@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPower: 10
+  maxHp: 10
   distanceMin: 15
   distanceMax: 30
 --- !u!195 &8054608339505036986

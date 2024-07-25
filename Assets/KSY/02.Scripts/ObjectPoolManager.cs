@@ -24,7 +24,6 @@ public class ObjectPoolManager : MonoBehaviour
             Destroy(this.gameObject);
         }
         enemyPrefab = Resources.Load<GameObject>("Enemy");
-        print(enemyPrefab.name);
         Init();
     }
 
@@ -43,7 +42,6 @@ public class ObjectPoolManager : MonoBehaviour
 
     private GameObject CreatePooled()
     {
-        print("CreatePooled");
         GameObject poolGo = Instantiate(enemyPrefab);
         poolGo.GetComponent<EnemyMove>().pool = this.pool;
         return poolGo;
@@ -51,12 +49,10 @@ public class ObjectPoolManager : MonoBehaviour
 
     private void OnTakeFromPool(GameObject poolGo)
     {
-        print("OnTakeFromPool");
         poolGo.SetActive(true);
     }
     private void OnReturnedToPool(GameObject poolGo)
     {
-        print("OnReturnedToPool");
         poolGo.SetActive(false);
     }
     private void OnDestroyPoolObject(GameObject poolGo)

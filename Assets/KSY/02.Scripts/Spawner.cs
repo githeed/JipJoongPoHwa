@@ -46,7 +46,6 @@ public class Spawner : MonoBehaviour
             GameObject go = ObjectPoolManager.instance.pool.Get();
             go.GetComponent<EnemyMove>().OnNav();
             go.transform.position = player.position + (dir.normalized * rand) + Vector3.up*0.1f;
-            print("소환된 거리" + (go.transform.position - player.position).magnitude);
         }
     }
 }

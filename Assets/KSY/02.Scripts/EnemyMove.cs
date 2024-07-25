@@ -17,6 +17,10 @@ public class EnemyMove : MonoBehaviour
     NavMeshAgent agent;
     Coroutine attackCoroutine;
 
+    public float maxHp;
+    float curHp;
+
+
     public float distanceMin;
     public float distanceMax;
     Vector2 distance;
@@ -34,15 +38,11 @@ public class EnemyMove : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        curHp = maxHp;
     }
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //OnNav();
-    }
+
 
     public void OnNav()
     {
@@ -62,31 +62,13 @@ public class EnemyMove : MonoBehaviour
         agent.destination = target.transform.position;
     }
 
-    //private void OnEnable()
-    //{
-    //    rand = Random.Range(distanceMin, distanceMax);
-    //    randDirX = Random.Range(-1f, 1f);
-    //    randDirZ = Random.Range(-1f, 1f);
-    //    while (randDirX == 0 && randDirZ == 0)
-    //    {
-    //        randDirX = Random.Range(-1f, 1f);
-    //        randDirZ = Random.Range(-1f, 1f);
-    //    }
-    //    dir = new Vector3(randDirX, 0, randDirZ);
-    //    transform.position = target.transform.position + (dir.normalized * rand);
-    //    print("소환된 거리" + (transform.position - target.transform.position).magnitude);
-    //}
 
     private void OnTriggerEnter(Collider other)
     {
-        print("뭐든 만남.");
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            print("만남");
             canAttack = true;
             attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
-            agent.enabled = false;
-            pool.Release(this.gameObject);
         }
     }
 
@@ -94,27 +76,26 @@ public class EnemyMove : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            print("그만 때림");
             StopCoroutine(attackCoroutine); // 코루틴을 하나만 할 수 있게.
             canAttack = false;
             
         }
     }
 
-    /*private void OnTriggerEnter(Collider other)
+    public void UpdateHp(float dmg)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        curHp -= dmg;
+        if(curHp <= 0)
         {
-
+            agent.enabled = false;
             pool.Release(this.gameObject);
         }
-    }*/
+    }
 
     IEnumerator Attack()
     {
         while (canAttack)
         {
-            print("때림");
             playerCs.UpdateHP(attackPower);
             yield return new WaitForSeconds(1.0f);
         }

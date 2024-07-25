@@ -24,4 +24,11 @@ public class PlayerTest_K : MonoBehaviour
         curHP -= dmg;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            other.GetComponent<EnemyMove>().UpdateHp(10);
+        }
+    }
 }
