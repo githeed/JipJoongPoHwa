@@ -35,7 +35,7 @@ TagManager:
   - 
   - 
   - 1111
-  - 
+  - Enemy
   - Player
   m_SortingLayers:
   - name: Default
