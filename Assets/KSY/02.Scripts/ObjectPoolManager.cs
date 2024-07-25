@@ -35,7 +35,7 @@ public class ObjectPoolManager : MonoBehaviour
         // 미리 오브젝트 생성 해놓기
         for(int i = 0; i<defaultCapacity; i++)
         {
-            Enemy enemy = CreatePooled().GetComponent<Enemy>();
+            EnemyMove enemy = CreatePooled().GetComponent<EnemyMove>();
             enemy.pool.Release(enemy.gameObject);
         }
 
@@ -45,7 +45,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         print("CreatePooled");
         GameObject poolGo = Instantiate(enemyPrefab);
-        poolGo.GetComponent<Enemy>().pool = this.pool;
+        poolGo.GetComponent<EnemyMove>().pool = this.pool;
         return poolGo;
     }
 

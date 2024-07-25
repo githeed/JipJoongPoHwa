@@ -3303,7 +3303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26750ab4a9857de408d839d79f72cc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultCapacity: 40
+  defaultCapacity: 2
   maxPoolSize: 100000
   enemyPrefab: {fileID: 8816372215565858060, guid: 4cc06c0be67f3c348b0d8c60c1e6af6b,
     type: 3}

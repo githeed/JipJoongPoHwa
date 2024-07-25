@@ -29,21 +29,24 @@ public class Spawner : MonoBehaviour
     void Update()
     {
         currTime += Time.deltaTime;
-        rand = Random.Range(distanceMin, distanceMax);
-        randDirX = Random.Range(-1f, 1f);
-        randDirZ = Random.Range(-1f, 1f);
-        while (randDirX == 0 && randDirZ == 0)
-        {
-            randDirX = Random.Range(-1f, 1f);
-            randDirZ = Random.Range(-1f, 1f);
-        }
-        dir = new Vector3(randDirX, 0, randDirZ);
+        
         if (currTime >= coolTime)
         {
             currTime = 0;
+            rand = Random.Range(distanceMin, distanceMax);
+            randDirX = Random.Range(-1f, 1f);
+            randDirZ = Random.Range(-1f, 1f);
+            while (randDirX == 0 && randDirZ == 0)
+            {
+                randDirX = Random.Range(-1f, 1f);
+                randDirZ = Random.Range(-1f, 1f);
+            }
+            dir = new Vector3(randDirX, 0, randDirZ);
+
             GameObject go = ObjectPoolManager.instance.pool.Get();
-            //go.transform.position = player.position + (dir.normalized * rand);
-            //print("소환된 거리" + (go.transform.position - player.position).magnitude);
+            go.GetComponent<EnemyMove>().OnNav();
+            go.transform.position = player.position + (dir.normalized * rand) + Vector3.up*0.1f;
+            print("소환된 거리" + (go.transform.position - player.position).magnitude);
         }
     }
 }
