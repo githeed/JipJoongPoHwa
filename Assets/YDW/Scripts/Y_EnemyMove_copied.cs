@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class H_PlayerMove : MonoBehaviour
+public class Y_EnemyMove_copied : MonoBehaviour
 {
     [SerializeField]
-    float pMoveSpeed = 7.0f;
+    float pMoveSpeed = 10.0f;
     [SerializeField]
     GameObject model;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class H_PlayerMove : MonoBehaviour
         dir.Normalize();
 
         transform.position += dir * pMoveSpeed * Time.deltaTime;
-        if(dir != Vector3.zero)
+        if (dir != Vector3.zero)
         {
             model.transform.forward = dir;
         }
