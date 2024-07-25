@@ -13,9 +13,17 @@ public class EnemyMove : MonoBehaviour
 
     bool canAttack;
     NavMeshAgent agent;
-
-
     Coroutine attackCoroutine;
+
+    public float distanceMin;
+    public float distanceMax;
+    Vector2 distance;
+    float rand;
+    float randDirX;
+    float randDirZ;
+    Vector3 dir;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +38,21 @@ public class EnemyMove : MonoBehaviour
     void Update()
     {
         agent.destination = target.transform.position;
+    }
+
+    private void OnEnable()
+    {
+        rand = Random.Range(distanceMin, distanceMax);
+        randDirX = Random.Range(-1f, 1f);
+        randDirZ = Random.Range(-1f, 1f);
+        while (randDirX == 0 && randDirZ == 0)
+        {
+            randDirX = Random.Range(-1f, 1f);
+            randDirZ = Random.Range(-1f, 1f);
+        }
+        dir = new Vector3(randDirX, 0, randDirZ);
+        transform.position = target.transform.position + (dir.normalized * rand);
+        print("소환된 거리" + (transform.position - target.transform.position).magnitude);
     }
 
     private void OnTriggerEnter(Collider other)

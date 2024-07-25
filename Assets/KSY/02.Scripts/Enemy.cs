@@ -5,45 +5,20 @@ using UnityEngine.Pool;
 
 public class Enemy : MonoBehaviour
 {
-    // 적 오브젝트가 풀에서 스폰될 때 호출됩니다.
-    public virtual void OnObjectSpawn()
-    {
-        gameObject.SetActive(true);
-        // 공통 초기화 코드
-    }
+    public IObjectPool<GameObject> pool { get; set; }
 
-    private void OnDisable()
+
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (Spawner.Instance != null)
+        if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Spawner.Instance.ReleaseEnemy(this);
+            pool.Release(this.gameObject);
         }
     }
+
+
+
 }
 
-public class Enemy1 : Enemy
-{
-    public override void OnObjectSpawn()
-    {
-        base.OnObjectSpawn();
-        // Enemy1 초기화 코드
-    }
-}
 
-public class Enemy2 : Enemy
-{
-    public override void OnObjectSpawn()
-    {
-        base.OnObjectSpawn();
-        // Enemy2 초기화 코드
-    }
-}
-
-public class Enemy3 : Enemy
-{
-    public override void OnObjectSpawn()
-    {
-        base.OnObjectSpawn();
-        // Enemy3 초기화 코드
-    }
-}
