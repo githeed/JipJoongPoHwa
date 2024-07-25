@@ -10,7 +10,7 @@ public class EnemyMove : MonoBehaviour
 {
     public IObjectPool<GameObject> pool { get; set; }
     GameObject target;
-    PlayerTest_K playerCs;
+    H_PlayerAttack playerCs;
     public float attackPower;
 
     bool canAttack;
@@ -32,7 +32,7 @@ public class EnemyMove : MonoBehaviour
     private void Awake()
     {
         target = GameObject.FindWithTag("Player");
-        playerCs = target.GetComponent<PlayerTest_K>();
+        playerCs = target.GetComponent<H_PlayerAttack>();
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -59,6 +59,7 @@ public class EnemyMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(agent.enabled)
         agent.destination = target.transform.position;
     }
 
@@ -87,6 +88,7 @@ public class EnemyMove : MonoBehaviour
         curHp -= dmg;
         if(curHp <= 0)
         {
+            print(curHp);
             agent.enabled = false;
             pool.Release(this.gameObject);
         }
@@ -96,7 +98,7 @@ public class EnemyMove : MonoBehaviour
     {
         while (canAttack)
         {
-            playerCs.UpdateHP(attackPower);
+            playerCs.UpdateHp(attackPower);
             yield return new WaitForSeconds(1.0f);
         }
     }

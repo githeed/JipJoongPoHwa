@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Unity.Transforms;
 using UnityEngine;
 
 public class H_PlayerAttack : MonoBehaviour
@@ -16,10 +17,15 @@ public class H_PlayerAttack : MonoBehaviour
     public Collider[] targets;
     public Transform nearestTarget;
 
+    public float  attackDmg = 5f;
+
+    public float maxHP = 1000;
+    float curHP = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        curHP = maxHP;
     }
 
     // Update is called once per frame
@@ -68,7 +74,8 @@ public class H_PlayerAttack : MonoBehaviour
             // 공격하기
             if (nearestTarget.gameObject != null)
             {
-                print(nearestTarget.gameObject);
+                nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+                //print(nearestTarget.gameObject + ": " + attackDmg);
                 //ObjectPoolManager.instance
             }
             else
@@ -77,5 +84,14 @@ public class H_PlayerAttack : MonoBehaviour
             }
             curAttTime = 0;
         } 
+    }
+
+    public void UpdateHp(float dmg)
+    {
+        curHP -= dmg;
+        if (curHP <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
