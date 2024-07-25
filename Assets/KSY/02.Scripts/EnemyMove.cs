@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,17 +10,18 @@ using UnityEngine.Pool;
 public class EnemyMove : MonoBehaviour
 {
     public IObjectPool<GameObject> pool { get; set; }
+    GameObject[] targets;
     GameObject target;
+    float[] distanceToTargets;
     H_PlayerAttack playerCs;
     public float attackPower;
 
     bool canAttack;
-    NavMeshAgent agent;
     Coroutine attackCoroutine;
+    NavMeshAgent agent;
 
     public float maxHp;
     float curHp;
-
 
     public float distanceMin;
     public float distanceMax;
@@ -31,8 +33,8 @@ public class EnemyMove : MonoBehaviour
 
     private void Awake()
     {
-        target = GameObject.FindWithTag("Player");
-        playerCs = target.GetComponent<H_PlayerAttack>();
+        targets = GameObject.FindGameObjectsWithTag("Player");
+        
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -41,28 +43,29 @@ public class EnemyMove : MonoBehaviour
         curHp = maxHp;
     }
 
-
-
-
-    public void OnNav()
-    {
-        StartCoroutine(Co_OnNav());
-    }
-
-    IEnumerator Co_OnNav()
-    {
-        yield return null;
-
-        agent.enabled = true;
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        if(targets.Length == 1) // target이 한명이면
+        {
+            target = targets[0];
+        }
+        if(targets.Length >= 2) // target이 둘 이상이면
+        {
+            for(int i = 0; i < targets.Length; i++)
+            {
+                distanceToTargets[i] = (targets[i].transform.position - transform.position).magnitude;
+            }
+            for(int i = 0; i < targets.Length; i++)
+            {
+                if (distanceToTargets[i] == distanceToTargets.Min())
+                {
+                    target = targets[i];
+                }
+            }
+        }
         if(agent.enabled)
         agent.destination = target.transform.position;
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -79,10 +82,13 @@ public class EnemyMove : MonoBehaviour
         {
             StopCoroutine(attackCoroutine); // 코루틴을 하나만 할 수 있게.
             canAttack = false;
-            
         }
     }
 
+    /// <summary>
+    /// 매개변수에 float형으로 공격력(attackPower)넣어주면 됨.
+    /// </summary>
+    /// <param name="dmg"></param>
     public void UpdateHp(float dmg)
     {
         curHp -= dmg;
@@ -93,11 +99,21 @@ public class EnemyMove : MonoBehaviour
             pool.Release(this.gameObject);
         }
     }
+    public void OnNav()
+    {
+        StartCoroutine(Co_OnNav());
+    }
 
+    IEnumerator Co_OnNav()
+    {
+        yield return null;
+        agent.enabled = true;
+    }
     IEnumerator Attack()
     {
         while (canAttack)
         {
+            playerCs = target.GetComponent<H_PlayerAttack>();
             playerCs.UpdateHp(attackPower);
             yield return new WaitForSeconds(1.0f);
         }
