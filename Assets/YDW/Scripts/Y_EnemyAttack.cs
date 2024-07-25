@@ -26,7 +26,6 @@ public class Y_EnemyAttack : MonoBehaviour
         {
             allyFSM.hasDamaged = true;
             allyFSM.HitAlly(attackPower);
-
         }
     }
 
