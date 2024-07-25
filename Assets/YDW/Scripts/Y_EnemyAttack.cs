@@ -22,6 +22,16 @@ public class Y_EnemyAttack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        allyFSM.HitPlayer(attackPower);
+        if(!allyFSM.hasDamaged)
+        {
+            allyFSM.hasDamaged = true;
+            allyFSM.HitAlly(attackPower);
+
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        allyFSM.hasDamaged = false;
     }
 }
