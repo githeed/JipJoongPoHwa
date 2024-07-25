@@ -48,8 +48,9 @@ public class Y_AllyFSM : MonoBehaviour
         a_State = AllyState.Move;
 
         enemy = GameObject.Find("Enemy");
+        if(enemy != null)
         enemyAttackPower = enemy.GetComponent<EnemyMove>().attackPower;
-        player = GameObject.Find("Player_Y_copied");
+        player = GameObject.Find("Player");
         allyBody = GameObject.Find("AllyBody");
 
         cc = GetComponent<CharacterController>();
