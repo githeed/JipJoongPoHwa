@@ -41,11 +41,11 @@ public class Y_HPSystem : MonoBehaviour
 
     public void Damaged(float damage)
     {
-        Debug.Log("damaged return 전");
         if(isDead) return;
-        Debug.Log("damaged return 후");
 
         currHealth -= damage;
+        //allyFSM.hasDamaged = true;
+  
         print(currHealth);
 
         if (currHealth <= 0 && isDead == false)
@@ -90,7 +90,6 @@ public class Y_HPSystem : MonoBehaviour
         if(this.name == "Ally")
         {
             allyBody.SetActive(true);
-            print("부활했다!!");
         }
         else
         {

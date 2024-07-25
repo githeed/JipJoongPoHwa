@@ -29,6 +29,9 @@ public class Y_AllyFSM : MonoBehaviour
     // Return
     Vector3 playerPos;
 
+    // Damaged
+    public bool hasDamaged;
+
     CharacterController cc;
 
     #region 가져오기
@@ -47,6 +50,8 @@ public class Y_AllyFSM : MonoBehaviour
 
         cc = GetComponent<CharacterController>();
         hp = GetComponent<Y_HPSystem>();
+
+        hasDamaged = false;
 
         StartCoroutine(ChooseDir());
 
@@ -96,6 +101,9 @@ public class Y_AllyFSM : MonoBehaviour
         // 8방 or 가 + normalized 잊지 말 것
 
         // 일단은 3초마다 한번씩 랜덤한 방향으로 움직이게 해놓고 기본공격/스킬 하나 구현한 이후에 생각해보자
+
+        
+
         if(!hp.isDead)
         {
             cc.Move(moveDir * moveSpeed * Time.deltaTime);
@@ -106,8 +114,10 @@ public class Y_AllyFSM : MonoBehaviour
         if(Vector3.Distance(transform.position, player.transform.position) > returnDistance)
         {
             a_State = AllyState.ReturnToPlayer;
-            print("상태 전환: Move -> ReturnToPlayer");
+
         }
+
+        //hasDamaged = false;
 
     }
 
@@ -116,7 +126,6 @@ public class Y_AllyFSM : MonoBehaviour
         // 화면 가장자리 빨간색으로 되는 함수
         print("Damaged"); // 일단은 프린트
         a_State = AllyState.Move;
-        print("상태 전환: Damaged -> Move");
 
 
     }
@@ -126,7 +135,6 @@ public class Y_AllyFSM : MonoBehaviour
         // Die 애니메이션 실행
         print("Die"); // 일단은 프린트
         a_State = AllyState.Reborn;
-        print("상태 전환: Die -> Reborn");
 
     }
 
@@ -136,7 +144,6 @@ public class Y_AllyFSM : MonoBehaviour
         // 일단은 플레이어 오른쪽 옆으로 순간이동하자
         transform.position = player.transform.position + new Vector3(2, 0, 0);
         a_State = AllyState.Move;
-        print("상태 전환: ReturnToPlayer -> Move");
 
     }
 
@@ -144,22 +151,19 @@ public class Y_AllyFSM : MonoBehaviour
     {
         hp.Reborn();
         a_State = AllyState.Move;
-        print("상태 전환: Reborn -> Move");
     }
 
-    public void HitPlayer(float hitPower)
+    public void HitAlly(float hitPower)
     {
         hp.Damaged(enemy.attackPower);
-        print("HitPlayer");
         if(hp.currHealth > 0)
         {
             a_State = AllyState.Damaged;
-            print("상태 전환: AnyState -> Damaged");
+            
         }
         else
         {
             a_State = AllyState.Die;
-            print("상태 전환: AnyState -> Die");
         }
     }
 
