@@ -7,9 +7,12 @@ public class Y_HPSystem : MonoBehaviour
     public float maxHealth;
     public float currHealth;
     public float timeTillReborn;
-    public bool isDead = false;
+    public bool isDead;
+    public bool rebornable;
 
-    public GameObject allyBodyFactory;
+    GameObject allyBody;
+    GameObject playerBody;
+    Y_AllyFSM allyFSM;
 
 
     private void Awake()
@@ -17,13 +20,16 @@ public class Y_HPSystem : MonoBehaviour
         maxHealth = 100;
         currHealth = maxHealth;
         isDead = false;
-
+        rebornable = true;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         timeTillReborn = 2f;
+        allyBody = GameObject.Find("AllyBody");
+        playerBody = GameObject.Find("Player_Y_copied");
+        allyFSM = allyBody.GetComponentInParent<Y_AllyFSM>();
     }
 
     // Update is called once per frame
@@ -35,8 +41,9 @@ public class Y_HPSystem : MonoBehaviour
 
     public void Damaged(float damage)
     {
+        Debug.Log("damaged return 전");
         if(isDead) return;
-        
+        Debug.Log("damaged return 후");
 
         currHealth -= damage;
         print(currHealth);
@@ -55,37 +62,45 @@ public class Y_HPSystem : MonoBehaviour
 
         if(this.name == "Ally")
         {
-            Destroy(GameObject.Find("AllyBody"));
+            GameObject.Find("AllyBody").SetActive(false);
         }
         else
         {
-            Destroy(gameObject);
+            playerBody.SetActive(false);
         }
         
     }
 
     public void Reborn()
     {
-        StartCoroutine(RebornCrt());
+        if(rebornable)
+        {
+            StartCoroutine(RebornCrt());
+            rebornable = false;
+        }
+
     }
 
     private IEnumerator RebornCrt()
     {
+        
         yield return new WaitForSecondsRealtime(timeTillReborn);
-        isDead = false;
+        
 
         if(this.name == "Ally")
         {
-            var newPlayer = GameObject.Instantiate(allyBodyFactory);
-            newPlayer.transform.parent = GameObject.Find("Ally").transform;
+            allyBody.SetActive(true);
+            print("부활했다!!");
         }
         else
         {
-            Instantiate(gameObject);
+            playerBody.SetActive(true);
         }
 
-        yield return null;
+        currHealth = maxHealth;
+        isDead = false;
+        rebornable = true;
+        allyFSM.playChooseDir();
 
-        // 이거 바로 Move 로 넘어갈라나? start 때문에?
     }
 }
