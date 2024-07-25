@@ -8,10 +8,12 @@ public class H_PlayerMove : MonoBehaviour
     float pMoveSpeed = 7.0f;
     [SerializeField]
     GameObject model;
+    [SerializeField]
+    CharacterController cc;
     // Start is called before the first frame update
     void Start()
     {
-        
+        cc = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -23,7 +25,8 @@ public class H_PlayerMove : MonoBehaviour
         Vector3 dir = new Vector3(h, 0, v);
         dir.Normalize();
 
-        transform.position += dir * pMoveSpeed * Time.deltaTime;
+        cc.Move(dir * pMoveSpeed * Time.deltaTime);
+
         if(dir != Vector3.zero)
         {
             model.transform.forward = dir;
