@@ -962,7 +962,7 @@ PrefabInstance:
     - target: {fileID: 3342358746085932345, guid: c52be9ab08e7525438780f9f43e7072f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3342358746085932345, guid: c52be9ab08e7525438780f9f43e7072f,
         type: 3}
@@ -1128,7 +1128,7 @@ Transform:
   m_GameObject: {fileID: 4102986055346090630}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1151,8 +1151,7 @@ MonoBehaviour:
   currHealth: 0
   timeTillReborn: 0
   isDead: 0
-  allyBodyFactory: {fileID: 8592944951550656530, guid: c52be9ab08e7525438780f9f43e7072f,
-    type: 3}
+  rebornable: 0
 --- !u!114 &5601581425672804570
 MonoBehaviour:
   m_ObjectHideFlags: 0
