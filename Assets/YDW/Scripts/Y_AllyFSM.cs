@@ -35,9 +35,11 @@ public class Y_AllyFSM : MonoBehaviour
     CharacterController cc;
 
     #region 가져오기
-    Y_EnemyAttack enemy;
+    GameObject enemy;
     Y_HPSystem hp;
     GameObject player;
+    GameObject allyBody;
+    float enemyAttackPower;
     #endregion
 
     // Start is called before the first frame update
@@ -45,8 +47,10 @@ public class Y_AllyFSM : MonoBehaviour
     {
         a_State = AllyState.Move;
 
-        enemy = GameObject.Find("Enemy").GetComponent<Y_EnemyAttack>();
+        enemy = GameObject.Find("Enemy");
+        enemyAttackPower = enemy.GetComponent<EnemyMove>().attackPower;
         player = GameObject.Find("Player_Y_copied");
+        allyBody = GameObject.Find("AllyBody");
 
         cc = GetComponent<CharacterController>();
         hp = GetComponent<Y_HPSystem>();
@@ -107,6 +111,11 @@ public class Y_AllyFSM : MonoBehaviour
         if(!hp.isDead)
         {
             cc.Move(moveDir * moveSpeed * Time.deltaTime);
+
+            if (moveDir != Vector3.zero)
+            {
+                allyBody.transform.forward = moveDir;
+            }
         }
         
 
@@ -155,7 +164,7 @@ public class Y_AllyFSM : MonoBehaviour
 
     public void HitAlly(float hitPower)
     {
-        hp.Damaged(enemy.attackPower);
+        hp.Damaged(enemyAttackPower);
         if(hp.currHealth > 0)
         {
             a_State = AllyState.Damaged;

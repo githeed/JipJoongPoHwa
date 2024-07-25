@@ -440,6 +440,8 @@ MonoBehaviour:
     m_Bits: 536870912
   targets: []
   nearestTarget: {fileID: 0}
+  attackDmg: 5
+  maxHP: 1000
 --- !u!114 &706933100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,6 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pMoveSpeed: 7
   model: {fileID: 1069157693}
+  cc: {fileID: 0}
 --- !u!4 &706933101
 Transform:
   m_ObjectHideFlags: 0
@@ -1100,10 +1103,10 @@ GameObject:
   - component: {fileID: 5601581425672804568}
   - component: {fileID: 5601581425672804570}
   - component: {fileID: 5601581425672804569}
+  - component: {fileID: 5601581425672804574}
   - component: {fileID: 5601581425672804573}
   - component: {fileID: 5601581425672804572}
   - component: {fileID: 5601581425672804571}
-  - component: {fileID: 5601581425672804574}
   m_Layer: 31
   m_Name: Ally
   m_TagString: Player
@@ -1275,6 +1278,8 @@ MonoBehaviour:
     m_Bits: 1073741824
   targets: []
   nearestTarget: {fileID: 0}
+  attackDmg: 5
+  maxHP: 1000
 --- !u!81 &7866837797126351128
 AudioListener:
   m_ObjectHideFlags: 0
