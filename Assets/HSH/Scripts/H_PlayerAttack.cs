@@ -123,8 +123,8 @@ public class H_PlayerAttack : MonoBehaviour
 
                 foreach (Collider enemy in enemies)
                 {
+                    print(enemy.gameObject + ": " + attackDmg);
                     enemy.GetComponent<EnemyMove>().UpdateHp(attackDmg);
-                    //print(enemy.gameObject + ": " + attackDmg);
                 }
 
                 //nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);

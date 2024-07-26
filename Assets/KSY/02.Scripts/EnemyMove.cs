@@ -55,19 +55,20 @@ public class EnemyMove : MonoBehaviour
     void Update()
     {
         dist0 = (player0.transform.position - transform.position).magnitude;
-        if(player1.activeSelf)
-        dist1 = (player1.transform.position - transform.position).magnitude;
-        if(dist0 < dist1)
+        if(player1 != null && player1.activeSelf)
         {
-            target = player0;
+            dist1 = (player1.transform.position - transform.position).magnitude;
+            if (dist0 < dist1)
+            {
+                target = player0;
+            }
+            else
+            {
+                target = player1;
+            }
         }
-        else
-        {
-            target = player1;
-        }
-        debug[0] = player0.name;
-        debug[1] = player1.name;
-        debug[2] = target.name;
+        if (player1 == null) target = player0;
+        
 
 
         Vector2 forward = new Vector2(transform.position.z, transform.position.x);
@@ -80,7 +81,7 @@ public class EnemyMove : MonoBehaviour
         // 방향적용
         transform.eulerAngles = Vector3.up * angle;
 
-        if (!player1.activeSelf && player0 != null) target = player0;
+        if (player1 != null && !player1.activeSelf && player0 != null) target = player0;
         if(agent.enabled && target != null)
         agent.destination = target.transform.position;
     }
