@@ -17,29 +17,29 @@ public class H_PlayerAttack : MonoBehaviour
     public Collider[] targets;
     public Transform nearestTarget;
 
+    public GameObject scratchFac;
+
     public float  attackDmg = 5f;
 
     public float maxHP = 1000;
     float curHP = 0;
     Vector3 boxSize;
     Vector3 dirToTarget;
-    float xBox = 2.5f;
-    float zBox = 3f;
+    float xBox = 6f;
+    float zBox = 6f;
+    public float boxDist = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
         curHP = maxHP;
-        boxSize = new Vector3(xBox, 2, zBox);
+        boxSize = new Vector3(xBox, 1, zBox);
     }
 
     // Update is called once per frame
     void Update()
     {
         BasicAttack();
-        //OnDrawGizmos();'
-
-
     }
 
     Transform GetNearest()
@@ -85,10 +85,26 @@ public class H_PlayerAttack : MonoBehaviour
             {
                 dirToTarget = (nearestTarget.position - transform.position);
                 dirToTarget.Normalize();
-                Vector3 boxPos = transform.position + dirToTarget;
-                Collider[] enemies = Physics.OverlapBox(boxPos, boxSize);
+                Vector3 boxPos = transform.position + dirToTarget * boxDist;
+                Collider[] enemies = Physics.OverlapBox(boxPos, boxSize * 0.5f);
 
-                foreach(Collider enemy in enemies)
+                Vector3 crossVec = Vector3.Cross(dirToTarget, transform.up);
+
+                GameObject ef = Instantiate(scratchFac);
+                GameObject ef1 = Instantiate(scratchFac);
+                crossVec.Normalize();
+                ef.transform.position = boxPos + -1 * crossVec;
+                ef.transform.rotation = Quaternion.LookRotation(-Vector3.up, dirToTarget);
+                ef1.transform.position = boxPos + 1 * crossVec;
+                ef1.transform.rotation = Quaternion.LookRotation(Vector3.up, dirToTarget);
+
+
+                Destroy(ef, 0.4f);
+                Destroy(ef1, 0.4f);
+
+                curAttTime = 0;
+
+                foreach (Collider enemy in enemies)
                 {
                     enemy.GetComponent<EnemyMove>().UpdateHp(attackDmg);
                     print(enemy.gameObject + ": " + attackDmg);
@@ -97,7 +113,7 @@ public class H_PlayerAttack : MonoBehaviour
                 //nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);
                 //ObjectPoolManager.instance
             }
-            curAttTime = 0;
+            
         } 
     }
 
@@ -111,9 +127,9 @@ public class H_PlayerAttack : MonoBehaviour
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawCube(transform.position + dirToTarget, boxSize);
-    //}
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(transform.position + dirToTarget * boxDist, boxSize);
+    }
 }
