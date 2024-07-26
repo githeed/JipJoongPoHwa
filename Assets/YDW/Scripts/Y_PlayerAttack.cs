@@ -24,6 +24,7 @@ public class Y_PlayerAttack : MonoBehaviour
     public GameObject basicAttEffFactory;
     public float basicAttackNo = 3;
     public float featherDist;
+    public float featherEftTime;
     public float featherTime;
 
 
@@ -32,7 +33,8 @@ public class Y_PlayerAttack : MonoBehaviour
     {
         hp = GetComponent<Y_HPSystem>();
         featherDist = 7;
-        featherTime = 0.3f;
+        featherEftTime = 0.3f;
+        featherTime = 10;
     }
 
 
@@ -107,13 +109,15 @@ public class Y_PlayerAttack : MonoBehaviour
             basicAttEff.transform.forward = dirFrAllyToEnm;
             basicAttEff.transform.position = transform.position;
 
-            Destroy(basicAttEff, featherTime);
+            Destroy(basicAttEff, featherEftTime);
 
             GameObject feather = Instantiate(featherFactory);
             feather.transform.position = transform.position + featherDist * dirFrAllyToEnmNor; // 나중에 파티클 길이대로 바꾸기
 
+            Destroy(feather, featherTime);
+
             i++;
-            yield return new WaitForSecondsRealtime(featherTime);
+            yield return new WaitForSecondsRealtime(featherEftTime);
         }
 
     }
