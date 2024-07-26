@@ -218,6 +218,17 @@ MonoBehaviour:
   maxHp: 10
   distanceMin: 15
   distanceMax: 30
+  debug:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
 --- !u!195 &8054608339505036986
 NavMeshAgent:
   m_ObjectHideFlags: 0

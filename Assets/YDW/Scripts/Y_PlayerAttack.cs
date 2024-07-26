@@ -23,18 +23,28 @@ public class Y_PlayerAttack : MonoBehaviour
     public GameObject featherFactory;
     public GameObject basicAttEffFactory;
     public float basicAttackNo = 3;
+    public float featherDist;
+    public float featherEftTime;
+    public float featherTime;
 
 
  
     void Start()
     {
         hp = GetComponent<Y_HPSystem>();
+        featherDist = 7;
+        featherEftTime = 0.3f;
+        featherTime = 10;
     }
 
 
     void Update()
     {
-        BasicAttack();
+        if(!hp.isDead)
+        {
+            BasicAttack();
+
+        }
     }
 
     Transform GetNearest()
@@ -73,8 +83,6 @@ public class Y_PlayerAttack : MonoBehaviour
 
                 StartCoroutine(FeatherAttack());
 
-                
-
                 nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);
             }
             curAttTime = 0;
@@ -98,17 +106,18 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             
             GameObject basicAttEff = Instantiate(basicAttEffFactory);
-            basicAttEff.transform.position = transform.position; // + 2 * distFrAllyToEnm;
             basicAttEff.transform.forward = dirFrAllyToEnm;
-            //ParticleSystem ps = basicAttEff.GetComponent<ParticleSystem>();
-            //ps.Play();
-            Destroy(basicAttEff, 2);
+            basicAttEff.transform.position = transform.position;
+
+            Destroy(basicAttEff, featherEftTime);
 
             GameObject feather = Instantiate(featherFactory);
-            feather.transform.position = transform.position + 5 * dirFrAllyToEnmNor; // 나중에 파티클 길이대로 바꾸기
+            feather.transform.position = transform.position + featherDist * dirFrAllyToEnmNor; 
+
+            Destroy(feather, featherTime);
 
             i++;
-            yield return new WaitForSecondsRealtime(0.3f);
+            yield return new WaitForSecondsRealtime(featherEftTime);
         }
 
     }

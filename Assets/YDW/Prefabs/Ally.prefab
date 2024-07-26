@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2729323406258461537}
   m_Layer: 31
   m_Name: Ally
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,11 +71,17 @@ MonoBehaviour:
   scanRange: 10
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1073741824
   targets: []
   nearestTarget: {fileID: 0}
   attackDmg: 5
-  maxHP: 1000
+  featherFactory: {fileID: 1560146333889575406, guid: 0fca7898fcdca6f48baf1ea78291eab5,
+    type: 3}
+  basicAttEffFactory: {fileID: 1033462822675242, guid: d90c18b9e5c35f840a37552c2d1788fd,
+    type: 3}
+  basicAttackNo: 3
+  featherDist: 0
+  featherTime: 0
 --- !u!114 &7464471282532875005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +247,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592944951550656530, guid: c52be9ab08e7525438780f9f43e7072f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

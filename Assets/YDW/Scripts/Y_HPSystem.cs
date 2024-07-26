@@ -10,8 +10,9 @@ public class Y_HPSystem : MonoBehaviour
     public bool isDead;
     public bool rebornable;
 
-    GameObject allyBody;
-    GameObject playerBody;
+    public GameObject allyBody;
+    public GameObject ally;
+    public GameObject playerBody;
     Y_AllyFSM allyFSM;
 
 
@@ -28,7 +29,8 @@ public class Y_HPSystem : MonoBehaviour
     {
         timeTillReborn = 2f;
         allyBody = GameObject.Find("AllyBody");
-        playerBody = GameObject.Find("Player_Y_copied");
+        ally = GameObject.Find("Ally");
+        playerBody = GameObject.Find("Player");
         allyFSM = allyBody.GetComponentInParent<Y_AllyFSM>();
     }
 
@@ -45,7 +47,9 @@ public class Y_HPSystem : MonoBehaviour
 
         currHealth -= damage;
         //allyFSM.hasDamaged = true;
-  
+        allyFSM.HitAlly(damage);
+
+
         print(currHealth);
 
         if (currHealth <= 0 && isDead == false)
@@ -73,8 +77,10 @@ public class Y_HPSystem : MonoBehaviour
 
     public void Reborn()
     {
+        print("Reborn 실행");
         if(rebornable)
         {
+            print("rebornable True");
             StartCoroutine(RebornCrt());
             rebornable = false;
         }
@@ -83,13 +89,18 @@ public class Y_HPSystem : MonoBehaviour
 
     private IEnumerator RebornCrt()
     {
+        print("Reborn 코루틴 실행");
         
         yield return new WaitForSecondsRealtime(timeTillReborn);
         
 
         if(this.name == "Ally")
         {
+            ally.transform.position = playerBody.transform.position + 3 * transform.right;
+            print("이동했다!");
             allyBody.SetActive(true);
+            print("부활했다!");
+
         }
         else
         {

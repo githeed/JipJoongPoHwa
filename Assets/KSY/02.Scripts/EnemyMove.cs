@@ -11,9 +11,12 @@ using UnityEngine.Pool;
 public class EnemyMove : MonoBehaviour
 {
     public IObjectPool<GameObject> pool { get; set; }
-    GameObject[] targets;
+    GameObject player0;
+    GameObject player1;
     GameObject target;
-    List<float> distanceToTargets = new List<float>();
+    float dist0;
+    float dist1;
+
     H_PlayerAttack playerCsH;
     Y_PlayerAttack playerCsY;
     public float attackPower;
@@ -33,15 +36,15 @@ public class EnemyMove : MonoBehaviour
     float randDirZ;
     Vector3 dir;
 
+    public string[] debug = new string[10];
+
+
     private void Awake()
     {
-        targets = GameObject.FindGameObjectsWithTag("Player");
-        for(int i = 0; i < targets.Length; i++)
-        {
-            distanceToTargets.Add((targets[i].transform.position - transform.position).magnitude);
-        }
+        player0 = GameObject.FindWithTag("Player");
+        player1 = GameObject.FindWithTag("Player1");
         agent = GetComponent<NavMeshAgent>();
-        //agent.updateRotation = false;
+        agent.updateRotation = false;
     }
 
     private void OnEnable()
@@ -51,21 +54,22 @@ public class EnemyMove : MonoBehaviour
 
     void Update()
     {
-        if(targets.Length == 1) // target이 한명이면
+        dist0 = (player0.transform.position - transform.position).magnitude;
+        if(player1.activeSelf)
+        dist1 = (player1.transform.position - transform.position).magnitude;
+        if(dist0 < dist1)
         {
-            target = targets[0];
+            target = player0;
         }
-        for (int i = 0; i < targets.Length; i++)
+        else
         {
-            distanceToTargets[i] = (targets[i].transform.position - transform.position).magnitude;
+            target = player1;
         }
-        for (int i = 0; i < targets.Length; i++)
-        {
-            if (distanceToTargets[i] == distanceToTargets.Min())
-            {
-                target = targets[i];
-            }
-        }
+        debug[0] = player0.name;
+        debug[1] = player1.name;
+        debug[2] = target.name;
+
+
         Vector2 forward = new Vector2(transform.position.z, transform.position.x);
         Vector2 steeringTarget = new Vector2(agent.steeringTarget.z, agent.steeringTarget.x);
 
@@ -76,7 +80,8 @@ public class EnemyMove : MonoBehaviour
         // 방향적용
         transform.eulerAngles = Vector3.up * angle;
 
-        if(agent.enabled)
+        if (!player1.activeSelf && player0 != null) target = player0;
+        if(agent.enabled && target != null)
         agent.destination = target.transform.position;
     }
 
