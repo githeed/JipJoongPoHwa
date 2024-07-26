@@ -38,7 +38,11 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        BasicAttack();
+        if(!hp.isDead)
+        {
+            BasicAttack();
+
+        }
     }
 
     Transform GetNearest()
@@ -103,7 +107,7 @@ public class Y_PlayerAttack : MonoBehaviour
             basicAttEff.transform.forward = dirFrAllyToEnm;
             basicAttEff.transform.position = transform.position;
 
-            Destroy(basicAttEff, 1);
+            Destroy(basicAttEff, featherTime);
 
             GameObject feather = Instantiate(featherFactory);
             feather.transform.position = transform.position + featherDist * dirFrAllyToEnmNor; // 나중에 파티클 길이대로 바꾸기

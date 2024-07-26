@@ -11,6 +11,7 @@ public class Y_HPSystem : MonoBehaviour
     public bool rebornable;
 
     GameObject allyBody;
+    GameObject ally;
     GameObject playerBody;
     Y_AllyFSM allyFSM;
 
@@ -28,6 +29,7 @@ public class Y_HPSystem : MonoBehaviour
     {
         timeTillReborn = 2f;
         allyBody = GameObject.Find("AllyBody");
+        ally = GameObject.Find("Ally");
         playerBody = GameObject.Find("Player_Y_copied");
         allyFSM = allyBody.GetComponentInParent<Y_AllyFSM>();
     }
@@ -89,7 +91,9 @@ public class Y_HPSystem : MonoBehaviour
 
         if(this.name == "Ally")
         {
+            ally.transform.position = playerBody.transform.position + 3 * transform.right;
             allyBody.SetActive(true);
+            
         }
         else
         {
