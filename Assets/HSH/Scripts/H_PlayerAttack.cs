@@ -25,8 +25,8 @@ public class H_PlayerAttack : MonoBehaviour
     float curHP = 0;
     Vector3 boxSize;
     public Vector3 dirToTarget;
-    float xBox = 6f;
-    float zBox = 6f;
+    float xBox = 10f;
+    float zBox = 10f;
     public float boxDist = 1f;
 
     public bool canE = false;
@@ -104,7 +104,7 @@ public class H_PlayerAttack : MonoBehaviour
                 dirToTarget.Normalize();
                 Vector3 boxPos = transform.position + dirToTarget * boxDist;
                 Collider[] enemies = Physics.OverlapBox(boxPos, boxSize * 0.5f);
-
+                
                 Vector3 crossVec = Vector3.Cross(dirToTarget, transform.up);
 
                 GameObject ef = Instantiate(scratchFac);
@@ -120,10 +120,15 @@ public class H_PlayerAttack : MonoBehaviour
                 Destroy(ef1, 0.4f);
 
                 curAttTime = 0;
-
+                
                 foreach (Collider enemy in enemies)
                 {
-                    enemy.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+                    
+                     EnemyMove em = enemy.GetComponent<EnemyMove>();
+                    if (em != null)
+                    {
+                        em.UpdateHp(attackDmg);
+                    }
                     //print(enemy.gameObject + ": " + attackDmg);
                 }
 
