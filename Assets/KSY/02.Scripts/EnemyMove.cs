@@ -41,6 +41,7 @@ public class EnemyMove : MonoBehaviour
             distanceToTargets.Add((targets[i].transform.position - transform.position).magnitude);
         }
         agent = GetComponent<NavMeshAgent>();
+        //agent.updateRotation = false;
     }
 
     private void OnEnable()
@@ -54,21 +55,27 @@ public class EnemyMove : MonoBehaviour
         {
             target = targets[0];
         }
-        if(targets.Length >= 2) // target이 둘 이상이면
+        for (int i = 0; i < targets.Length; i++)
         {
-            for(int i = 0; i < targets.Length; i++)
+            distanceToTargets[i] = (targets[i].transform.position - transform.position).magnitude;
+        }
+        for (int i = 0; i < targets.Length; i++)
+        {
+            if (distanceToTargets[i] == distanceToTargets.Min())
             {
-                distanceToTargets[i] = (targets[i].transform.position - transform.position).magnitude;
-            }
-            for(int i = 0; i < targets.Length; i++)
-            {
-                if (distanceToTargets[i] == distanceToTargets.Min())
-                {
-                    target = targets[i];
-                }
+                target = targets[i];
             }
         }
-        
+        Vector2 forward = new Vector2(transform.position.z, transform.position.x);
+        Vector2 steeringTarget = new Vector2(agent.steeringTarget.z, agent.steeringTarget.x);
+
+        // 방향을 구한 뒤, 역함수로 각을 구함.
+        Vector2 dir = steeringTarget - forward;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        // 방향적용
+        transform.eulerAngles = Vector3.up * angle;
+
         if(agent.enabled)
         agent.destination = target.transform.position;
     }
