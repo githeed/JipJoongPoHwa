@@ -429,6 +429,8 @@ MonoBehaviour:
     m_Bits: 536870912
   targets: []
   nearestTarget: {fileID: 0}
+  attackDmg: 5
+  maxHP: 1000
 --- !u!143 &3893785315710580834
 CharacterController:
   m_ObjectHideFlags: 0
