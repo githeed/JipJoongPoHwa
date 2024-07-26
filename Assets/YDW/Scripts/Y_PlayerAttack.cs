@@ -28,13 +28,16 @@ public class Y_PlayerAttack : MonoBehaviour
     public float featherTime;
 
 
- 
+
+
+
     void Start()
     {
         hp = GetComponent<Y_HPSystem>();
         featherDist = 7;
         featherEftTime = 0.3f;
         featherTime = 10;
+
     }
 
 
@@ -80,10 +83,7 @@ public class Y_PlayerAttack : MonoBehaviour
             // 공격하기
             else
             {
-
                 StartCoroutine(FeatherAttack());
-
-                nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);
             }
             curAttTime = 0;
         }
@@ -93,6 +93,8 @@ public class Y_PlayerAttack : MonoBehaviour
     {
         hp.Damaged(dmg);
     }
+
+
 
     private IEnumerator FeatherAttack()
     {
@@ -104,16 +106,37 @@ public class Y_PlayerAttack : MonoBehaviour
 
         while (i < basicAttackNo)
         {
-            
+            // 쏘아지는 이펙트 만들고 파괴
             GameObject basicAttEff = Instantiate(basicAttEffFactory);
             basicAttEff.transform.forward = dirFrAllyToEnm;
             basicAttEff.transform.position = transform.position;
-
             Destroy(basicAttEff, featherEftTime);
 
+
+            RaycastHit[] hitInfos = Physics.RaycastAll(transform.position, dirFrAllyToEnm, featherDist, targetLayer);
+            int nth = 0;
+            foreach (RaycastHit hitinfo in hitInfos)
+            {
+                // 1: 0%, 2: 15%, 3:30%, 4: 45%, 5:60%
+                if (nth < 5)
+                {
+                    attackDmg = attackDmg * (1 - ((i * 15)/ 100));
+                }
+                else
+                {
+                    attackDmg *= 0.4f;
+                }
+                nth++;
+
+                hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+
+                
+                
+            }
+
+            // 깃털 만들고 파괴
             GameObject feather = Instantiate(featherFactory);
             feather.transform.position = transform.position + featherDist * dirFrAllyToEnmNor; 
-
             Destroy(feather, featherTime);
 
             i++;
@@ -121,4 +144,6 @@ public class Y_PlayerAttack : MonoBehaviour
         }
 
     }
+
+
 }
