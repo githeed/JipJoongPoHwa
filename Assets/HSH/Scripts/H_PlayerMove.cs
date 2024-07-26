@@ -10,15 +10,25 @@ public class H_PlayerMove : MonoBehaviour
     GameObject model;
     [SerializeField]
     CharacterController cc;
+
+    H_PlayerAttack pa;
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        pa = GetComponent<H_PlayerAttack>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Player_Move();
+    }
+
+    void Player_Move()
+    {
+        Player_E_Move();
+        if (pa.canE) return;
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
@@ -27,9 +37,20 @@ public class H_PlayerMove : MonoBehaviour
 
         cc.Move(dir * pMoveSpeed * Time.deltaTime);
 
-        if(dir != Vector3.zero)
+        if (dir != Vector3.zero)
         {
             model.transform.forward = dir;
+        }
+    }
+
+    void Player_E_Move()
+    {
+        if (pa.canE)
+        {
+            Vector3 dir = pa.dirToTarget;
+            model.transform.forward = dir;
+            dir.Normalize();
+            cc.Move(dir * pMoveSpeed * Time.deltaTime);
         }
     }
 }

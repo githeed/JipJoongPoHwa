@@ -24,10 +24,15 @@ public class H_PlayerAttack : MonoBehaviour
     public float maxHP = 1000;
     float curHP = 0;
     Vector3 boxSize;
-    Vector3 dirToTarget;
+    public Vector3 dirToTarget;
     float xBox = 6f;
     float zBox = 6f;
     public float boxDist = 1f;
+
+    public bool canE = false;
+
+    public float ESkillTime = 5.0f;
+    float currETime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +45,17 @@ public class H_PlayerAttack : MonoBehaviour
     void Update()
     {
         BasicAttack();
+        BrierESkill();
+
+
+
+        currETime += Time.deltaTime;
+        if (currETime > ESkillTime || dirToTarget == Vector3.zero)
+        {
+            canE = false;
+            attTime = 1;
+            currETime = 0;
+        }
     }
 
     Transform GetNearest()
@@ -84,6 +100,7 @@ public class H_PlayerAttack : MonoBehaviour
             //if (nearestTarget.gameObject != null)
             {
                 dirToTarget = (nearestTarget.position - transform.position);
+                dirToTarget.y = 0;
                 dirToTarget.Normalize();
                 Vector3 boxPos = transform.position + dirToTarget * boxDist;
                 Collider[] enemies = Physics.OverlapBox(boxPos, boxSize * 0.5f);
@@ -107,7 +124,7 @@ public class H_PlayerAttack : MonoBehaviour
                 foreach (Collider enemy in enemies)
                 {
                     enemy.GetComponent<EnemyMove>().UpdateHp(attackDmg);
-                    print(enemy.gameObject + ": " + attackDmg);
+                    //print(enemy.gameObject + ": " + attackDmg);
                 }
 
                 //nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);
@@ -117,10 +134,44 @@ public class H_PlayerAttack : MonoBehaviour
         } 
     }
 
+    void BrierESkill()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            print("PressE");
+            if (!canE)
+            {
+                print("CantE");
+
+                canE = true;
+                attTime = 0.2f;
+            }
+            else
+            {
+                print("CanE");
+
+                canE = false;
+                attTime = 1;
+                currETime = 0;
+            }
+        }
+        //if(Input.GetKeyDown(KeyCode.E) && !canE)
+        //{
+        //    canE = true;
+        //    attTime = 0.2f;
+        //}
+
+        //if(Input.GetKeyDown(KeyCode.E) && canE)
+        //{
+        //    canE = false;
+        //    attTime = 1;
+        //}
+    }
+
     public void UpdateHp(float dmg)
     {
         curHP -= dmg;
-        print(curHP);
+        //print(curHP);
         if (curHP <= 0)
         {
             Destroy(gameObject);
