@@ -112,7 +112,7 @@ public class Y_PlayerAttack : MonoBehaviour
             Destroy(basicAttEff, featherEftTime);
 
             GameObject feather = Instantiate(featherFactory);
-            feather.transform.position = transform.position + featherDist * dirFrAllyToEnmNor; // 나중에 파티클 길이대로 바꾸기
+            feather.transform.position = transform.position + featherDist * dirFrAllyToEnmNor; 
 
             Destroy(feather, featherTime);
 
