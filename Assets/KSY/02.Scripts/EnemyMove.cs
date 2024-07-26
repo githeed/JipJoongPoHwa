@@ -12,7 +12,7 @@ public class EnemyMove : MonoBehaviour
     public IObjectPool<GameObject> pool { get; set; }
     GameObject[] targets;
     GameObject target;
-    float[] distanceToTargets;
+    List<float> distanceToTargets = new List<float>();
     H_PlayerAttack playerCs;
     public float attackPower;
 
@@ -34,7 +34,10 @@ public class EnemyMove : MonoBehaviour
     private void Awake()
     {
         targets = GameObject.FindGameObjectsWithTag("Player");
-        
+        for(int i = 0; i < targets.Length; i++)
+        {
+            distanceToTargets.Add((targets[i].transform.position - transform.position).magnitude);
+        }
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -45,6 +48,7 @@ public class EnemyMove : MonoBehaviour
 
     void Update()
     {
+        print("Found " + targets.Length + " players.");
         if(targets.Length == 1) // target이 한명이면
         {
             target = targets[0];
@@ -62,6 +66,10 @@ public class EnemyMove : MonoBehaviour
                     target = targets[i];
                 }
             }
+        }
+        if(target != null)
+        {
+            playerCs = target.GetComponent<H_PlayerAttack>();
         }
         if(agent.enabled)
         agent.destination = target.transform.position;
@@ -113,7 +121,6 @@ public class EnemyMove : MonoBehaviour
     {
         while (canAttack)
         {
-            playerCs = target.GetComponent<H_PlayerAttack>();
             playerCs.UpdateHp(attackPower);
             yield return new WaitForSeconds(1.0f);
         }

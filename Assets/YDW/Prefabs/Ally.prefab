@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8101318993530173819}
   - component: {fileID: 94842928021779666}
+  - component: {fileID: 134947103529716514}
   - component: {fileID: 7464471282532875005}
-  - component: {fileID: 4122728639836584074}
   - component: {fileID: 903240349669280049}
   - component: {fileID: 8291568361171659326}
   - component: {fileID: 2729323406258461537}
@@ -55,6 +55,27 @@ MonoBehaviour:
   returnDistance: 20
   moveSpeed: 1
   hasDamaged: 0
+--- !u!114 &134947103529716514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904714552585844357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928104106d2a7a64c9f8b0b3d2336396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attTime: 5
+  scanRange: 10
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  targets: []
+  nearestTarget: {fileID: 0}
+  attackDmg: 5
+  maxHP: 1000
 --- !u!114 &7464471282532875005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,27 +93,6 @@ MonoBehaviour:
   timeTillReborn: 0
   isDead: 0
   rebornable: 0
---- !u!114 &4122728639836584074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3904714552585844357}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f394bdc5345ef8043a98639f87479aa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attTime: 5
-  scanRange: 10
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 1073741824
-  targets: []
-  nearestTarget: {fileID: 0}
-  attackDmg: 5
-  maxHP: 1000
 --- !u!54 &903240349669280049
 Rigidbody:
   m_ObjectHideFlags: 0
