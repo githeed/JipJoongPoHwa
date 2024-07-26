@@ -66,7 +66,6 @@ public class EnemyMove : MonoBehaviour
             }
         }
 
-        if(t)
 
 
         if (targets.Length >= 1)
