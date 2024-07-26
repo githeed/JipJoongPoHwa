@@ -159,17 +159,18 @@ public class Y_AllyFSM : MonoBehaviour
 
     void Reborn()
     {
+        print("!!!!!!!!!!!!!!");
         hp.Reborn();
         a_State = AllyState.Move;
     }
 
     public void HitAlly(float hitPower)
     {
-        hp.Damaged(enemyAttackPower);
+        //hp.Damaged(hitPower);
+
         if(hp.currHealth > 0)
         {
             a_State = AllyState.Damaged;
-            
         }
         else
         {
