@@ -33,6 +33,9 @@ public class EnemyMove : MonoBehaviour
     float randDirZ;
     Vector3 dir;
 
+    public string[] debug = new string[10];
+
+
     private void Awake()
     {
         targets = GameObject.FindGameObjectsWithTag("Player");
@@ -41,7 +44,7 @@ public class EnemyMove : MonoBehaviour
             distanceToTargets.Add((targets[i].transform.position - transform.position).magnitude);
         }
         agent = GetComponent<NavMeshAgent>();
-        //agent.updateRotation = false;
+        agent.updateRotation = false;
     }
 
     private void OnEnable()
@@ -51,10 +54,6 @@ public class EnemyMove : MonoBehaviour
 
     void Update()
     {
-        if(targets.Length == 1) // target이 한명이면
-        {
-            target = targets[0];
-        }
         for (int i = 0; i < targets.Length; i++)
         {
             distanceToTargets[i] = (targets[i].transform.position - transform.position).magnitude;
@@ -66,6 +65,15 @@ public class EnemyMove : MonoBehaviour
                 target = targets[i];
             }
         }
+
+        if(t)
+
+
+        if (targets.Length >= 1)
+        debug[0] = (targets[0].name);
+        if (targets.Length >=2)
+        debug[1] = (targets[1].name);
+        debug[2] = ( target.name);
         Vector2 forward = new Vector2(transform.position.z, transform.position.x);
         Vector2 steeringTarget = new Vector2(agent.steeringTarget.z, agent.steeringTarget.x);
 
