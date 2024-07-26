@@ -21,17 +21,25 @@ public class H_PlayerAttack : MonoBehaviour
 
     public float maxHP = 1000;
     float curHP = 0;
+    Vector3 boxSize;
+    Vector3 dirToTarget;
+    float xBox = 2.5f;
+    float zBox = 3f;
 
     // Start is called before the first frame update
     void Start()
     {
         curHP = maxHP;
+        boxSize = new Vector3(xBox, 2, zBox);
     }
 
     // Update is called once per frame
     void Update()
     {
         BasicAttack();
+        //OnDrawGizmos();'
+
+
     }
 
     Transform GetNearest()
@@ -75,8 +83,18 @@ public class H_PlayerAttack : MonoBehaviour
             else
             //if (nearestTarget.gameObject != null)
             {
-                nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);
-                //print(nearestTarget.gameObject + ": " + attackDmg);
+                dirToTarget = (nearestTarget.position - transform.position);
+                dirToTarget.Normalize();
+                Vector3 boxPos = transform.position + dirToTarget;
+                Collider[] enemies = Physics.OverlapBox(boxPos, boxSize);
+
+                foreach(Collider enemy in enemies)
+                {
+                    enemy.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+                    print(enemy.gameObject + ": " + attackDmg);
+                }
+
+                //nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);
                 //ObjectPoolManager.instance
             }
             curAttTime = 0;
@@ -92,4 +110,10 @@ public class H_PlayerAttack : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawCube(transform.position + dirToTarget, boxSize);
+    //}
 }
