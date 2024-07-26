@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
@@ -13,7 +14,8 @@ public class EnemyMove : MonoBehaviour
     GameObject[] targets;
     GameObject target;
     List<float> distanceToTargets = new List<float>();
-    H_PlayerAttack playerCs;
+    H_PlayerAttack playerCsH;
+    Y_PlayerAttack playerCsY;
     public float attackPower;
 
     bool canAttack;
@@ -48,7 +50,6 @@ public class EnemyMove : MonoBehaviour
 
     void Update()
     {
-        print("Found " + targets.Length + " players.");
         if(targets.Length == 1) // target이 한명이면
         {
             target = targets[0];
@@ -67,10 +68,7 @@ public class EnemyMove : MonoBehaviour
                 }
             }
         }
-        if(target != null)
-        {
-            playerCs = target.GetComponent<H_PlayerAttack>();
-        }
+        
         if(agent.enabled)
         agent.destination = target.transform.position;
     }
@@ -81,6 +79,11 @@ public class EnemyMove : MonoBehaviour
         {
             canAttack = true;
             attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
+            if (target != null)
+            {
+                playerCsH = other.GetComponent<H_PlayerAttack>();
+                playerCsY = other.GetComponent<Y_PlayerAttack>();
+            }
         }
     }
 
@@ -90,6 +93,8 @@ public class EnemyMove : MonoBehaviour
         {
             StopCoroutine(attackCoroutine); // 코루틴을 하나만 할 수 있게.
             canAttack = false;
+            playerCsY = null;
+            playerCsH = null;
         }
     }
 
@@ -121,7 +126,14 @@ public class EnemyMove : MonoBehaviour
     {
         while (canAttack)
         {
-            playerCs.UpdateHp(attackPower);
+            if(playerCsH != null)
+            {
+                playerCsH.UpdateHp(attackPower);
+            }
+            if(playerCsY != null)
+            {
+                playerCsY.UpdateHp(attackPower);
+            }
             yield return new WaitForSeconds(1.0f);
         }
     }
