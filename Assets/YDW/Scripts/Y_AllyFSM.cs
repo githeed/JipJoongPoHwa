@@ -159,7 +159,6 @@ public class Y_AllyFSM : MonoBehaviour
 
     void Reborn()
     {
-        print("!!!!!!!!!!!!!!");
         hp.Reborn();
         a_State = AllyState.Move;
     }

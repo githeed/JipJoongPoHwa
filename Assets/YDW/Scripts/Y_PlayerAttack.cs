@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Unity.Transforms;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Y_PlayerAttack : MonoBehaviour
 {
 
-    public float attTime = 5;
+    public float attTime;
     private float curAttTime = 0;
 
     public float scanRange = 10f;
     public LayerMask targetLayer;
+    public LayerMask featherLayer;
     public Collider[] targets;
+    public Collider[] feathers;
     public Transform nearestTarget;
 
-    public float attackDmg = 5f;
+    public float attackDmg;
 
     Y_HPSystem hp;
 
@@ -37,6 +40,8 @@ public class Y_PlayerAttack : MonoBehaviour
         featherDist = 7;
         featherEftTime = 0.3f;
         featherTime = 10;
+        attackDmg = 10f;
+        attTime = 2;
 
     }
 
@@ -46,6 +51,10 @@ public class Y_PlayerAttack : MonoBehaviour
         if(!hp.isDead)
         {
             BasicAttack();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                ESkill();
+            }
 
         }
     }
@@ -86,6 +95,37 @@ public class Y_PlayerAttack : MonoBehaviour
                 StartCoroutine(FeatherAttack());
             }
             curAttTime = 0;
+        }
+    }
+
+    void ESkill()
+    {
+        // 범위 안의 깃털들 정보 가져와서
+        feathers = Physics.OverlapSphere(transform.position, 100000f, featherLayer);
+
+        foreach (Collider feather in feathers)
+        {
+            // Ally 에게 깃털 모아지는 파티클
+            Vector3 dirFrFthToAlly = transform.position - feather.gameObject.transform.position;
+            dirFrFthToAlly.y = 0;
+            Vector3 dirFrFthToAllyNor = dirFrFthToAlly.normalized;
+
+            GameObject basicAttEff = Instantiate(basicAttEffFactory);
+            basicAttEff.transform.forward = dirFrFthToAlly;
+            basicAttEff.transform.position = feather.gameObject.transform.position;
+            Destroy(basicAttEff, featherEftTime);
+
+            RaycastHit[] hitInfos = Physics.RaycastAll(feather.transform.position, dirFrFthToAlly, dirFrFthToAlly.magnitude, targetLayer);
+            
+
+            foreach (RaycastHit hitinfo in hitInfos)
+            {
+                hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+            }
+
+
+            Destroy(feather.gameObject);
+
         }
     }
 
@@ -144,6 +184,44 @@ public class Y_PlayerAttack : MonoBehaviour
         }
 
     }
+
+    //private IEnumerator GatherFeather()
+    //{
+
+    //    // 범위 안의 깃털들 정보 가져와서
+    //    feathers = Physics.OverlapSphere(transform.position, 100f, featherLayer);
+    //    List<GameObject> feathersToDestroy = new List<GameObject>();
+        
+    //    foreach(Collider feather in feathers)
+    //    {
+    //        // Ally 에게 깃털 모아지는 파티클
+    //        Vector3 dirFrFthToAlly = transform.position - feather.gameObject.transform.position;
+    //        dirFrFthToAlly.y = 0;
+    //        Vector3 dirFrFthToAllyNor = dirFrFthToAlly.normalized;
+
+    //        GameObject basicAttEff = Instantiate(basicAttEffFactory);
+    //        basicAttEff.transform.forward = dirFrFthToAlly;
+    //        basicAttEff.transform.position = feather.gameObject.transform.position;
+    //        Destroy(basicAttEff, featherEftTime);
+
+    //        RaycastHit[] hitInfos = Physics.RaycastAll(feather.transform.position, dirFrFthToAlly, dirFrFthToAlly.magnitude, featherLayer);
+
+    //        foreach(RaycastHit hitinfo in hitInfos)
+    //        {
+    //            hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+    //        }
+
+    //        // 나중에 파괴하기 위해 리스트에 깃털 추가
+    //        feathersToDestroy.Add(feather.gameObject);
+    //    }
+
+    //    foreach (GameObject feather in feathersToDestroy)
+    //    {
+    //        Destroy(feather);
+    //    }
+
+    //    yield return null;
+    //}
 
 
 }
