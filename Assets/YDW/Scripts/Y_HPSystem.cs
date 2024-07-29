@@ -77,10 +77,8 @@ public class Y_HPSystem : MonoBehaviour
 
     public void Reborn()
     {
-        print("Reborn 실행");
         if(rebornable)
         {
-            print("rebornable True");
             StartCoroutine(RebornCrt());
             rebornable = false;
         }
@@ -89,7 +87,6 @@ public class Y_HPSystem : MonoBehaviour
 
     private IEnumerator RebornCrt()
     {
-        print("Reborn 코루틴 실행");
         
         yield return new WaitForSecondsRealtime(timeTillReborn);
         
@@ -97,10 +94,7 @@ public class Y_HPSystem : MonoBehaviour
         if(this.name == "Ally")
         {
             ally.transform.position = playerBody.transform.position + 3 * transform.right;
-            print("이동했다!");
             allyBody.SetActive(true);
-            print("부활했다!");
-
         }
         else
         {

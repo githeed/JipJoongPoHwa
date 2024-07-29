@@ -103,7 +103,7 @@ public class H_PlayerAttack : MonoBehaviour
                 dirToTarget.y = 0;
                 dirToTarget.Normalize();
                 Vector3 boxPos = transform.position + dirToTarget * boxDist;
-                Collider[] enemies = Physics.OverlapBox(boxPos, boxSize * 0.5f);
+                Collider[] enemies = Physics.OverlapBox(boxPos, boxSize * 0.5f, Quaternion.LookRotation(dirToTarget, transform.up), targetLayer);
                 
                 Vector3 crossVec = Vector3.Cross(dirToTarget, transform.up);
 
