@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
+using Unity.Entities.Hybrid.Baking;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class H_PlayerAttack : MonoBehaviour
 {
@@ -30,22 +33,46 @@ public class H_PlayerAttack : MonoBehaviour
     public float boxDist = 1f;
 
     public bool canE = false;
+    public bool canR = false;
 
     public float ESkillTime = 5.0f;
     float currETime = 0;
+
+    public Vector3 dirToR;
+    public float rMag = 0;
+
+    public GameObject rSkillObj;
+
+    public float rMoveTime = 2;
+
+    GameObject obj;
+
+    Vector3 stPos;
+    public Vector3 endPos;
+    public bool rMove = false;
+
+    //public GameObject model;
+
+    public Material mat;
 
     // Start is called before the first frame update
     void Start()
     {
         curHP = maxHP;
         boxSize = new Vector3(xBox, 1, zBox);
+        //mat = model.GetComponent<MeshRenderer>().GetComponent<Material>();
     }
 
     // Update is called once per frame
     void Update()
     {
         BasicAttack();
-        BrierESkill();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            BrierESkill();
+        }
+        BrierRSkill();
+        RMove();
 
 
 
@@ -55,6 +82,8 @@ public class H_PlayerAttack : MonoBehaviour
             canE = false;
             attTime = 1;
             currETime = 0;
+            mat.color = new Color(1, 1, 1);
+
         }
     }
 
@@ -141,25 +170,23 @@ public class H_PlayerAttack : MonoBehaviour
 
     void BrierESkill()
     {
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            print("PressE");
+            //print("PressE");
             if (!canE)
             {
-                print("CantE");
+                //print("CantE");
+                mat.color = new Color(0, 1, 0);
 
                 canE = true;
                 attTime = 0.2f;
             }
             else
             {
-                print("CanE");
+            //print("CanE");
 
                 canE = false;
                 attTime = 1;
                 currETime = 0;
             }
-        }
         //if(Input.GetKeyDown(KeyCode.E) && !canE)
         //{
         //    canE = true;
@@ -172,7 +199,57 @@ public class H_PlayerAttack : MonoBehaviour
         //    attTime = 1;
         //}
     }
+    void BrierRSkill()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            obj = Instantiate(rSkillObj);
+            stPos = transform.position;
 
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                dirToR = hit.point - transform.position;
+                dirToR.y = 0;
+                rMag = dirToR.magnitude;
+                dirToR.Normalize();
+            }
+            else
+            {
+                dirToR = transform.forward * 10;
+            }
+            obj.transform.position = transform.position;
+        }
+    }
+
+    void RMove()
+    {
+        if (rMove)
+        {
+            canR = true;
+            Vector3 dir = endPos - transform.position;
+            transform.Translate(dir * 20 * Time.deltaTime);
+            float mag = (transform.position - stPos).magnitude;
+            if (mag > rMag - 0.3f)
+            {
+                rMove = false;
+                canR = false;
+                RBlow();
+            }
+        }
+    }
+
+    void RBlow()
+    {
+        Collider[] cols = Physics.OverlapSphere(transform.position, 10, targetLayer);
+        foreach (Collider col in cols)
+        {
+            print(col + " ");
+            col.GetComponent<EnemyMove>().UpdateHp(100);
+        }
+        BrierESkill();
+    }    
     public void UpdateHp(float dmg)
     {
         curHP -= dmg;
@@ -183,9 +260,9 @@ public class H_PlayerAttack : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawCube(transform.position + dirToTarget * boxDist, boxSize);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawCube(transform.position + dirToTarget * boxDist, boxSize);
+    //}
 }

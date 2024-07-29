@@ -6,8 +6,7 @@ public class H_PlayerMove : MonoBehaviour
 {
     [SerializeField]
     float pMoveSpeed = 7.0f;
-    [SerializeField]
-    GameObject model;
+    public GameObject model;
     [SerializeField]
     CharacterController cc;
 
@@ -28,7 +27,7 @@ public class H_PlayerMove : MonoBehaviour
     void Player_Move()
     {
         Player_E_Move();
-        if (pa.canE) return;
+        if (pa.canE || pa.canR) return;
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
