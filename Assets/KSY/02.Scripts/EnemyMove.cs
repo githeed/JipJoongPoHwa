@@ -13,7 +13,7 @@ public class EnemyMove : MonoBehaviour
     public IObjectPool<GameObject> pool { get; set; }
     GameObject player0;
     GameObject player1;
-    GameObject target;
+    public GameObject target;
     float dist0;
     float dist1;
 

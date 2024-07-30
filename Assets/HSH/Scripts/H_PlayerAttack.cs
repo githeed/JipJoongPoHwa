@@ -176,7 +176,7 @@ public class H_PlayerAttack : MonoBehaviour
     public void UpdateHp(float dmg)
     {
         curHP -= dmg;
-        //print(curHP);
+        print(curHP);
         if (curHP <= 0)
         {
             Destroy(gameObject);
