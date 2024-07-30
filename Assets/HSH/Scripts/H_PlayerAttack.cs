@@ -35,14 +35,11 @@ public class H_PlayerAttack : MonoBehaviour
     public Vector3 dirToTarget;
 
     //박스의 사이즈
-    public Vector3 boxSize;
+    Vector3 boxSize;
 
-    // 박스의 x, z 사이즈
-    float xBox = 10f;
-    float zBox = 10f;
-
-    // 박스의 전방위치
-    public float boxDist = 1f;
+    
+    // 이펙트 스케일
+    Vector3 scale;
 
     // E스킬 사용 가능여부
     public bool canE = false;
@@ -76,9 +73,10 @@ public class H_PlayerAttack : MonoBehaviour
     void Start()
     {
         curHP = maxHP;
-        boxSize = new Vector3(xBox, 1, zBox);
+        boxSize = new Vector3(H_PlayerManager.instance.xBox, 1, H_PlayerManager.instance.xBox);
         //mat = model.GetComponent<MeshRenderer>().GetComponent<Material>();
         currAttDelay = attTime;
+        scale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
     }
 
     // Update is called once per frame
@@ -149,7 +147,7 @@ public class H_PlayerAttack : MonoBehaviour
                 dirToTarget.Normalize();
 
                 // 공격범위를 정하자
-                Vector3 boxPos = transform.position + dirToTarget * boxDist;
+                Vector3 boxPos = transform.position + dirToTarget * H_PlayerManager.instance.boxDist;
 
                 // 공격범위를 기준으로 적만 맞는 박스콜라이더를 생성하자
                 Collider[] enemies = Physics.OverlapBox(boxPos, boxSize * 0.5f, Quaternion.LookRotation(dirToTarget, transform.up), targetLayer);
@@ -165,6 +163,9 @@ public class H_PlayerAttack : MonoBehaviour
                 ef.transform.rotation = Quaternion.LookRotation(-Vector3.up, dirToTarget);
                 ef1.transform.position = boxPos + 1 * crossVec;
                 ef1.transform.rotation = Quaternion.LookRotation(Vector3.up, dirToTarget);
+                ef.transform.localScale = scale;
+                ef1.transform.localScale = scale;
+
 
                 // 0.4 초후에 이펙트를 없애자
                 Destroy(ef, 0.4f);
@@ -259,7 +260,7 @@ public class H_PlayerAttack : MonoBehaviour
         Collider[] cols = Physics.OverlapSphere(transform.position, 10, targetLayer);
         foreach (Collider col in cols)
         {
-            print(col + " " + rDamage);
+            //print(col + " " + rDamage);
             col.GetComponent<EnemyMove>().UpdateHp(rDamage);
         }
         BrierESkill();
