@@ -47,8 +47,8 @@ public class H_PlayerManager : MonoBehaviour
 
     public void UpdateExp(float value)
     {
-        value += exp;
-        if (value >= maxExperiences[indexLev])
+        exp += value;
+        if (exp >= maxExperiences[indexLev])
         {
             indexLev++;
         }

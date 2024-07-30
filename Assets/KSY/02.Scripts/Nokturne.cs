@@ -41,7 +41,6 @@ public class Nokturne : MonoBehaviour
         if (attacking) 
         {
             transform.Translate(dir.normalized * attackSpeed * Time.deltaTime);
-            
         }
 
 

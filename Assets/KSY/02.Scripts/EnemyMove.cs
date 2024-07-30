@@ -120,7 +120,7 @@ public class EnemyMove : MonoBehaviour
         curHp -= dmg;
         if(curHp <= 0)
         {
-            print(curHp);
+            H_PlayerManager.instance.UpdateExp(1);
             agent.enabled = false;
             pool.Release(this.gameObject);
         }
