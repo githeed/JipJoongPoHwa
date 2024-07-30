@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -72,6 +72,7 @@ public class RFX4_PhysicsMotion : MonoBehaviour
 
     void InitializeForce()
     {
+        if (rigid != null) return;
         rigid = gameObject.AddComponent<Rigidbody>();
         rigid.mass = effectSettings.Mass;
         rigid.drag = effectSettings.AirDrag;
@@ -135,8 +136,8 @@ public class RFX4_PhysicsMotion : MonoBehaviour
         }
 
 
-        if (rigid != null) Destroy(rigid);
-        if (collid != null) Destroy(collid);
+        //if (rigid != null) Destroy(rigid);
+        //if (collid != null) Destroy(collid);
     }
 
 
@@ -179,8 +180,8 @@ public class RFX4_PhysicsMotion : MonoBehaviour
     void RemoveRigidbody()
     {
         isCollided = false;
-        if (rigid != null) Destroy(rigid);
-        if (collid != null) Destroy(collid);
+        //if (rigid != null) Destroy(rigid);
+        //if (collid != null) Destroy(collid);
     }
 
     void OnDrawGizmosSelected()

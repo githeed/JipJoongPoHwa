@@ -37,6 +37,7 @@ public class Y_AllyFSM : MonoBehaviour
     #region 가져오기
     GameObject enemy;
     Y_HPSystem hp;
+    Y_PlayerAttack pa;
     GameObject player;
     GameObject allyBody;
     float enemyAttackPower;
@@ -55,6 +56,7 @@ public class Y_AllyFSM : MonoBehaviour
 
         cc = GetComponent<CharacterController>();
         hp = GetComponent<Y_HPSystem>();
+        pa = GetComponent<Y_PlayerAttack>();
 
         hasDamaged = false;
 
@@ -144,6 +146,10 @@ public class Y_AllyFSM : MonoBehaviour
     {
         // Die 애니메이션 실행
         print("Die"); // 일단은 프린트
+        pa.RemoveFeather();
+        pa.curBAttTime = 0;
+        pa.curEAttTime = 0;
+        pa.curRAttTime = 0;
         a_State = AllyState.Reborn;
 
     }

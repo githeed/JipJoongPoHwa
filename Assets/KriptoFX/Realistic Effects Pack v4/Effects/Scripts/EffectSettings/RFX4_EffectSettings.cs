@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
@@ -51,8 +51,17 @@ public class RFX4_EffectSettings : MonoBehaviour
         if (!UseLightShadows || IsMobilePlatform()) DisableShadows();
     }
 
+    public void Fire() ////////////////// 매개변수로 위치 잡고
+    {
+        GetComponentInChildren<RFX4_PhysicsMotion>().transform.position = new Vector3(0, 8, 0);
+        // 전역변수로 트랜스폼 부분까지 만들어놓기
+    }
+
+
     void Update()
     {
+    
+
         if (prevIsVisible != IsVisible)
         {
             prevIsVisible = IsVisible;
@@ -176,8 +185,7 @@ public class RFX4_EffectSettings : MonoBehaviour
                 mat.SetColor(prop, color);
             }
         }
-    }
-
+    }   
 
 
     void ChangeAlphaFade()
