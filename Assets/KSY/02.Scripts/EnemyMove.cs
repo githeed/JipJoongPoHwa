@@ -13,7 +13,7 @@ public class EnemyMove : MonoBehaviour
     public IObjectPool<GameObject> pool { get; set; }
     GameObject player0;
     GameObject player1;
-    GameObject target;
+    public GameObject target;
     float dist0;
     float dist1;
 
@@ -120,7 +120,7 @@ public class EnemyMove : MonoBehaviour
         curHp -= dmg;
         if(curHp <= 0)
         {
-            print(curHp);
+            H_PlayerManager.instance.UpdateExp(1);
             agent.enabled = false;
             pool.Release(this.gameObject);
         }
