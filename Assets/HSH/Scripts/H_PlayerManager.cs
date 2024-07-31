@@ -31,20 +31,20 @@ public class H_PlayerManager : MonoBehaviour
 
     public float effScale = 0.3f;
 
+    public float skillRCooltime = 50.0f;
+    public float skillECooltime = 10.0f;
+
     Coroutine pc;
 
     private void Awake()
     {
-        // 만약에 instance 에 값이 없다면
         if (instance == null)
         {
-            // instance 에 값을 셋팅
             instance = this;
         }
         // 그렇지 않다면
         else
         {
-            // 나의 게임오브젝트를 파괴하자.
             Destroy(gameObject);
         }
     }
@@ -107,5 +107,17 @@ public class H_PlayerManager : MonoBehaviour
         bIsPicking = false;
         weaponBtn.enabled = false;
         img.enabled = false;
+    }
+
+    float currTime;
+    public bool SkillCoolTime(float time)
+    {
+        currTime += Time.deltaTime;
+        if (currTime > time)
+        { 
+            currTime = 0;
+            return true;
+        }
+        return false;
     }
 }
