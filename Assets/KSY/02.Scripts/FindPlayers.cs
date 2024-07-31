@@ -18,6 +18,7 @@ public class FindPlayers : MonoBehaviour
     }
     void Update()
     {
+        if (player1 == null) target = player0;
         dist0 = (player0.transform.position - transform.position).magnitude;
         if (player1 != null && player1.activeSelf)
         {
@@ -31,7 +32,6 @@ public class FindPlayers : MonoBehaviour
                 target = player1;
             }
         }
-        if (player1 == null) target = player0;
         if (player1 != null && !player1.activeSelf && player0 != null) target = player0;
     }
 }
