@@ -1485,7 +1485,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723046030}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12cf0b1c6d48ac744a49580db8d82d5b, type: 3}
   m_Name: 
@@ -3538,9 +3538,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8337042677b91341b388104d47853b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackIndicatorPos: {fileID: 0}
-  attackDelay: 0
-  attackSpeed: 0
+  attackIndicatorPos: {fileID: 332019085}
+  target: {fileID: 0}
+  attackDelay: 1
+  attackSpeed: 10
 --- !u!135 &2029966974
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3621,7 +3622,7 @@ Transform:
   m_GameObject: {fileID: 2029966971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.3077755, y: 10.714634, z: 6.2922606}
+  m_LocalPosition: {x: -6.12, y: 1.19, z: -8.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3637,25 +3638,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2029966971}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13202f09fdaa68945b78a5b025e32e8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d9093fb8065e604dadf7f909cad0150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player0: {fileID: 0}
+  player1: {fileID: 0}
   target: {fileID: 0}
-  attackPower: 10
-  maxHp: 100
-  distanceMin: 0
-  distanceMax: 0
-  debug:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
 --- !u!1 &2071887090
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,9 +4087,17 @@ MonoBehaviour:
   attackDmg: 5
   maxHP: 1000
   dirToTarget: {x: 0, y: 0, z: 0}
-  boxDist: 2
   canE: 0
+  canR: 0
   ESkillTime: 5
+  dirToR: {x: 0, y: 0, z: 0}
+  rMag: 0
+  rSkillObj: {fileID: 0}
+  rMoveTime: 2
+  endPos: {x: 0, y: 0, z: 0}
+  rMove: 0
+  rDamage: 10
+  mat: {fileID: 0}
 --- !u!1 &163744844999143968
 GameObject:
   m_ObjectHideFlags: 0
