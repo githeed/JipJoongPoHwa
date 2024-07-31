@@ -20,11 +20,11 @@ public class Y_AllyFSM : MonoBehaviour
     // Distance
     public float findDistance = 10f;
     public float attackDistance = 10f;
-    public float returnDistance = 20f;
+    public float returnDistance = 30f;
 
     // Move
-    public float moveSpeed = 1f;
-    Vector3 moveDir = new Vector3(0, 0, 0);
+    public float moveSpeed;
+    public Vector3 moveDir = new Vector3(0, 0, 0);
 
     // Return
     Vector3 playerPos;
@@ -46,7 +46,6 @@ public class Y_AllyFSM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        a_State = AllyState.Move;
 
         enemy = GameObject.Find("Enemy");
         if(enemy != null)
@@ -61,6 +60,9 @@ public class Y_AllyFSM : MonoBehaviour
         hasDamaged = false;
 
         StartCoroutine(ChooseDir());
+        a_State = AllyState.Move;
+
+        moveSpeed = 10f;
 
     }
 
@@ -109,17 +111,17 @@ public class Y_AllyFSM : MonoBehaviour
 
         // 일단은 3초마다 한번씩 랜덤한 방향으로 움직이게 해놓고 기본공격/스킬 하나 구현한 이후에 생각해보자
 
-        
+        print("Moving!!!!!!!");
 
-        if(!hp.isDead)
-        {
-            cc.Move(moveDir * moveSpeed * Time.deltaTime);
+        //if(!hp.isDead)
+        //{
+        //    cc.Move(moveDir * moveSpeed * Time.deltaTime);
 
-            if (moveDir != Vector3.zero)
-            {
-                allyBody.transform.forward = moveDir;
-            }
-        }
+        //    if (moveDir != Vector3.zero)
+        //    {
+        //        allyBody.transform.forward = moveDir;
+        //    }
+        //}
         
 
         // Player 에게 이동
