@@ -9,6 +9,7 @@ public class Y_NavMesh : MonoBehaviour
     GameObject player;
     GameObject ally;
     Y_AllyFSM allyFSM;
+    Y_PlayerAttack yp;
 
     float defaultDist = 20f;
 
@@ -18,6 +19,7 @@ public class Y_NavMesh : MonoBehaviour
         player = GameObject.Find("Player");
         ally = GameObject.Find("Ally");
         allyFSM = ally.GetComponent<Y_AllyFSM>();
+        yp = ally.GetComponent<Y_PlayerAttack>();
     }
     void Start()
     {
@@ -28,6 +30,7 @@ public class Y_NavMesh : MonoBehaviour
     void Update()
     {
         float distToTarget = Vector3.Distance(player.transform.position, transform.position);
+
         if(distToTarget > defaultDist)
         {
             agent.destination = (player.transform.position);
@@ -36,5 +39,6 @@ public class Y_NavMesh : MonoBehaviour
         {
             agent.destination = (transform.position + allyFSM.moveDir);
         }
+
     }
 }
