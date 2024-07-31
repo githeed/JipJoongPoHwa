@@ -17,9 +17,11 @@ public class Y_PlayerAttack : MonoBehaviour
     public float basicAttTime;
     public float ESkillTime;
     public float RSkillTime;
+    public float PSkillDuration;
     public float curBAttTime = 0;
     public float curEAttTime = 0;
     public float curRAttTime = 0;
+    public float curPAttTime = 0;
     public float skillTimeRate = 1;
 
     // Scan and Target
@@ -61,8 +63,9 @@ public class Y_PlayerAttack : MonoBehaviour
 
         featherTime = 10;
         basicAttTime = 2;
-        ESkillTime = 9;
-        RSkillTime = 30;
+        ESkillTime = 25; //////////////// 원래 9
+        RSkillTime = 20; ////////////////////////// 원래 30
+        PSkillDuration = 15;
 
         featherDist = 7;
         featherEftTime = 0.3f;
@@ -99,22 +102,18 @@ public class Y_PlayerAttack : MonoBehaviour
             }
         }
 
-        ////////////////////////////////
-        //if (!hp.isDead)
-        //{
-        //    BasicAttack();
-        //    ESkill();
-        //    RSkill();
-        //}
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        //////////////////////////////
+        if (!hp.isDead)
         {
-            StartCoroutine(PassiveAttack());
-            StartCoroutine(SkillTimeFast());
+            BasicAttack();
+            ESkill();
+            RSkill();
         }
 
 
-        
+
+
+
     }
 
     Transform GetNearest()
@@ -189,9 +188,20 @@ public class Y_PlayerAttack : MonoBehaviour
 
                 curEAttTime = 0;
 
+                
+
+            }
+
+            if (feathers.Length >= 30 && !pAttacking)
+            {
+                StartCoroutine(PassiveAttack());
+                StartCoroutine(SkillTimeFast());
+
             }
         }
+
         
+
     }
 
     void RSkill()
@@ -283,8 +293,6 @@ public class Y_PlayerAttack : MonoBehaviour
                 
                 hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
 
-                
-                
             }
 
             // 깃털 만들고 파괴
@@ -322,78 +330,84 @@ public class Y_PlayerAttack : MonoBehaviour
     Vector3 p6;
     Vector3 p7;
     Vector3 p8;
+    Vector3 dir;
 
     private IEnumerator PassiveAttack()
     {
+        curPAttTime = 0;
+        pAttacking = true;
         
 
-        p1 = transform.position;
-        p2 = transform.position + 3f * transform.right;// + transform.forward * -10f;
-        p3 = transform.position - 3f * transform.right;
-
-        Transform targetP = GetNearest();
-
-        if (targetP == null)
+        while (curPAttTime < PSkillDuration)
         {
-            UnityEngine.Debug.LogError("targetP is null");
-            //break;
-        }
+            curPAttTime += Time.deltaTime;
 
-        p4 = targetP.transform.position;
+            p1 = transform.position;
+            p2 = transform.position + 3f * transform.right;// + transform.forward * -10f;
+            p3 = transform.position - 3f * transform.right;
 
-        Vector3 dir = p4 - transform.position;
+            Transform targetP = GetNearest();
 
-        int i = 0;
-        while (i < basicAttackNo)
-        {
-            float time = 0f;
-
-            GameObject feather = Instantiate(featherFactory);
-            feather.transform.position = transform.position;
-            GameObject feather2 = Instantiate(featherFactory);
-            feather2.transform.position = transform.position;
-
-            
-
-            while (true)
+            if (targetP == null)
             {
-                
+                UnityEngine.Debug.LogError("targetP is null");
+                continue;
+            }
 
-                time += Time.deltaTime * 7;
+            p4 = targetP.transform.position;
 
-                time = Mathf.Clamp(time, 0, 1);
 
-                p5 = Vector3.Lerp(p1, p2, time);
-                p6 = Vector3.Lerp(p2, p4, time);
+            for (int i = 0; i < basicAttackNo; i++)
+            {
+                float time = 0f;
 
-                p7 = Vector3.Lerp(p1, p3, time);
-                p8 = Vector3.Lerp(p3, p4, time);
+                GameObject feather = Instantiate(featherFactory);
+                feather.transform.position = transform.position;
+                GameObject feather2 = Instantiate(featherFactory);
+                feather2.transform.position = transform.position;
 
-                feather.transform.position = Vector3.Lerp(p5, p6, time);
-                feather2.transform.position = Vector3.Lerp(p7, p8, time);
-
-                if (time >= 1)
+                while (true)
                 {
-                    Destroy(feather);
-                    Destroy(feather2);
-                    break;
-                }
-                yield return null;
 
+                    dir = p4 - transform.position;
+
+                    time += Time.deltaTime * 7;
+
+                    time = Mathf.Clamp(time, 0, 1);
+
+                    p5 = Vector3.Lerp(p1, p2, time);
+                    p6 = Vector3.Lerp(p2, p4, time);
+
+                    p7 = Vector3.Lerp(p1, p3, time);
+                    p8 = Vector3.Lerp(p3, p4, time);
+
+                    feather.transform.position = Vector3.Lerp(p5, p6, time);
+                    feather2.transform.position = Vector3.Lerp(p7, p8, time);
+
+                    if (time >= 1)
+                    {
+                        Destroy(feather);
+                        Destroy(feather2);
+                        break;
+                    }
+                    yield return null;
+
+
+                }
+
+                // 몸통 회전시키기
+                Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
+                transform.rotation = rotation;
+                yield return null;
 
             }
 
-            // 몸통 회전시키기
-
-            Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
-            transform.rotation = rotation;
-            yield return null;
-            i++;
-
-
+            targetP.GetComponent<EnemyMove>().UpdateHp(attackDmg * batRate * basicAttackNo);
+            yield return new WaitForSecondsRealtime(1f);
+            curPAttTime += 1;
         }
 
-        
+        pAttacking = false;
     }
 
     private IEnumerator SkillTimeFast()

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Y_Feather : MonoBehaviour
 {
     Y_PlayerAttack yp;
+    public bool isGround = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,8 +19,26 @@ public class Y_Feather : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        collision.gameObject.GetComponent<EnemyMove>().UpdateHp(yp.attackDmg * yp.batRate);
-    }
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+    //    {
+    //        isGround = true;
+    //    }
+
+    //    if(other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isGround)
+    //    {
+    //        print("!!!!!!!!!!!!!!!!");
+    //        other.gameObject.GetComponent<EnemyMove>().UpdateHp(yp.attackDmg * yp.batRate);
+    //    }
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+    //    {
+    //        isGround = false;
+    //    }
+    //}
 }
