@@ -16,17 +16,16 @@ public class EnemyMove : MonoBehaviour
     float dist0;
     float dist1;
     FindPlayers findPlayers;
+    EnemyHp enemyHp;
 
     protected H_PlayerAttack playerCsH;
     protected Y_PlayerAttack playerCsY;
     public float attackPower;
+    public float giveEXP;
 
     bool canAttack;
     protected Coroutine attackCoroutine;
     public NavMeshAgent agent;
-
-    public float maxHp;
-    public float curHp;
 
     public float distanceMin;
     public float distanceMax;
@@ -44,12 +43,10 @@ public class EnemyMove : MonoBehaviour
         findPlayers = GetComponent<FindPlayers>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
+        enemyHp = GetComponent<EnemyHp>();
+        enemyHp.onDie = onDie;
     }
 
-    private void OnEnable()
-    {
-        curHp = maxHp;
-    }
 
     private void Update()
     {
@@ -93,22 +90,19 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 매개변수에 float형으로 공격력(attackPower)넣어주면 됨.
-    /// </summary>
-    /// <param name="dmg"></param>
+
     public void UpdateHp(float dmg)
     {
-        if (curHp <= 0) return;
-
-        curHp -= dmg;
-        if(curHp <= 0)
-        {
-            agent.enabled = false;            
-            pool.Release(this.gameObject);
-            H_PlayerManager.instance.UpdateExp(1);
-        }
+        
     }
+
+    void onDie()
+    {
+        agent.enabled = false;
+        pool.Release(this.gameObject);
+        H_PlayerManager.instance.UpdateExp(giveEXP);
+    }
+
     public void OnNav()
     {
         StartCoroutine(Co_OnNav());
