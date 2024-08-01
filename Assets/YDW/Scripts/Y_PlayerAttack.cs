@@ -63,8 +63,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
         featherTime = 10;
         basicAttTime = 2;
-        ESkillTime = 25; //////////////// 원래 9
-        RSkillTime = 20; ////////////////////////// 원래 30
+        ESkillTime = 7; //////////////// 원래 9
+        RSkillTime = 5; ////////////////////////// 원래 30
         PSkillDuration = 15;
 
         featherDist = 7;
@@ -183,7 +183,7 @@ public class Y_PlayerAttack : MonoBehaviour
                     StartCoroutine(StopEnemy(hitinfo));
                 }
 
-
+                
                 Destroy(feather.gameObject);
 
                 curEAttTime = 0;
@@ -337,10 +337,12 @@ public class Y_PlayerAttack : MonoBehaviour
         curPAttTime = 0;
         pAttacking = true;
         
+        /////////////////////////// 이 깃털이랑 일반 깃털이랑 레이어 다르게 해야 함
 
         while (curPAttTime < PSkillDuration)
         {
-            curPAttTime += Time.deltaTime;
+
+           // curPAttTime += Time.deltaTime;
 
             p1 = transform.position;
             p2 = transform.position + 3f * transform.right;// + transform.forward * -10f;
@@ -363,8 +365,10 @@ public class Y_PlayerAttack : MonoBehaviour
 
                 GameObject feather = Instantiate(featherFactory);
                 feather.transform.position = transform.position;
+                feather.layer = LayerMask.NameToLayer("PassiveFeather");
                 GameObject feather2 = Instantiate(featherFactory);
                 feather2.transform.position = transform.position;
+                feather2.layer = LayerMask.NameToLayer("PassiveFeather");
 
                 while (true)
                 {
@@ -381,6 +385,10 @@ public class Y_PlayerAttack : MonoBehaviour
                     p7 = Vector3.Lerp(p1, p3, time);
                     p8 = Vector3.Lerp(p3, p4, time);
 
+                    if(feather== null)
+                    {
+                        print("111");
+                    }
                     feather.transform.position = Vector3.Lerp(p5, p6, time);
                     feather2.transform.position = Vector3.Lerp(p7, p8, time);
 
@@ -402,7 +410,11 @@ public class Y_PlayerAttack : MonoBehaviour
 
             }
 
-            targetP.GetComponent<EnemyMove>().UpdateHp(attackDmg * batRate * basicAttackNo);
+            if(targetP != null && targetP.GetComponent<EnemyMove>() != null)
+            {
+
+                targetP.GetComponent<EnemyMove>().UpdateHp(attackDmg * batRate * basicAttackNo);
+            }
             yield return new WaitForSecondsRealtime(1f);
             curPAttTime += 1;
         }
