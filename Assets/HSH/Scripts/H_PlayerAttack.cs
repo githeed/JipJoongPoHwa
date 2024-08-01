@@ -37,9 +37,6 @@ public class H_PlayerAttack : MonoBehaviour
     //박스의 사이즈
     Vector3 boxSize;
 
-    
-    // 이펙트 스케일
-    Vector3 scale;
 
     // E스킬 사용 가능여부
     public bool canE = false;
@@ -72,11 +69,11 @@ public class H_PlayerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        print("Attack");
         curHP = maxHP;
         boxSize = new Vector3(H_PlayerManager.instance.xBox, 1, H_PlayerManager.instance.xBox);
         //mat = model.GetComponent<MeshRenderer>().GetComponent<Material>();
         currAttDelay = attTime;
-        scale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
     }
 
     // Update is called once per frame
@@ -159,12 +156,12 @@ public class H_PlayerAttack : MonoBehaviour
                 GameObject ef1 = Instantiate(scratchFac);
                 crossVec.Normalize();
                 // 앞방향의 양옆으로 이펙트의 위치를 정해주자
+                ef.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
+                ef1.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
                 ef.transform.position = boxPos + -1 * crossVec;
                 ef.transform.rotation = Quaternion.LookRotation(-Vector3.up, dirToTarget);
                 ef1.transform.position = boxPos + 1 * crossVec;
                 ef1.transform.rotation = Quaternion.LookRotation(Vector3.up, dirToTarget);
-                ef.transform.localScale = scale;
-                ef1.transform.localScale = scale;
 
 
                 // 0.4 초후에 이펙트를 없애자

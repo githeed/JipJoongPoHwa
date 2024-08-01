@@ -29,7 +29,7 @@ public class H_PlayerManager : MonoBehaviour
     // 박스의 전방위치
     public float boxDist = 1f;
 
-    public float effScale = 0.3f;
+    public float effScale = 0.5f;
 
     public float skillRCooltime = 50.0f;
     public float skillECooltime = 10.0f;
@@ -56,13 +56,14 @@ public class H_PlayerManager : MonoBehaviour
             maxExperiences[i] = i * expMultiplier;
         }
         indexLev = 1;
-
+        print("Manager");
         weaponBtn = cardButton.GetComponent<Button>();
         img = cardButton.GetComponent<Image>();
     }
 
     void Update()
     {
+
         if(bIsPicking) 
         {
             Time.timeScale = 0;
@@ -100,9 +101,10 @@ public class H_PlayerManager : MonoBehaviour
     public void CardPickingButton()
     {
         StopCoroutine(pc);
+        //print(effScale);
         xBox += 2;
         boxDist++;
-        effScale++;
+        effScale += 0.3f;
         Time.timeScale = 1;
         bIsPicking = false;
         weaponBtn.enabled = false;
