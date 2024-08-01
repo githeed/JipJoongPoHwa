@@ -116,7 +116,6 @@ public class H_PlayerAttack : MonoBehaviour
             canE = false;
             attTime = 1;
             currETime = 0;
-            mat.color = new Color(1, 1, 1);
 
         }
     }
@@ -219,17 +218,16 @@ public class H_PlayerAttack : MonoBehaviour
         // 광란스킬
         if (!canE)
         {
-            mat.color = new Color(0, 1, 0);
             // e 를 사용하면 기본공격의 쿨타임을 줄이자
             canE = true;
-            currAttDelay = 0.2f;
+            attTime = 0.2f;
         }
         else
         {
 
             // e를 사용중이라면 돌아가자
             canE = false;
-            currAttDelay = attTime;
+            attTime = currAttDelay;
             currETime = 0;
         }
     }

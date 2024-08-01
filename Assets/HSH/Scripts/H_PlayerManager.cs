@@ -108,6 +108,8 @@ public class H_PlayerManager : MonoBehaviour
     {
         StopCoroutine(pc);
         //print(effScale);
+        print("pick");
+
         xBox++;
         boxDist += 0.5f;
         effScale += 0.5f;
