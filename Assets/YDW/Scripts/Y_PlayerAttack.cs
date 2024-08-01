@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Unity.Entities.UniversalDelegates;
 using Unity.Transforms;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -241,7 +242,24 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void EvolvedWeapon()
     {
-        
+        Transform target = GetNearest();
+        Vector3 dirToTarget = target.position - transform.position;
+        // 투사체 날린다
+        GameObject feather = Instantiate(featherFactory);
+        feather.transform.position += dirToTarget * Time.deltaTime; // featherSpeed;
+
+        bool hitCheck = Physics.Raycast(transform.position, dirToTarget, featherDist, targetLayer);
+
+       { 
+
+           // hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+
+        }
+
+        // 목표 적에게 투사체가 맞으면
+        // 적 사이를 최대 3만큼 튕기면서 피해를 입힘
+        // 이후 플레이어에게 돌아와 소량의 보호막 부여 (5초 유지, 튕기는 횟수 1회당 최대 hp 10% 만큼 유지됨)
+
     }
 
     public void UpdateHp(float dmg)
@@ -267,6 +285,8 @@ public class Y_PlayerAttack : MonoBehaviour
             Destroy(feather.gameObject);
         }
     }
+
+
 
     private IEnumerator FeatherAttack()
     {
