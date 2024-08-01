@@ -111,7 +111,6 @@ public class Y_AllyFSM : MonoBehaviour
 
         // 일단은 3초마다 한번씩 랜덤한 방향으로 움직이게 해놓고 기본공격/스킬 하나 구현한 이후에 생각해보자
 
-        print("Moving!!!!!!!");
 
         //if(!hp.isDead)
         //{

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Unity.Transforms;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
+using static UnityEngine.GraphicsBuffer;
 
 public class Y_PlayerAttack : MonoBehaviour
 {
@@ -14,9 +17,12 @@ public class Y_PlayerAttack : MonoBehaviour
     public float basicAttTime;
     public float ESkillTime;
     public float RSkillTime;
+    public float PSkillDuration;
     public float curBAttTime = 0;
     public float curEAttTime = 0;
     public float curRAttTime = 0;
+    public float curPAttTime = 0;
+    public float skillTimeRate = 1;
 
     // Scan and Target
     public float scanRange = 10f;
@@ -48,14 +54,18 @@ public class Y_PlayerAttack : MonoBehaviour
     public bool unbeatable = false;
     Y_AllyFSM AllyFSM;
 
+    public bool pAttacking = false;
+    public float batRate = 1.05f;
+
     void Start()
     {
         hp = GetComponent<Y_HPSystem>();
 
         featherTime = 10;
         basicAttTime = 2;
-        ESkillTime = 9;
-        RSkillTime = 30;
+        ESkillTime = 7; //////////////// 원래 9
+        RSkillTime = 5; ////////////////////////// 원래 30
+        PSkillDuration = 15;
 
         featherDist = 7;
         featherEftTime = 0.3f;
@@ -92,20 +102,18 @@ public class Y_PlayerAttack : MonoBehaviour
             }
         }
 
-        //if (!hp.isDead)
-        //{ 
-        //    BasicAttack();
-        //    ESkill();
-        //    RSkill();
-        //}
-
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        //////////////////////////////
+        if (!hp.isDead)
         {
-            StartCoroutine(PassiveAttack());
+            BasicAttack();
+            ESkill();
+            RSkill();
         }
 
 
-        
+
+
+
     }
 
     Transform GetNearest()
@@ -131,7 +139,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void BasicAttack()
     {
-        curBAttTime += Time.deltaTime;
+        curBAttTime += Time.deltaTime * skillTimeRate;
         if (curBAttTime > basicAttTime)
         {
             // 오버랩 스피어
@@ -150,7 +158,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void ESkill()
     {
-        curEAttTime += Time.deltaTime;
+        curEAttTime += Time.deltaTime * skillTimeRate;
         if(curEAttTime > ESkillTime)
         {
             // 범위 안의 깃털들 정보 가져와서
@@ -175,19 +183,30 @@ public class Y_PlayerAttack : MonoBehaviour
                     StartCoroutine(StopEnemy(hitinfo));
                 }
 
-
+                
                 Destroy(feather.gameObject);
 
                 curEAttTime = 0;
 
+                
+
+            }
+
+            if (feathers.Length >= 30 && !pAttacking)
+            {
+                StartCoroutine(PassiveAttack());
+                StartCoroutine(SkillTimeFast());
+
             }
         }
+
         
+
     }
 
     void RSkill()
     {
-        curRAttTime += Time.deltaTime;
+        curRAttTime += Time.deltaTime * skillTimeRate;
         if (curRAttTime > RSkillTime)
         {
             for (int i = 1; i <= featherRNo; i++)
@@ -253,10 +272,9 @@ public class Y_PlayerAttack : MonoBehaviour
         Vector3 dirFrAllyToEnmNor = dirFrAllyToEnm.normalized;
 
         while (i < basicAttackNo)
-        {
+        { 
             // 쏘아지는 이펙트 만들고 파괴
             FeatherParticle(gameObject, dirFrAllyToEnm);
-
 
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, dirFrAllyToEnm, featherDist, targetLayer);
             int nth = 0;
@@ -275,8 +293,6 @@ public class Y_PlayerAttack : MonoBehaviour
                 
                 hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
 
-                
-                
             }
 
             // 깃털 만들고 파괴
@@ -309,39 +325,110 @@ public class Y_PlayerAttack : MonoBehaviour
     Vector3 p1;
     Vector3 p2;
     Vector3 p3;
+    Vector3 p4;
+    Vector3 p5;
+    Vector3 p6;
+    Vector3 p7;
+    Vector3 p8;
+    Vector3 dir;
 
     private IEnumerator PassiveAttack()
     {
-        float time = 0f;
-        GameObject feather = Instantiate(featherFactory);
-        feather.transform.position = transform.position;
-        while(true)
+        curPAttTime = 0;
+        pAttacking = true;
+        
+        /////////////////////////// 이 깃털이랑 일반 깃털이랑 레이어 다르게 해야 함
+
+        while (curPAttTime < PSkillDuration)
         {
-            time += Time.deltaTime;
+
+           // curPAttTime += Time.deltaTime;
+
+            p1 = transform.position;
+            p2 = transform.position + 3f * transform.right;// + transform.forward * -10f;
+            p3 = transform.position - 3f * transform.right;
+
             Transform targetP = GetNearest();
+
             if (targetP == null)
             {
                 UnityEngine.Debug.LogError("targetP is null");
-                break;
+                continue;
             }
-            p1 = transform.position;
-            p2 = transform.position + 0.5f * transform.up - 0.5f * targetP.transform.position;
-            p3 = targetP.transform.position;
-            Vector3 p4 = Vector3.Lerp(p1, p2, time);
-            Vector3 p5 = Vector3.Lerp(p2, p3, time);
-            feather.transform.position = Vector3.Lerp(p4, p5, time);
 
-            if(feather.transform.position == targetP.transform.position)
+            p4 = targetP.transform.position;
+
+
+            for (int i = 0; i < basicAttackNo; i++)
             {
-                break;
+                float time = 0f;
+
+                GameObject feather = Instantiate(featherFactory);
+                feather.transform.position = transform.position;
+                GameObject feather2 = Instantiate(featherFactory);
+                feather2.transform.position = transform.position;
+
+                while (true)
+                {
+
+                    dir = p4 - transform.position;
+
+                    time += Time.deltaTime * 7;
+
+                    time = Mathf.Clamp(time, 0, 1);
+
+                    p5 = Vector3.Lerp(p1, p2, time);
+                    p6 = Vector3.Lerp(p2, p4, time);
+
+                    p7 = Vector3.Lerp(p1, p3, time);
+                    p8 = Vector3.Lerp(p3, p4, time);
+
+                    if(feather== null)
+                    {
+                        print("111");
+                    }
+                    feather.transform.position = Vector3.Lerp(p5, p6, time);
+                    feather2.transform.position = Vector3.Lerp(p7, p8, time);
+
+                    if (time >= 1)
+                    {
+                        Destroy(feather);
+                        Destroy(feather2);
+                        break;
+                    }
+                    yield return null;
+
+
+                }
+
+                // 몸통 회전시키기
+                Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
+                transform.rotation = rotation;
+                yield return null;
+
             }
 
-            yield return null;
+            targetP.GetComponent<EnemyMove>().UpdateHp(attackDmg * batRate * basicAttackNo);
+            yield return new WaitForSecondsRealtime(1f);
+            curPAttTime += 1;
         }
 
+        pAttacking = false;
     }
 
-   
+    private IEnumerator SkillTimeFast()
+    {
+        skillTimeRate = 1.5f;
+        yield return new WaitForSecondsRealtime(15f);
+        skillTimeRate = 1f;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(p1, p2);
+        Gizmos.DrawLine(p2, p4);
+        
+    }
 
 
 
