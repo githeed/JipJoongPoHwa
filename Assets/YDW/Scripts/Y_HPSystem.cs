@@ -18,7 +18,7 @@ public class Y_HPSystem : MonoBehaviour
 
     private void Awake()
     {
-        maxHealth = 100;
+        maxHealth = 1000;
         currHealth = maxHealth;
         isDead = false;
         rebornable = true;
@@ -48,9 +48,6 @@ public class Y_HPSystem : MonoBehaviour
         currHealth -= damage;
         //allyFSM.hasDamaged = true;
         allyFSM.HitAlly(damage);
-
-
-        print(currHealth);
 
         if (currHealth <= 0 && isDead == false)
         {

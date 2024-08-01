@@ -11,26 +11,25 @@ using UnityEngine.Pool;
 public class EnemyMove : MonoBehaviour
 {
     public IObjectPool<GameObject> pool { get; set; }
-    GameObject player0;
-    GameObject player1;
     public GameObject target;
     float dist0;
     float dist1;
+    FindPlayers findPlayers;
 
-    H_PlayerAttack playerCsH;
-    Y_PlayerAttack playerCsY;
+    protected H_PlayerAttack playerCsH;
+    protected Y_PlayerAttack playerCsY;
     public float attackPower;
 
     bool canAttack;
-    Coroutine attackCoroutine;
-    NavMeshAgent agent;
+    protected Coroutine attackCoroutine;
+    public NavMeshAgent agent;
 
     public float maxHp;
-    float curHp;
+    public float curHp;
 
     public float distanceMin;
     public float distanceMax;
-    Vector2 distance;
+    protected Vector2 distance;
     float rand;
     float randDirX;
     float randDirZ;
@@ -41,8 +40,7 @@ public class EnemyMove : MonoBehaviour
 
     private void Awake()
     {
-        player0 = GameObject.FindWithTag("Player");
-        player1 = GameObject.FindWithTag("Player1");
+        findPlayers = GetComponent<FindPlayers>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
     }
@@ -52,25 +50,9 @@ public class EnemyMove : MonoBehaviour
         curHp = maxHp;
     }
 
-    void Update()
+    private void Update()
     {
-        dist0 = (player0.transform.position - transform.position).magnitude;
-        if(player1 != null && player1.activeSelf)
-        {
-            dist1 = (player1.transform.position - transform.position).magnitude;
-            if (dist0 < dist1)
-            {
-                target = player0;
-            }
-            else
-            {
-                target = player1;
-            }
-        }
-        if (player1 == null) target = player0;
-        
-
-
+        target = findPlayers.target;
         Vector2 forward = new Vector2(transform.position.z, transform.position.x);
         Vector2 steeringTarget = new Vector2(agent.steeringTarget.z, agent.steeringTarget.x);
 
@@ -81,7 +63,6 @@ public class EnemyMove : MonoBehaviour
         // 방향적용
         transform.eulerAngles = Vector3.up * angle;
 
-        if (player1 != null && !player1.activeSelf && player0 != null) target = player0;
         if(agent.enabled && target != null)
         agent.destination = target.transform.position;
     }
@@ -120,9 +101,9 @@ public class EnemyMove : MonoBehaviour
         curHp -= dmg;
         if(curHp <= 0)
         {
-            H_PlayerManager.instance.UpdateExp(1);
             agent.enabled = false;
             pool.Release(this.gameObject);
+            H_PlayerManager.instance.UpdateExp(1);
         }
     }
     public void OnNav()

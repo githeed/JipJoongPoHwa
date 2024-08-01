@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Unity.Transforms;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
+using static UnityEngine.GraphicsBuffer;
 
 public class Y_PlayerAttack : MonoBehaviour
 {
@@ -14,9 +17,12 @@ public class Y_PlayerAttack : MonoBehaviour
     public float basicAttTime;
     public float ESkillTime;
     public float RSkillTime;
+    public float PSkillDuration;
     public float curBAttTime = 0;
     public float curEAttTime = 0;
     public float curRAttTime = 0;
+    public float curPAttTime = 0;
+    public float skillTimeRate = 1;
 
     // Scan and Target
     public float scanRange = 10f;
@@ -48,14 +54,18 @@ public class Y_PlayerAttack : MonoBehaviour
     public bool unbeatable = false;
     Y_AllyFSM AllyFSM;
 
+    public bool pAttacking = false;
+    public float batRate = 1.05f;
+
     void Start()
     {
         hp = GetComponent<Y_HPSystem>();
 
         featherTime = 10;
         basicAttTime = 2;
-        ESkillTime = 9;
-        RSkillTime = 30;
+        ESkillTime = 25; //////////////// 원래 9
+        RSkillTime = 20; ////////////////////////// 원래 30
+        PSkillDuration = 15;
 
         featherDist = 7;
         featherEftTime = 0.3f;
@@ -92,26 +102,26 @@ public class Y_PlayerAttack : MonoBehaviour
             }
         }
 
+        //////////////////////////////
         if (!hp.isDead)
-        { 
+        {
             BasicAttack();
             ESkill();
-            
-
-        }
-
-        if(Input.GetKeyDown(KeyCode.R))
-        {
             RSkill();
         }
 
-        
+
+
+
+
     }
 
     Transform GetNearest()
     {
         Transform result = null;
         float dist = 9999f;
+
+        targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
 
         // 구에 오버랩된 게임오브젝트 중에 가장 가까운 놈의 위치 찾기
         foreach (Collider target in targets)
@@ -129,11 +139,11 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void BasicAttack()
     {
-        curBAttTime += Time.deltaTime;
+        curBAttTime += Time.deltaTime * skillTimeRate;
         if (curBAttTime > basicAttTime)
         {
             // 오버랩 스피어
-            targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
+           // targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
             nearestTarget = GetNearest();
 
             if (nearestTarget == null) return;
@@ -148,12 +158,13 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void ESkill()
     {
-        curEAttTime += Time.deltaTime;
+        curEAttTime += Time.deltaTime * skillTimeRate;
         if(curEAttTime > ESkillTime)
         {
             // 범위 안의 깃털들 정보 가져와서
             feathers = Physics.OverlapSphere(transform.position, 99999f, featherLayer);
 
+            //int i = 0;
             foreach (Collider feather in feathers)
             {
                 // Ally 에게 깃털 모아지는 파티클
@@ -162,10 +173,12 @@ public class Y_PlayerAttack : MonoBehaviour
                 Vector3 dirFrFthToAllyNor = dirFrFthToAlly.normalized;
                 FeatherParticle(feather.gameObject, dirFrFthToAlly);
 
-                RaycastHit[] hitInfos = Physics.RaycastAll(feather.transform.position, dirFrFthToAlly, dirFrFthToAlly.magnitude, targetLayer);
+                RaycastHit[] hitInfos = Physics.RaycastAll(feather.transform.position + Vector3.up * 0.5f, dirFrFthToAlly, dirFrFthToAlly.magnitude, targetLayer);
 
                 foreach (RaycastHit hitinfo in hitInfos)
                 {
+                    //i++;
+                    //print(feathers.Length + ", " + i);
                     hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg * eAttRate);
                     StartCoroutine(StopEnemy(hitinfo));
                 }
@@ -175,42 +188,55 @@ public class Y_PlayerAttack : MonoBehaviour
 
                 curEAttTime = 0;
 
+                
+
+            }
+
+            if (feathers.Length >= 30 && !pAttacking)
+            {
+                StartCoroutine(PassiveAttack());
+                StartCoroutine(SkillTimeFast());
+
             }
         }
+
         
+
     }
 
     void RSkill()
     {
-        //curRAttTime += Time.deltaTime;
-        //if(curRAttTime > RSkillTime)
-        //{
-        for(int i = 1; i <= featherRNo; i++)
+        curRAttTime += Time.deltaTime * skillTimeRate;
+        if (curRAttTime > RSkillTime)
         {
-            // 깃털 360도로 퍼지게
-            GameObject feather = Instantiate(featherFactory);
-            feather.transform.Rotate(0, (360 / featherRNo) * i, 0);
-            feather.transform.position = transform.position + featherDist * feather.transform.forward;
-
-            // Enemy 에게 데미지 주기
-            RaycastHit[] hitInfos = Physics.RaycastAll(transform.position, feather.transform.forward, featherDist, targetLayer);
-            foreach (RaycastHit hitinfo in hitInfos)
+            for (int i = 1; i <= featherRNo; i++)
             {
-                hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+                // 깃털 360도로 퍼지게
+                GameObject feather = Instantiate(featherFactory);
+                feather.transform.Rotate(0, (360 / featherRNo) * i, 0);
+                feather.transform.position = transform.position + featherDist * feather.transform.forward;
+
+                // Enemy 에게 데미지 주기
+                RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, feather.transform.forward, featherDist, targetLayer);
+                foreach (RaycastHit hitinfo in hitInfos)
+                {
+                    hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+                }
+
+                // 파티클 생성
+                FeatherParticle(gameObject, feather.transform.forward);
+
+                // 무적 상태 만들기
+                StartCoroutine(Unbeatable());
+
+                // 시간 지나면 깃털 파괴
+                Destroy(feather, featherTime);
+
+                
             }
-
-            // 파티클 생성
-            FeatherParticle(gameObject, feather.transform.forward);
-
-            // 무적 상태 만들기
-            StartCoroutine(Unbeatable());
-
-            // 시간 지나면 깃털 파괴
-            Destroy(feather, featherTime);
-
-
+        
+            curRAttTime = 0;
         }
-        //}
     }
 
     public void UpdateHp(float dmg)
@@ -246,12 +272,11 @@ public class Y_PlayerAttack : MonoBehaviour
         Vector3 dirFrAllyToEnmNor = dirFrAllyToEnm.normalized;
 
         while (i < basicAttackNo)
-        {
+        { 
             // 쏘아지는 이펙트 만들고 파괴
             FeatherParticle(gameObject, dirFrAllyToEnm);
 
-
-            RaycastHit[] hitInfos = Physics.RaycastAll(transform.position, dirFrAllyToEnm, featherDist, targetLayer);
+            RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, dirFrAllyToEnm, featherDist, targetLayer);
             int nth = 0;
             foreach (RaycastHit hitinfo in hitInfos)
             {
@@ -265,11 +290,9 @@ public class Y_PlayerAttack : MonoBehaviour
                     attackDmg *= 0.4f;
                 }
                 nth++;
-
+                
                 hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
 
-                
-                
             }
 
             // 깃털 만들고 파괴
@@ -297,6 +320,108 @@ public class Y_PlayerAttack : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f);
         unbeatable = false;
         AllyFSM.moveSpeed /= 2;
+    }
+
+    Vector3 p1;
+    Vector3 p2;
+    Vector3 p3;
+    Vector3 p4;
+    Vector3 p5;
+    Vector3 p6;
+    Vector3 p7;
+    Vector3 p8;
+    Vector3 dir;
+
+    private IEnumerator PassiveAttack()
+    {
+        curPAttTime = 0;
+        pAttacking = true;
+        
+
+        while (curPAttTime < PSkillDuration)
+        {
+            curPAttTime += Time.deltaTime;
+
+            p1 = transform.position;
+            p2 = transform.position + 3f * transform.right;// + transform.forward * -10f;
+            p3 = transform.position - 3f * transform.right;
+
+            Transform targetP = GetNearest();
+
+            if (targetP == null)
+            {
+                UnityEngine.Debug.LogError("targetP is null");
+                continue;
+            }
+
+            p4 = targetP.transform.position;
+
+
+            for (int i = 0; i < basicAttackNo; i++)
+            {
+                float time = 0f;
+
+                GameObject feather = Instantiate(featherFactory);
+                feather.transform.position = transform.position;
+                GameObject feather2 = Instantiate(featherFactory);
+                feather2.transform.position = transform.position;
+
+                while (true)
+                {
+
+                    dir = p4 - transform.position;
+
+                    time += Time.deltaTime * 7;
+
+                    time = Mathf.Clamp(time, 0, 1);
+
+                    p5 = Vector3.Lerp(p1, p2, time);
+                    p6 = Vector3.Lerp(p2, p4, time);
+
+                    p7 = Vector3.Lerp(p1, p3, time);
+                    p8 = Vector3.Lerp(p3, p4, time);
+
+                    feather.transform.position = Vector3.Lerp(p5, p6, time);
+                    feather2.transform.position = Vector3.Lerp(p7, p8, time);
+
+                    if (time >= 1)
+                    {
+                        Destroy(feather);
+                        Destroy(feather2);
+                        break;
+                    }
+                    yield return null;
+
+
+                }
+
+                // 몸통 회전시키기
+                Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
+                transform.rotation = rotation;
+                yield return null;
+
+            }
+
+            targetP.GetComponent<EnemyMove>().UpdateHp(attackDmg * batRate * basicAttackNo);
+            yield return new WaitForSecondsRealtime(1f);
+            curPAttTime += 1;
+        }
+
+        pAttacking = false;
+    }
+
+    private IEnumerator SkillTimeFast()
+    {
+        skillTimeRate = 1.5f;
+        yield return new WaitForSecondsRealtime(15f);
+        skillTimeRate = 1f;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(p1, p2);
+        Gizmos.DrawLine(p2, p4);
+        
     }
 
 
