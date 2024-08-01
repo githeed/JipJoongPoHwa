@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 68575355992860265}
   m_Layer: 31
   m_Name: Ally
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,8 +34,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.04, y: 1.77, z: -7.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7480204871282570076}
   m_Father: {fileID: 0}
@@ -85,10 +85,13 @@ MonoBehaviour:
   basicAttTime: 0
   ESkillTime: 0
   RSkillTime: 0
+  PSkillDuration: 0
   curBAttTime: 0
   curEAttTime: 0
   curRAttTime: 0
-  scanRange: 10
+  curPAttTime: 0
+  skillTimeRate: 1
+  scanRange: 100
   targetLayer:
     serializedVersion: 2
     m_Bits: 1073741824
@@ -113,6 +116,8 @@ MonoBehaviour:
   enmStopTime: 0
   featherRNo: 0
   unbeatable: 0
+  pAttacking: 0
+  batRate: 1.05
   allEffects:
   - {fileID: 0}
   - {fileID: 0}
@@ -220,7 +225,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!143 &2729323406258461537
 CharacterController:
   m_ObjectHideFlags: 0
@@ -246,7 +251,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &68575355992860265
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -285,7 +290,7 @@ PrefabInstance:
     - target: {fileID: 3342358746085932345, guid: c52be9ab08e7525438780f9f43e7072f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3342358746085932345, guid: c52be9ab08e7525438780f9f43e7072f,
         type: 3}
