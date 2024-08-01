@@ -1257,6 +1257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardButton: {fileID: 940780886}
+  bg: {fileID: 0}
   maxExperiences:
   - 0
   - 0
@@ -13467,7 +13468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26aad83e6139747469481333dd00d728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 0
+  maxHp: 100
   curHp: 0
 --- !u!1001 &2045503775
 PrefabInstance:
