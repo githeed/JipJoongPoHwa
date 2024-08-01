@@ -180,7 +180,7 @@ public class Y_PlayerAttack : MonoBehaviour
                 {
                     //i++;
                     //print(feathers.Length + ", " + i);
-                    hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg * eAttRate);
+                    hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg * eAttRate);
                     StartCoroutine(StopEnemy(hitinfo));
                 }
 
@@ -221,7 +221,7 @@ public class Y_PlayerAttack : MonoBehaviour
                 RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, feather.transform.forward, featherDist, targetLayer);
                 foreach (RaycastHit hitinfo in hitInfos)
                 {
-                    hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+                    hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg);
                 }
 
                 // 파티클 생성
@@ -316,7 +316,7 @@ public class Y_PlayerAttack : MonoBehaviour
                 }
                 nth++;
                 
-                hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
+                hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg);
 
             }
 
@@ -443,7 +443,7 @@ public class Y_PlayerAttack : MonoBehaviour
             if(targetP != null && targetP.GetComponent<EnemyMove>() != null)
             {
 
-                targetP.GetComponent<EnemyMove>().UpdateHp(attackDmg * batRate * basicAttackNo);
+                targetP.GetComponent<EnemyHp>().UpdateHp(attackDmg * batRate * basicAttackNo);
             }
             yield return new WaitForSecondsRealtime(1f);
             curPAttTime += 1;
