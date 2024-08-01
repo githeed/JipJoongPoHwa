@@ -182,7 +182,7 @@ public class H_PlayerAttack : MonoBehaviour
                 foreach (Collider enemy in enemies)
                 {
 
-                    EnemyMove em = enemy.GetComponent<EnemyMove>();
+                    EnemyHp em = enemy.GetComponent<EnemyHp>();
                     if (em != null)
                     {
                         em.UpdateHp(attackDmg);
@@ -266,7 +266,7 @@ public class H_PlayerAttack : MonoBehaviour
         foreach (Collider col in cols)
         {
             //print(col + " " + rDamage);
-            col.GetComponent<EnemyMove>().UpdateHp(rDamage);
+            col.GetComponent<EnemyHp>().UpdateHp(rDamage);
         }
         BrierESkill();
     }
