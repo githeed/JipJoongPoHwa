@@ -17,7 +17,7 @@ public class Nokturne : MonoBehaviour
     public GameObject attackIndicatorPos;
     public GameObject target;
     NavMeshAgent agent;
-    Vector3 dir;
+    Vector3 rayDir;
     Vector3 attackDir;
     public float attackDelay;
     WaitForSeconds attackDelays;
@@ -50,9 +50,9 @@ public class Nokturne : MonoBehaviour
         toTargetDist = (target.transform.position - transform.position).magnitude;
         if (target != null)
         {
-            dir = target.transform.position - transform.position;
+            rayDir = target.transform.position - transform.position;
         }
-        toTarget = new Ray(transform.position, dir);
+        toTarget = new Ray(transform.position, rayDir);
         canAttack = Physics.Raycast(toTarget, out hitInfo, attackRange, 1 << LayerMask.NameToLayer("Player"));
         switch (currState)
         {
@@ -123,7 +123,7 @@ public class Nokturne : MonoBehaviour
         {
             if (toTargetDist < attackRange)
             {
-                OnAttack();
+                ChangeState(NokturneState.ATTACK);
             }
             else
             {
@@ -134,30 +134,37 @@ public class Nokturne : MonoBehaviour
 
     public void OnMove()
     {
+        agent.enabled = true;
         agent.destination = target.transform.position;
     }
 
 
     IEnumerator NocturneAttack()
     {
-        
-        agent.speed = 0;
-        print("코루틴 부름");
-        agent.destination = transform.position + dir.normalized * attackRange;
-        if(Physics.Raycast(transform.position, dir.normalized, out RaycastHit info, attackRange, (-1) - (1 << LayerMask.NameToLayer("Player"))))
-        {
-            agent.destination = info.point - dir.normalized;
-        }
-        print("코루틴에서" + agent.destination);
-        attackDir = agent.destination - transform.position;
+        // 타겟의 위치를 저장하고
+        // 방향을 타겟쪽으로 정하고
+        attackDir = target.transform.position - transform.position;
+        // 이동을 멈추자 (agent를 끄고)
+        agent.enabled = false;
         attackIndicatorPos.SetActive(true);
         attackIndicatorPos.transform.SetParent(null);
         attackIndicatorPos.transform.forward = new Vector3(attackDir.x, 0, attackDir.z);
+        // attackDelays만큼 대기했다가
         yield return attackDelays;
-        agent.speed = attackSpeed;
+        while (moveDist < attackRange)
+        {
+            moveDist += attackSpeed * Time.deltaTime;
+            // 방향쪽으로 정해진 거리만큼 움직이자.
+            transform.Translate(attackDir.normalized * attackSpeed * Time.deltaTime);
+            // 벽이 나오면 움직임을 멈추자.
+            if (Physics.Raycast(transform.position, transform.forward, 2))
+            {
+                attackDir = Vector3.zero;
+            }
+            yield return null;
+        }
         attackIndicatorPos.SetActive(false);
         attackIndicatorPos.transform.SetParent(transform);
         attackIndicatorPos.transform.localPosition = indicatorOrgPos;
-
     }
 }

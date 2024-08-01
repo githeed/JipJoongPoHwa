@@ -23,7 +23,6 @@ public class ObjectPoolManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        enemyPrefab = Resources.Load<GameObject>("Enemy");
         Init();
     }
 
