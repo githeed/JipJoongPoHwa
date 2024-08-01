@@ -10,6 +10,7 @@ public class H_PlayerManager : MonoBehaviour
     public GameObject cardButton;
     Button weaponBtn;
     Image img;
+    public Image bg;
 
 
     public float[] maxExperiences = new float[16];
@@ -78,6 +79,7 @@ public class H_PlayerManager : MonoBehaviour
         {
             weaponBtn.enabled = true;
             img.enabled = true;
+            bg.enabled = true;
             indexLev++;
             bIsPicking = true;
             pc = StartCoroutine(PickCard(10));
@@ -89,26 +91,30 @@ public class H_PlayerManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(time);
         Time.timeScale = 1;
-        xBox += 2;
-        boxDist++;
-        effScale++;
+        xBox ++;
+        boxDist += 0.5f;
+        effScale += 0.5f;
         bIsPicking = false;
         print("endpick");
         weaponBtn.enabled = false;
         img.enabled = false;
+        bg.enabled = false;
+
     }
 
     public void CardPickingButton()
     {
         StopCoroutine(pc);
         //print(effScale);
-        xBox += 2;
-        boxDist++;
-        effScale += 0.3f;
+        xBox++;
+        boxDist += 0.5f;
+        effScale += 0.5f;
         Time.timeScale = 1;
         bIsPicking = false;
         weaponBtn.enabled = false;
         img.enabled = false;
+        bg.enabled = false;
+
     }
 
     float currTime;

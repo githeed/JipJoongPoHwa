@@ -10,17 +10,23 @@ public class H_PlayerMove : MonoBehaviour
     [SerializeField]
     CharacterController cc;
 
+    Animator anim;
+
     H_PlayerAttack pa;
+
+    Vector3 dir;
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
         pa = GetComponent<H_PlayerAttack>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        anim.SetFloat("MOVE", dir.magnitude);
         Player_Move();
     }
 
@@ -31,7 +37,7 @@ public class H_PlayerMove : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        Vector3 dir = new Vector3(h, 0, v);
+        dir = new Vector3(h, 0, v);
         dir.Normalize();
 
         cc.Move(dir * pMoveSpeed * Time.deltaTime);
@@ -46,7 +52,7 @@ public class H_PlayerMove : MonoBehaviour
     {
         if (pa.canE)
         {
-            Vector3 dir = pa.dirToTarget;
+            dir = pa.dirToTarget;
             model.transform.forward = dir;
             dir.Normalize();
             cc.Move(dir * pMoveSpeed * Time.deltaTime);

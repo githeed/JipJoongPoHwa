@@ -12,6 +12,9 @@ public class H_PlayerAttack : MonoBehaviour
 {
     //public List<GameObject> enemies = new List<GameObject>();
 
+    Animator anim;
+
+
     public float attTime = 5;
     float currAttDelay = 0;
     private float curAttTime = 0;
@@ -74,6 +77,9 @@ public class H_PlayerAttack : MonoBehaviour
         boxSize = new Vector3(H_PlayerManager.instance.xBox, 1, H_PlayerManager.instance.xBox);
         //mat = model.GetComponent<MeshRenderer>().GetComponent<Material>();
         currAttDelay = attTime;
+
+        anim = GetComponentInChildren<Animator>();
+
     }
 
     // Update is called once per frame
@@ -138,6 +144,8 @@ public class H_PlayerAttack : MonoBehaviour
             // 공격하기
             else
             {
+                anim.SetTrigger("ATTACK");
+
                 // 타겟의 방향을 가져오자
                 dirToTarget = (nearestTarget.position - transform.position);
                 dirToTarget.y = 0;
