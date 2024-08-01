@@ -63,8 +63,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
         featherTime = 10;
         basicAttTime = 2;
-        ESkillTime = 7; //////////////// 원래 9
-        RSkillTime = 5; ////////////////////////// 원래 30
+        ESkillTime = 9; 
+        RSkillTime = 30; 
         PSkillDuration = 15;
 
         featherDist = 7;
@@ -342,7 +342,6 @@ public class Y_PlayerAttack : MonoBehaviour
         curPAttTime = 0;
         pAttacking = true;
         
-        /////////////////////////// 이 깃털이랑 일반 깃털이랑 레이어 다르게 해야 함
 
         while (curPAttTime < PSkillDuration)
         {
@@ -361,8 +360,8 @@ public class Y_PlayerAttack : MonoBehaviour
                 continue;
             }
 
-            p4 = targetP.transform.position;
-
+            
+            
 
             for (int i = 0; i < basicAttackNo; i++)
             {
@@ -374,6 +373,15 @@ public class Y_PlayerAttack : MonoBehaviour
                 GameObject feather2 = Instantiate(featherFactory);
                 feather2.transform.position = transform.position;
                 feather2.layer = LayerMask.NameToLayer("PassiveFeather");
+
+                dir = p4 - transform.position;
+
+                if(i == 0)
+                {
+                    // 몸통 회전시키기
+                    Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
+                    transform.rotation = rotation;
+                }
 
                 while (true)
                 {
@@ -405,12 +413,9 @@ public class Y_PlayerAttack : MonoBehaviour
                     }
                     yield return null;
 
-
+                    
                 }
 
-                // 몸통 회전시키기
-                Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
-                transform.rotation = rotation;
                 yield return null;
 
             }
