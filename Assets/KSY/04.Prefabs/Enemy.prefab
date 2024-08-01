@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  attackPower: 0
-  giveEXP: 0
+  attackPower: 2
+  giveEXP: 1
   agent: {fileID: 0}
   distanceMin: 0
   distanceMax: 0

@@ -11,6 +11,7 @@ public class H_PlayerManager : MonoBehaviour
     Button weaponBtn;
     Image img;
     public Image bg;
+    public Image e_UI;
 
 
     public float[] maxExperiences = new float[16];
@@ -60,6 +61,7 @@ public class H_PlayerManager : MonoBehaviour
         print("Manager");
         weaponBtn = cardButton.GetComponent<Button>();
         img = cardButton.GetComponent<Image>();
+        ChangeAlpha(0);
     }
 
     void Update()
@@ -127,5 +129,11 @@ public class H_PlayerManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void ChangeAlpha(float alpha)
+    {
+        e_UI.color = new Color(1, 0, 0, alpha);
+        
     }
 }

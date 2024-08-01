@@ -82,6 +82,7 @@ public class H_PlayerAttack : MonoBehaviour
 
     }
 
+    public float curA = 0;
     // Update is called once per frame
     void Update()
     {
@@ -92,6 +93,22 @@ public class H_PlayerAttack : MonoBehaviour
         }
         BrierRSkill();
         RMove();
+
+        if(canE)
+        {
+            curA += Time.deltaTime;
+            //if(curA <= 1)
+            {
+                //H_PlayerManager.instance.ChangeAlpha(Mathf.Lerp(0, 1, curA));
+                H_PlayerManager.instance.ChangeAlpha(0.8f);
+                curA = 0;
+            }
+        }
+        else
+        {
+            H_PlayerManager.instance.ChangeAlpha(0);
+        }
+
 
         currETime += Time.deltaTime;
         if (currETime > ESkillTime || dirToTarget == Vector3.zero)
