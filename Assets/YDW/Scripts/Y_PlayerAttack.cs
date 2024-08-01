@@ -239,6 +239,11 @@ public class Y_PlayerAttack : MonoBehaviour
         }
     }
 
+    void EvolvedWeapon()
+    {
+        
+    }
+
     public void UpdateHp(float dmg)
     {
         if (unbeatable) return;
