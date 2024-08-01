@@ -28,7 +28,7 @@ public class EnemyAttackCanvas : MonoBehaviour
                 {
                     c.GetComponent<H_PlayerAttack>().UpdateHp(attackPower);
                 }
-                else
+                else if(c.gameObject.tag == "Player1")
                 {
                     c.GetComponent<Y_PlayerAttack>().UpdateHp(attackPower);
                 }
