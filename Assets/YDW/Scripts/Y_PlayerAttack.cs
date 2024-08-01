@@ -365,8 +365,10 @@ public class Y_PlayerAttack : MonoBehaviour
 
                 GameObject feather = Instantiate(featherFactory);
                 feather.transform.position = transform.position;
+                feather.layer = LayerMask.NameToLayer("PassiveFeather");
                 GameObject feather2 = Instantiate(featherFactory);
                 feather2.transform.position = transform.position;
+                feather2.layer = LayerMask.NameToLayer("PassiveFeather");
 
                 while (true)
                 {
@@ -408,7 +410,11 @@ public class Y_PlayerAttack : MonoBehaviour
 
             }
 
-            targetP.GetComponent<EnemyMove>().UpdateHp(attackDmg * batRate * basicAttackNo);
+            if(targetP != null && targetP.GetComponent<EnemyMove>() != null)
+            {
+
+                targetP.GetComponent<EnemyMove>().UpdateHp(attackDmg * batRate * basicAttackNo);
+            }
             yield return new WaitForSecondsRealtime(1f);
             curPAttTime += 1;
         }
