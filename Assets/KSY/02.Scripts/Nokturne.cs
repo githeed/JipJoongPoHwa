@@ -27,31 +27,33 @@ public class Nokturne : MonoBehaviour
     bool attacking;
     public float attackSpeed;
     Vector3 destination;
+    Vector3 indicatorOrgPos;
     Coroutine attackCoroutine;
     float attackRange = 10;
     float moveDist;
+    float toTargetDist;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         currState = NokturneState.IDLE;
         attackIndicatorPos.SetActive(false);
         findPlayers = GetComponent<FindPlayers>();
         attackDelays = new WaitForSeconds(attackDelay);
         agent = GetComponent<NavMeshAgent>();
+        indicatorOrgPos = attackIndicatorPos.transform.localPosition;
     }
 
     // Update is called once per frame
     void Update()
     {
         target = findPlayers.target;
+        toTargetDist = (target.transform.position - transform.position).magnitude;
         if (target != null)
         {
             dir = target.transform.position - transform.position;
         }
         toTarget = new Ray(transform.position, dir);
         canAttack = Physics.Raycast(toTarget, out hitInfo, attackRange, 1 << LayerMask.NameToLayer("Player"));
-        print("업데이트에서" + agent.destination);
         switch (currState)
         {
             case NokturneState.IDLE:
@@ -116,9 +118,10 @@ public class Nokturne : MonoBehaviour
 
     void UpdateAttack()
     {
-        if(Mathf.Approximately((agent.destination-transform.position).magnitude, 0.1f))
+        print((agent.destination - transform.position).magnitude);
+        if(Mathf.Approximately((agent.destination-transform.position).magnitude, 0.5f))
         {
-            if (dir.magnitude < attackRange)
+            if (toTargetDist < attackRange)
             {
                 OnAttack();
             }
@@ -137,15 +140,24 @@ public class Nokturne : MonoBehaviour
 
     IEnumerator NocturneAttack()
     {
+        
+        agent.speed = 0;
         print("코루틴 부름");
         agent.destination = transform.position + dir.normalized * attackRange;
+        if(Physics.Raycast(transform.position, dir.normalized, out RaycastHit info, attackRange, (-1) - (1 << LayerMask.NameToLayer("Player"))))
+        {
+            agent.destination = info.point - dir.normalized;
+        }
         print("코루틴에서" + agent.destination);
         attackDir = agent.destination - transform.position;
-        agent.speed = 0;
         attackIndicatorPos.SetActive(true);
+        attackIndicatorPos.transform.SetParent(null);
         attackIndicatorPos.transform.forward = new Vector3(attackDir.x, 0, attackDir.z);
         yield return attackDelays;
         agent.speed = attackSpeed;
-        
+        attackIndicatorPos.SetActive(false);
+        attackIndicatorPos.transform.SetParent(transform);
+        attackIndicatorPos.transform.localPosition = indicatorOrgPos;
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,10 +99,12 @@ public class EnemyMove : MonoBehaviour
     /// <param name="dmg"></param>
     public void UpdateHp(float dmg)
     {
+        if (curHp <= 0) return;
+
         curHp -= dmg;
         if(curHp <= 0)
         {
-            agent.enabled = false;
+            agent.enabled = false;            
             pool.Release(this.gameObject);
             H_PlayerManager.instance.UpdateExp(1);
         }
