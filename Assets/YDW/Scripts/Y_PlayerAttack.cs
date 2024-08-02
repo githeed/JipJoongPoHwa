@@ -41,6 +41,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     // Feather Attack
     public GameObject featherFactory;
+    public GameObject featherEFactory;
     public GameObject basicAttEffFactory;
     public float basicAttackNo = 3;
     public float featherDist;
@@ -57,6 +58,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public bool pAttacking = false;
     public float batRate = 1.05f;
+
+    public float featherSpeed = 10;
 
     void Start()
     {
@@ -104,11 +107,16 @@ public class Y_PlayerAttack : MonoBehaviour
         }
 
         //////////////////////////////
-        if (!hp.isDead)
+        //if (!hp.isDead)
+        //{
+        //    BasicAttack();
+        //    ESkill();
+        //    RSkill();
+        //}
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            BasicAttack();
-            ESkill();
-            RSkill();
+            EvolvedWeapon();
         }
 
 
@@ -242,24 +250,31 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void EvolvedWeapon()
     {
-        Transform target = GetNearest();
-        Vector3 dirToTarget = target.position - transform.position;
-        // 투사체 날린다
-        GameObject feather = Instantiate(featherFactory);
-        feather.transform.position += dirToTarget * Time.deltaTime; // featherSpeed;
+        Collider[] hitInfos = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
 
-        bool hitCheck = Physics.Raycast(transform.position, dirToTarget, featherDist, targetLayer);
+        List<(Vector3 dir, Collider collider)> targets = new List<(Vector3 dir, Collider collider)>();
 
-       { 
-
-           // hitinfo.transform.GetComponent<EnemyMove>().UpdateHp(attackDmg);
-
+        foreach (Collider hitInfo in hitInfos)
+        {
+            Vector3 dirToTarget = hitInfo.gameObject.transform.position - transform.position;
+            targets.Add((dirToTarget, hitInfo));
         }
+
+        var sortedTargets = targets.OrderBy(target => target.dir.magnitude).ToList();
+
+        StartCoroutine(EvolveCrt(sortedTargets));
+
+        
+        
 
         // 목표 적에게 투사체가 맞으면
         // 적 사이를 최대 3만큼 튕기면서 피해를 입힘
         // 이후 플레이어에게 돌아와 소량의 보호막 부여 (5초 유지, 튕기는 횟수 1회당 최대 hp 10% 만큼 유지됨)
 
+
+        // count 3개 해서 
+        // 오버랩 스피어로 다 받아온다음에 정렬해서 null 찍히면 돌아오기
+         
     }
 
     public void UpdateHp(float dmg)
@@ -373,14 +388,13 @@ public class Y_PlayerAttack : MonoBehaviour
             p3 = transform.position - 3f * transform.right;
 
             Transform targetP = GetNearest();
+            p4 = targetP.position;
 
             if (targetP == null)
             {
                 UnityEngine.Debug.LogError("targetP is null");
                 continue;
             }
-
-            
             
 
             for (int i = 0; i < basicAttackNo; i++)
@@ -442,7 +456,6 @@ public class Y_PlayerAttack : MonoBehaviour
 
             if(targetP != null && targetP.GetComponent<EnemyMove>() != null)
             {
-
                 targetP.GetComponent<EnemyHp>().UpdateHp(attackDmg * batRate * basicAttackNo);
             }
             yield return new WaitForSecondsRealtime(1f);
@@ -457,6 +470,72 @@ public class Y_PlayerAttack : MonoBehaviour
         skillTimeRate = 1.5f;
         yield return new WaitForSecondsRealtime(15f);
         skillTimeRate = 1f;
+    }
+
+    private IEnumerator EvolveCrt(List<(Vector3 dir, Collider collider)> enemies)
+    {
+        GameObject feather = Instantiate(featherEFactory);
+        feather.transform.position = transform.position;
+        for (int i = 0; i < 4; i++)
+        {
+            if (i >= enemies.Count || enemies[i].collider == null)
+            {
+                print("yield break???????");
+                yield break;
+            }
+            else
+            {
+                Vector3 dirEW;
+                Transform destination;
+
+                if (i == 0)
+                {
+                    dirEW = enemies[i].dir;
+                    destination = enemies[i].collider.transform;
+
+
+                }
+                else if (i < 3)
+                {
+                    dirEW = (enemies[i].collider.transform.position - enemies[i - 1].collider.transform.position);
+                    destination = enemies[i].collider.transform;
+
+                }
+                else
+                {
+                    dirEW = transform.position - enemies[i - 1].collider.transform.position;
+                    destination = gameObject.transform;
+
+                }
+
+                float dist = 0;
+                float nextDist = dist - 1;
+                while (dist > nextDist)
+                {
+                    dist = Vector3.Distance(feather.transform.position, destination.position);
+                    feather.transform.position += dirEW.normalized * featherSpeed * Time.deltaTime;
+                    nextDist = Vector3.Distance(feather.transform.position, destination.position);
+                    yield return null;
+                }
+
+                ////// 나중에 break
+                if (enemies[i].collider == null)
+                {
+                    print("yield break??????? 2222222222222222");
+                    yield break;
+                }
+                enemies[i].collider.gameObject.GetComponent<EnemyHp>().UpdateHp(attackDmg);
+
+                yield return null;
+            }
+
+            if(i == 3)
+            {
+                Destroy(feather);
+                hp.Heal(hp.maxHealth * 0.1f * i);
+            }
+        }
+        //yield return null;
     }
 
     private void OnDrawGizmos()
