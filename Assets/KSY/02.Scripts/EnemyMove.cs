@@ -91,10 +91,6 @@ public class EnemyMove : MonoBehaviour
     }
 
 
-    public void UpdateHp(float dmg)
-    {
-        
-    }
 
     void onDie()
     {

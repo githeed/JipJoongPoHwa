@@ -97,9 +97,6 @@ public class Nokturne : MonoBehaviour
 
     public void ChangeState(NokturneState state)
     {
-        print(currState + "------>" + state);
-
-
         currState = state;
         agent.enabled = true;
 
@@ -108,7 +105,6 @@ public class Nokturne : MonoBehaviour
             case NokturneState.IDLE:
                 break;
             case NokturneState.MOVE:
-                OnMove();
                 break;
             case NokturneState.ATTACK:
                 OnAttack();
@@ -127,12 +123,10 @@ public class Nokturne : MonoBehaviour
     {
         if (toTargetDist < attackRange && canAttack)
         {
-            print("공격상태로 전환");
             ChangeState(NokturneState.ATTACK);
         }
         else
         {
-            print("이동상태로 전환");
             ChangeState(NokturneState.MOVE);
         }
     }
@@ -143,7 +137,8 @@ public class Nokturne : MonoBehaviour
     }
     void UpdateMove()
     {
-        if(canAttack)
+        agent.destination = target.transform.position;
+        if (canAttack)
         {
             ChangeState(NokturneState.ATTACK);
         }
@@ -158,10 +153,6 @@ public class Nokturne : MonoBehaviour
         //print("공격중 목표와의 거리 : " + (targetPos - transform.position).magnitude);
     }
 
-    public void OnMove()
-    {
-        agent.destination = target.transform.position;
-    }
 
     public void OnDie()
     {
@@ -195,9 +186,7 @@ public class Nokturne : MonoBehaviour
             if (Physics.Raycast(transform.position + Vector3.up*2, transform.forward, agent.radius, 1<<LayerMask.NameToLayer("Walls")))
             {
                 attackDir = Vector3.zero;
-                print("Ray 발사 후 : " + attackDir);
             }
-            print("while문 안에서 : " + attackDir);
             yield return null;
         }
         moveDist = 0;
@@ -217,13 +206,11 @@ public class Nokturne : MonoBehaviour
             {
                 playerCsH.UpdateHp(attackPower);
                 playerCsH = null;
-                print("H 플레이어 맞음");
             }
             if (playerCsY != null)
             {
                 playerCsY.UpdateHp(attackPower);
                 playerCsY = null;
-                print("Y 플레이어 맞음");
             }
         }
     }
