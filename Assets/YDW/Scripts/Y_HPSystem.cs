@@ -55,6 +55,13 @@ public class Y_HPSystem : MonoBehaviour
         }
     }
 
+    public void Heal(float amt)
+    {
+        if (isDead) return;
+
+        currHealth += amt;
+    }
+
     public void Die()
     {
         if (isDead) return;

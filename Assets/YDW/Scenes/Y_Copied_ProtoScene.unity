@@ -942,6 +942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardButton: {fileID: 940780886}
+  bg: {fileID: 0}
   maxExperiences:
   - 0
   - 0
@@ -7320,7 +7321,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: c1240056eb4ec3d4c8314ad1c18b94c0, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 84b8bc3888c7cbf4ab5841cf30039b26, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &1333117508
 PrefabInstance:
@@ -10397,6 +10398,7 @@ MonoBehaviour:
   target: {fileID: 0}
   attackDelay: 1
   attackSpeed: 10
+  attackPower: 0
 --- !u!135 &2029966974
 SphereCollider:
   m_ObjectHideFlags: 0
