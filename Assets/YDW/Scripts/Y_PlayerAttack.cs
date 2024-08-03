@@ -61,6 +61,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public float featherSpeed = 10;
 
+    Y_NavMesh allyNavMesh;
+
     void Start()
     {
         hp = GetComponent<Y_HPSystem>();
@@ -80,7 +82,7 @@ public class Y_PlayerAttack : MonoBehaviour
         featherRNo = 24;
 
         AllyFSM = GetComponent<Y_AllyFSM>();
-
+        allyNavMesh = GetComponent<Y_NavMesh>();
 
     }
 
@@ -106,15 +108,15 @@ public class Y_PlayerAttack : MonoBehaviour
             }
         }
 
-        //////////////////////////////
-        //if (!hp.isDead)
-        //{
-        //    BasicAttack();
-        //    ESkill();
-        //    RSkill();
-        //}
+        ////////////////////////////
+        if (!hp.isDead)
+        {
+            BasicAttack();
+            ESkill();
+            RSkill();
+        }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             EvolvedWeapon();
         }
@@ -332,10 +334,10 @@ public class Y_PlayerAttack : MonoBehaviour
     private IEnumerator Unbeatable()
     {
         unbeatable = true;
-        AllyFSM.moveSpeed *= 2;
+        allyNavMesh.moveSpeed *= 2;
         yield return new WaitForSecondsRealtime(2f);
         unbeatable = false;
-        AllyFSM.moveSpeed /= 2;
+        allyNavMesh.moveSpeed /= 2;
     }
 
     Vector3 p1;
