@@ -12,6 +12,7 @@ public class Y_NavMesh : MonoBehaviour
     Y_PlayerAttack yp;
 
     float defaultDist = 20f;
+    public float moveSpeed = 10f;
 
     private void Awake()
     {
@@ -23,7 +24,7 @@ public class Y_NavMesh : MonoBehaviour
     }
     void Start()
     {
-        
+        agent.speed = moveSpeed;
     }
 
     // Update is called once per frame

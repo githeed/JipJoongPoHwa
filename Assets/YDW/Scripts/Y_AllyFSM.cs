@@ -23,7 +23,6 @@ public class Y_AllyFSM : MonoBehaviour
     public float returnDistance = 30f;
 
     // Move
-    public float moveSpeed;
     public Vector3 moveDir = new Vector3(0, 0, 0);
 
     // Return
@@ -41,6 +40,7 @@ public class Y_AllyFSM : MonoBehaviour
     GameObject player;
     GameObject allyBody;
     float enemyAttackPower;
+    Animator anim;
     #endregion
 
     // Start is called before the first frame update
@@ -57,12 +57,14 @@ public class Y_AllyFSM : MonoBehaviour
         hp = GetComponent<Y_HPSystem>();
         pa = GetComponent<Y_PlayerAttack>();
 
+        anim = GetComponentInChildren<Animator>();
+
         hasDamaged = false;
 
         StartCoroutine(ChooseDir());
         a_State = AllyState.Move;
 
-        moveSpeed = 10f;
+
 
     }
 
@@ -90,6 +92,8 @@ public class Y_AllyFSM : MonoBehaviour
                 Reborn();
                 break;
         }
+
+        anim.SetFloat("MOVE", moveDir.magnitude);
     }
 
     void Idle()
