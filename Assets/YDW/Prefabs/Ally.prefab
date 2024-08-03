@@ -120,6 +120,7 @@ MonoBehaviour:
   unbeatable: 0
   pAttacking: 0
   batRate: 1.05
+  featherSpeed: 10
   allEffects:
   - {fileID: 0}
   - {fileID: 0}
