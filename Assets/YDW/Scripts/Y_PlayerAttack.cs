@@ -250,31 +250,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void EvolvedWeapon()
     {
-        Collider[] hitInfos = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
-
-        List<(Vector3 dir, Collider collider)> targets = new List<(Vector3 dir, Collider collider)>();
-
-        foreach (Collider hitInfo in hitInfos)
-        {
-            Vector3 dirToTarget = hitInfo.gameObject.transform.position - transform.position;
-            targets.Add((dirToTarget, hitInfo));
-        }
-
-        var sortedTargets = targets.OrderBy(target => target.dir.magnitude).ToList();
-
-        StartCoroutine(EvolveCrt(sortedTargets));
-
-        
-        
-
-        // 목표 적에게 투사체가 맞으면
-        // 적 사이를 최대 3만큼 튕기면서 피해를 입힘
-        // 이후 플레이어에게 돌아와 소량의 보호막 부여 (5초 유지, 튕기는 횟수 1회당 최대 hp 10% 만큼 유지됨)
-
-
-        // count 3개 해서 
-        // 오버랩 스피어로 다 받아온다음에 정렬해서 null 찍히면 돌아오기
-         
+        StartCoroutine(EvolveCrt());
     }
 
     public void UpdateHp(float dmg)
@@ -472,61 +448,74 @@ public class Y_PlayerAttack : MonoBehaviour
         skillTimeRate = 1f;
     }
 
-    private IEnumerator EvolveCrt(List<(Vector3 dir, Collider collider)> enemies)
+    private IEnumerator EvolveCrt()
     {
         GameObject feather = Instantiate(featherEFactory);
         feather.transform.position = transform.position;
+
+        List<(Vector3 dir, Collider collider)> targets = new List<(Vector3 dir, Collider collider)>();
+
+        // OverlapSphere 로 근처에 있는 에너미들 정보 가져오고
+        Collider[] hitInfos = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
+        // 리스트에 추가해줌
+        foreach (Collider hitInfo in hitInfos)
+        {
+            Vector3 dirToTarget = hitInfo.gameObject.transform.position - transform.position;
+            targets.Add((dirToTarget, hitInfo));
+        }
+        // 리스트 거리 순으로 소팅
+        var enemies = targets.OrderBy(target => target.dir.magnitude).ToList();
+
         for (int i = 0; i < 4; i++)
         {
             if (i >= enemies.Count || enemies[i].collider == null)
             {
                 print("yield break???????");
+                Destroy(feather);
                 yield break;
             }
             else
             {
                 Vector3 dirEW;
-                Transform destination;
+                Vector3 destination;
 
-                if (i == 0)
-                {
-                    dirEW = enemies[i].dir;
-                    destination = enemies[i].collider.transform;
-
-
-                }
-                else if (i < 3)
-                {
-                    dirEW = (enemies[i].collider.transform.position - enemies[i - 1].collider.transform.position);
-                    destination = enemies[i].collider.transform;
-
-                }
-                else
-                {
-                    dirEW = transform.position - enemies[i - 1].collider.transform.position;
-                    destination = gameObject.transform;
-
-                }
 
                 float dist = 0;
                 float nextDist = dist - 1;
                 while (dist > nextDist)
                 {
-                    dist = Vector3.Distance(feather.transform.position, destination.position);
-                    feather.transform.position += dirEW.normalized * featherSpeed * Time.deltaTime;
-                    nextDist = Vector3.Distance(feather.transform.position, destination.position);
-                    yield return null;
-                }
+                    if (i < 3)
+                    {
+                        destination = enemies[i].collider.transform.position;
+                    }
+                    else
+                    {
+                        destination = transform.position;
+                        
+                    }
 
-                ////// 나중에 break
-                if (enemies[i].collider == null)
-                {
-                    print("yield break??????? 2222222222222222");
-                    yield break;
+                    dirEW = destination - feather.transform.position;
+                    dist = Vector3.Distance(feather.transform.position, destination);
+                    feather.transform.position += dirEW.normalized * featherSpeed * Time.deltaTime;
+                    nextDist = Vector3.Distance(feather.transform.position, destination);
+
+
+                    ////// 나중에 break
+                    if (enemies[i].collider == null)
+                    {
+                        print("yield break??????? 2222222222222222");
+                        Destroy(feather);
+                        yield break;
+                    }
+
+
+                    yield return null;
+
+
                 }
+     
                 enemies[i].collider.gameObject.GetComponent<EnemyHp>().UpdateHp(attackDmg);
 
-                yield return null;
             }
 
             if(i == 3)
