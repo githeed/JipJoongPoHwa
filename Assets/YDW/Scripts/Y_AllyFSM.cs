@@ -31,9 +31,9 @@ public class Y_AllyFSM : MonoBehaviour
     // Damaged
     public bool hasDamaged;
 
-    CharacterController cc;
 
     #region 가져오기
+    CharacterController cc;
     GameObject enemy;
     Y_HPSystem hp;
     Y_PlayerAttack pa;
