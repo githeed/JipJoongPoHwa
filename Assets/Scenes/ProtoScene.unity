@@ -964,7 +964,7 @@ MonoBehaviour:
   - 0
   - 0
   indexLev: 0
-  expMultiplier: 5
+  expMultiplier: 20
   exp: 0
   maxExp: 0
   bIsPicking: 0

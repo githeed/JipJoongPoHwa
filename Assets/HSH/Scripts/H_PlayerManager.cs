@@ -28,12 +28,16 @@ public class H_PlayerManager : MonoBehaviour
 
     // 박스의 x, z 사이즈
     public float xBox = 10f;
+    public float boxMultiplier = 1;
     //float zBox = 10f;
 
     // 박스의 전방위치
     public float boxDist = 1f;
+    public float distMultiplier = 1;
 
     public float effScale = 0.5f;
+    public float effMultiplier = 1;
+
 
     public float skillRCooltime = 50.0f;
     public float skillECooltime = 10.0f;
@@ -97,9 +101,9 @@ public class H_PlayerManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(time);
         Time.timeScale = 1;
-        xBox ++;
-        boxDist += 0.5f;
-        effScale += 0.5f;
+        xBox += boxMultiplier;
+        boxDist += distMultiplier;
+        effScale += effMultiplier;
         bIsPicking = false;
         print("endpick");
         weaponBtn.enabled = false;
@@ -115,9 +119,9 @@ public class H_PlayerManager : MonoBehaviour
     {
         StopCoroutine(pc);
         //print(effScale);
-        xBox++;
-        boxDist += 0.5f;
-        effScale += 0.5f;
+        xBox += boxMultiplier;
+        boxDist += distMultiplier;
+        effScale += effMultiplier;
         Time.timeScale = 1;
         bIsPicking = false;
         weaponBtn.enabled = false;
