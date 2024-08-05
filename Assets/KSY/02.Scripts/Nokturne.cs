@@ -71,7 +71,17 @@ public class Nokturne : MonoBehaviour
             rayDir = target.transform.position - transform.position;
         }
         toTarget = new Ray(transform.position, rayDir);
-        canAttack = Physics.Raycast(toTarget, out hitInfo, attackRange, 1 << LayerMask.NameToLayer("Player"));
+        if(Physics.Raycast(toTarget, out hitInfo, attackRange))
+        {
+            if(hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                canAttack = true;
+            }
+            else
+            {
+                canAttack = false;
+            }
+        }
         switch (currState)
         {
             case NokturneState.IDLE:
@@ -138,7 +148,7 @@ public class Nokturne : MonoBehaviour
     void UpdateMove()
     {
         agent.destination = target.transform.position;
-        if (canAttack)
+        if (toTargetDist < attackRange && canAttack)
         {
             ChangeState(NokturneState.ATTACK);
         }
