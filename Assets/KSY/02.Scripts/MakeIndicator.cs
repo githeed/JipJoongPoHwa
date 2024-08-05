@@ -15,6 +15,7 @@ public class MakeIndicator : MonoBehaviour
 
     void Update()
     {
+        if (!Input.GetKey(KeyCode.LeftControl)) return;
         if (Input.GetMouseButtonDown(0))
         {
             indicator = Instantiate(indicatorFac);

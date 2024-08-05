@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: a8fa15fce06e2a24295008ddfeddb295
+guid: 37113110092b18249994bc1c161e7c13
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
   - first:
-      74: -7959440347052917024
-    second: Attack_Jump01
+      74: 6925721477393586443
+    second: Attack_Ground01
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -22,9 +22,9 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Attack_Jump01' has import animation warnings
+    animationImportWarnings: "\nClip 'Attack_Ground01' has import animation warnings
       that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'spine_03' has translation animation that
+      to improve retargeting quality.\n\t'spine_01' has translation animation that
       will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
@@ -39,11 +39,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack_Jump01
-      takeName: Attack_Jump01
+      name: Attack_Ground01
+      takeName: Attack_Ground01
       internalID: 0
       firstFrame: 0
-      lastFrame: 152
+      lastFrame: 97
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

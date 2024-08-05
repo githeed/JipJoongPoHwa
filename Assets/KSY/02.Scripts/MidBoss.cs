@@ -25,10 +25,14 @@ public class MidBoss : MonoBehaviour
     EnemyHp enemyHp;
     EnemyAttackCanvas myAttackCanvas;
     GameObject myIndicator;
+    public float indicatorDelay;
+    FindPlayers findPlayers;
 
     NavMeshAgent agent;
     GameObject target;
     float distToTarget;
+
+    Animator myAnim;
 
     private float currTime;
 
@@ -39,19 +43,20 @@ public class MidBoss : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = attackRange;
-
+        findPlayers = GetComponent<FindPlayers>();
         myAttackCanvas = GetComponentInChildren<EnemyAttackCanvas>();
         myIndicator = myAttackCanvas.gameObject;
         myIndicator.SetActive(false);
         myAttackCanvas.attackPower = attackPower;
         myAttackCanvas.attackRange = attackRange;
-        myAttackCanvas.attackCoolTime = attackDelay;
+        myAttackCanvas.attackCoolTime = indicatorDelay;
+        myAnim = GetComponent<Animator>();
         ChangeState(MidBossState.IDLE);
     }
 
     void Update()
     {
-        target = GetComponent<FindPlayers>().target;
+        target = findPlayers.target;
         distToTarget = Vector3.Distance(transform.position, target.transform.position);
 
         switch (currState)
@@ -88,12 +93,15 @@ public class MidBoss : MonoBehaviour
                 OnIdle();
                 break;
             case MidBossState.MOVE:
+                myAnim.SetTrigger("MOVE");
                 agent.isStopped = false;
                 break;
             case MidBossState.ATTACK:
+                myAnim.SetTrigger("ATTACK");
                 OnAttack();
                 break;
             case MidBossState.ATTACK_DELAY:
+                myAnim.SetTrigger(currState.ToString());
                 break;
             case MidBossState.DEAD:
                 break;
@@ -111,7 +119,6 @@ public class MidBoss : MonoBehaviour
     void UpdateMove()
     {
         agent.SetDestination(target.transform.position);
-        print("이동중");
         if(distToTarget <= attackRange)
         {
             ChangeState(MidBossState.ATTACK);
