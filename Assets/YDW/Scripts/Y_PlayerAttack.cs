@@ -70,6 +70,9 @@ public class Y_PlayerAttack : MonoBehaviour
     bool isESkill = false;
     bool isRSkill = false;
 
+    GameObject player;
+    H_PlayerManager pm;
+
     void Start()
     {
         hp = GetComponent<Y_HPSystem>();
@@ -77,7 +80,7 @@ public class Y_PlayerAttack : MonoBehaviour
         featherTime = 10;
         basicAttTime = 2;
         ESkillTime = 9; 
-        RSkillTime = 30; 
+        RSkillTime = 9999999999; 
         PSkillDuration = 15;
 
         featherDist = 7;
@@ -91,6 +94,9 @@ public class Y_PlayerAttack : MonoBehaviour
         AllyFSM = GetComponent<Y_AllyFSM>();
         allyNavMesh = GetComponent<Y_NavMesh>();
         anim = GetComponentInChildren<Animator>();
+
+        player = GameObject.Find("Player");
+        pm = player.GetComponent<H_PlayerManager>();
     }
 
 
@@ -98,22 +104,22 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            for(int i = 0; i < allEffects.Length; i++)
-            {
-                allEffects[i].gameObject.SetActive(true);
-                allEffects[i].Fire();
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    for(int i = 0; i < allEffects.Length; i++)
+        //    {
+        //        allEffects[i].gameObject.SetActive(true);
+        //        allEffects[i].Fire();
+        //    }
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            for (int i = 0; i < allEffects.Length; i++)
-            {
-                allEffects[i].gameObject.SetActive(false);
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.Y))
+        //{
+        //    for (int i = 0; i < allEffects.Length; i++)
+        //    {
+        //        allEffects[i].gameObject.SetActive(false);
+        //    }
+        //}
 
         ////////////////////////////
         if (!hp.isDead)
@@ -143,9 +149,44 @@ public class Y_PlayerAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            EvolvedWeapon();
+            StartCoroutine(EvolveCrt());
         }
 
+
+
+
+        // 레벨별로 속도나 개수 변경하기
+        if(pm.indexLev == 1)
+        {
+            basicAttTime = 2;
+            ESkillTime = 9;
+        }
+        else if(pm.indexLev == 2)
+        {
+            print("Lv 2");
+            basicAttTime = 1.7f;
+            ESkillTime = 8;
+        }
+        else if (pm.indexLev == 3)
+        {
+            basicAttTime = 1.5f;
+            ESkillTime = 7;
+        }
+        else if (pm.indexLev == 4)
+        {
+            basicAttTime = 1.3f;
+            ESkillTime = 6;
+        }
+        else
+        {
+            basicAttTime = 1f;
+            ESkillTime = 5;
+        }
+
+        if (pm.indexLev > 5)
+        {
+            RSkillTime = 30;
+        }
 
 
 
@@ -189,6 +230,7 @@ public class Y_PlayerAttack : MonoBehaviour
         curBAttTime = 0;
 
     }
+
 
     private IEnumerator ESkill()
     {
@@ -273,10 +315,6 @@ public class Y_PlayerAttack : MonoBehaviour
 
     }
 
-    void EvolvedWeapon()
-    {
-        StartCoroutine(EvolveCrt());
-    }
 
     public void UpdateHp(float dmg)
     {
@@ -303,7 +341,7 @@ public class Y_PlayerAttack : MonoBehaviour
     }
 
 
-
+    // 기본 공격 (날개 달린 단검)
     private IEnumerator FeatherAttack()
     {
         int i = 0;
@@ -353,22 +391,91 @@ public class Y_PlayerAttack : MonoBehaviour
         anim.SetTrigger("BLEND_TREE");
     }
 
-    private IEnumerator StopEnemy(RaycastHit hitinfo)
+
+
+    // 기본무기 강화 (연인의 도탄)
+    private IEnumerator EvolveCrt()
     {
-        hitinfo.transform.GetComponent<NavMeshAgent>().enabled = false;
-        yield return new WaitForSecondsRealtime(enmStopTime);
-        hitinfo.transform.GetComponent<NavMeshAgent>().enabled = true;
+        GameObject feather = Instantiate(featherEFactory);
+        feather.transform.position = transform.position;
+
+        List<(Vector3 dir, Collider collider)> targets = new List<(Vector3 dir, Collider collider)>();
+
+        // OverlapSphere 로 근처에 있는 에너미들 정보 가져오고
+        Collider[] hitInfos = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
+        // 리스트에 추가해줌
+        foreach (Collider hitInfo in hitInfos)
+        {
+            Vector3 dirToTarget = hitInfo.gameObject.transform.position - transform.position;
+            targets.Add((dirToTarget, hitInfo));
+        }
+        // 리스트 거리 순으로 소팅
+        var enemies = targets.OrderBy(target => target.dir.magnitude).ToList();
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (i >= enemies.Count || enemies[i].collider == null)
+            {
+                print("yield break???????");
+                Destroy(feather);
+                yield break;
+            }
+            else
+            {
+                Vector3 dirEW;
+                Vector3 destination;
+
+
+                float dist = 0;
+                float nextDist = dist - 1;
+                while (dist > nextDist)
+                {
+                    if (i < 3)
+                    {
+                        destination = enemies[i].collider.transform.position;
+                    }
+                    else
+                    {
+                        destination = transform.position;
+
+                    }
+
+                    dirEW = destination - feather.transform.position;
+                    dist = Vector3.Distance(feather.transform.position, destination);
+                    feather.transform.position += dirEW.normalized * featherSpeed * Time.deltaTime;
+                    nextDist = Vector3.Distance(feather.transform.position, destination);
+
+
+                    ////// 나중에 break
+                    if (enemies[i].collider == null)
+                    {
+                        print("yield break??????? 2222222222222222");
+                        Destroy(feather);
+                        yield break;
+                    }
+
+
+                    yield return null;
+
+
+                }
+
+                enemies[i].collider.gameObject.GetComponent<EnemyHp>().UpdateHp(attackDmg);
+
+            }
+
+            if (i == 3)
+            {
+                Destroy(feather);
+                hp.Heal(hp.maxHealth * 0.1f * i);
+            }
+        }
+        //yield return null;
     }
 
-    private IEnumerator Unbeatable()
-    {
-        unbeatable = true;
-        allyNavMesh.moveSpeed *= 2;
-        yield return new WaitForSecondsRealtime(2f);
-        unbeatable = false;
-        allyNavMesh.moveSpeed /= 2;
-    }
 
+
+    // 고유 패시브 (전투 박쥐 교전)
     Vector3 p1;
     Vector3 p2;
     Vector3 p3;
@@ -479,84 +586,28 @@ public class Y_PlayerAttack : MonoBehaviour
         skillTimeRate = 1f;
     }
 
-    private IEnumerator EvolveCrt()
+
+    // E 스킬용
+    private IEnumerator StopEnemy(RaycastHit hitinfo)
     {
-        GameObject feather = Instantiate(featherEFactory);
-        feather.transform.position = transform.position;
-
-        List<(Vector3 dir, Collider collider)> targets = new List<(Vector3 dir, Collider collider)>();
-
-        // OverlapSphere 로 근처에 있는 에너미들 정보 가져오고
-        Collider[] hitInfos = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
-        // 리스트에 추가해줌
-        foreach (Collider hitInfo in hitInfos)
-        {
-            Vector3 dirToTarget = hitInfo.gameObject.transform.position - transform.position;
-            targets.Add((dirToTarget, hitInfo));
-        }
-        // 리스트 거리 순으로 소팅
-        var enemies = targets.OrderBy(target => target.dir.magnitude).ToList();
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (i >= enemies.Count || enemies[i].collider == null)
-            {
-                print("yield break???????");
-                Destroy(feather);
-                yield break;
-            }
-            else
-            {
-                Vector3 dirEW;
-                Vector3 destination;
-
-
-                float dist = 0;
-                float nextDist = dist - 1;
-                while (dist > nextDist)
-                {
-                    if (i < 3)
-                    {
-                        destination = enemies[i].collider.transform.position;
-                    }
-                    else
-                    {
-                        destination = transform.position;
-                        
-                    }
-
-                    dirEW = destination - feather.transform.position;
-                    dist = Vector3.Distance(feather.transform.position, destination);
-                    feather.transform.position += dirEW.normalized * featherSpeed * Time.deltaTime;
-                    nextDist = Vector3.Distance(feather.transform.position, destination);
-
-
-                    ////// 나중에 break
-                    if (enemies[i].collider == null)
-                    {
-                        print("yield break??????? 2222222222222222");
-                        Destroy(feather);
-                        yield break;
-                    }
-
-
-                    yield return null;
-
-
-                }
-     
-                enemies[i].collider.gameObject.GetComponent<EnemyHp>().UpdateHp(attackDmg);
-
-            }
-
-            if(i == 3)
-            {
-                Destroy(feather);
-                hp.Heal(hp.maxHealth * 0.1f * i);
-            }
-        }
-        //yield return null;
+        hitinfo.transform.GetComponent<NavMeshAgent>().enabled = false;
+        yield return new WaitForSecondsRealtime(enmStopTime);
+        hitinfo.transform.GetComponent<NavMeshAgent>().enabled = true;
     }
+
+    // R 스킬용
+    private IEnumerator Unbeatable()
+    {
+        unbeatable = true;
+        allyNavMesh.moveSpeed *= 2;
+        yield return new WaitForSecondsRealtime(2f);
+        unbeatable = false;
+        allyNavMesh.moveSpeed /= 2;
+    }
+
+    
+
+    
 
     private void OnDrawGizmos()
     {

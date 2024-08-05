@@ -41,6 +41,7 @@ public class Y_AllyFSM : MonoBehaviour
     GameObject allyBody;
     float enemyAttackPower;
     Animator anim;
+    
     #endregion
 
     // Start is called before the first frame update
