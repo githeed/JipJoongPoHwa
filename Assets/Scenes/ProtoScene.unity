@@ -944,6 +944,8 @@ MonoBehaviour:
   cardButton: {fileID: 940780886}
   bg: {fileID: 704135768}
   e_UI: {fileID: 0}
+  attTime: 7
+  curAttDelay: 0
   maxExperiences:
   - 0
   - 0
@@ -6279,7 +6281,7 @@ PrefabInstance:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: attTime
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
