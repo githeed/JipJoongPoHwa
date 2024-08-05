@@ -13,6 +13,8 @@ public class H_PlayerManager : MonoBehaviour
     public Image bg;
     public Image e_UI;
 
+    public float attTime = 7;
+    public float curAttDelay = 0;
 
     public float[] maxExperiences = new float[16];
     public int indexLev = 0;
@@ -61,7 +63,9 @@ public class H_PlayerManager : MonoBehaviour
         print("Manager");
         weaponBtn = cardButton.GetComponent<Button>();
         img = cardButton.GetComponent<Image>();
-        ChangeAlpha(0);
+        //ChangeAlpha(0);
+
+        curAttDelay = attTime;
     }
 
     void Update()
@@ -101,6 +105,9 @@ public class H_PlayerManager : MonoBehaviour
         weaponBtn.enabled = false;
         img.enabled = false;
         bg.enabled = false;
+        attTime = curAttDelay;
+        attTime -= 0.3f;
+        curAttDelay = attTime;
 
     }
 
@@ -116,6 +123,9 @@ public class H_PlayerManager : MonoBehaviour
         weaponBtn.enabled = false;
         img.enabled = false;
         bg.enabled = false;
+        attTime = curAttDelay;
+        attTime -= 0.3f;
+        curAttDelay = attTime;
 
     }
 
@@ -131,9 +141,9 @@ public class H_PlayerManager : MonoBehaviour
         return false;
     }
 
-    public void ChangeAlpha(float alpha)
-    {
-        e_UI.color = new Color(1, 0, 0, alpha);
+    //public void ChangeAlpha(float alpha)
+    //{
+    //    e_UI.color = new Color(1, 0, 0, alpha);
         
-    }
+    //}
 }

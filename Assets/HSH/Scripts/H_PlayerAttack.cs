@@ -14,9 +14,6 @@ public class H_PlayerAttack : MonoBehaviour
 
     Animator anim;
 
-
-    public float attTime = 5;
-    float currAttDelay = 0;
     private float curAttTime = 0;
 
     // 가까운 위치의 적 찾기
@@ -76,8 +73,6 @@ public class H_PlayerAttack : MonoBehaviour
         curHP = maxHP;
         boxSize = new Vector3(H_PlayerManager.instance.xBox, 1, H_PlayerManager.instance.xBox);
         //mat = model.GetComponent<MeshRenderer>().GetComponent<Material>();
-        currAttDelay = attTime;
-
         anim = GetComponentInChildren<Animator>();
 
     }
@@ -100,13 +95,13 @@ public class H_PlayerAttack : MonoBehaviour
             //if(curA <= 1)
             {
                 //H_PlayerManager.instance.ChangeAlpha(Mathf.Lerp(0, 1, curA));
-                H_PlayerManager.instance.ChangeAlpha(0.8f);
+                //H_PlayerManager.instance.ChangeAlpha(0.8f);
                 curA = 0;
             }
         }
         else
         {
-            H_PlayerManager.instance.ChangeAlpha(0);
+            //H_PlayerManager.instance.ChangeAlpha(0);
         }
 
 
@@ -114,7 +109,7 @@ public class H_PlayerAttack : MonoBehaviour
         if (currETime > ESkillTime || dirToTarget == Vector3.zero)
         {
             canE = false;
-            attTime = 1;
+            H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
             mat.color = new Color(1, 1, 1);
 
@@ -151,7 +146,7 @@ public class H_PlayerAttack : MonoBehaviour
     {
         // 5초마다
         curAttTime += Time.deltaTime;
-        if (curAttTime > attTime)
+        if (curAttTime > H_PlayerManager.instance.attTime)
         {
             // 오버랩 스피어 로 가까운 적을 찾자
             targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
@@ -222,14 +217,14 @@ public class H_PlayerAttack : MonoBehaviour
             mat.color = new Color(0, 1, 0);
             // e 를 사용하면 기본공격의 쿨타임을 줄이자
             canE = true;
-            currAttDelay = 0.2f;
+            H_PlayerManager.instance.attTime = 0.2f;
         }
         else
         {
 
             // e를 사용중이라면 돌아가자
             canE = false;
-            currAttDelay = attTime;
+            H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
         }
     }
