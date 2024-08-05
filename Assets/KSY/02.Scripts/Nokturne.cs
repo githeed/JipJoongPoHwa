@@ -70,7 +70,7 @@ public class Nokturne : MonoBehaviour
         {
             rayDir = target.transform.position - transform.position;
         }
-        toTarget = new Ray(transform.position, rayDir);
+        toTarget = new Ray(transform.position + Vector3.up*2, rayDir);
         if(Physics.Raycast(toTarget, out hitInfo, attackRange))
         {
             if(hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))

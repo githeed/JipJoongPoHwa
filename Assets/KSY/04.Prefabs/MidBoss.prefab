@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 4702887917695630998}
   - component: {fileID: 1518369319512791945}
   - component: {fileID: 2891769562624539635}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: MidBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ MonoBehaviour:
   currState: 0
   attackDelay: 2
   attackPower: 10
-  attackRange: 0
+  attackRange: 5
 --- !u!1 &4474984388894881974
 GameObject:
   m_ObjectHideFlags: 0

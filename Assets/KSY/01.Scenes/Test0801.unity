@@ -14113,11 +14113,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MidBoss
       objectReference: {fileID: 0}
-    - target: {fileID: 2891769562624539635, guid: 78643d921cbd8104d8541515870c014e,
-        type: 3}
-      propertyPath: attackRange
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 3965301794408898081, guid: 78643d921cbd8104d8541515870c014e,
         type: 3}
       propertyPath: m_LocalPosition.x
