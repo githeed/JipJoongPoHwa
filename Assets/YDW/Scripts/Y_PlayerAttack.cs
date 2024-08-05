@@ -42,6 +42,7 @@ public class Y_PlayerAttack : MonoBehaviour
     // Feather Attack
     public GameObject featherFactory;
     public GameObject featherEFactory;
+    public GameObject featherAFactory;
     public GameObject basicAttEffFactory;
     public float basicAttackNo = 3;
     public float featherDist;
@@ -407,10 +408,10 @@ public class Y_PlayerAttack : MonoBehaviour
             {
                 float time = 0f;
 
-                GameObject feather = Instantiate(featherFactory);
+                GameObject feather = Instantiate(featherAFactory);
                 feather.transform.position = transform.position;
                 feather.layer = LayerMask.NameToLayer("PassiveFeather");
-                GameObject feather2 = Instantiate(featherFactory);
+                GameObject feather2 = Instantiate(featherAFactory);
                 feather2.transform.position = transform.position;
                 feather2.layer = LayerMask.NameToLayer("PassiveFeather");
 
