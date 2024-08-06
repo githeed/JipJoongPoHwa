@@ -6,6 +6,7 @@ using Unity.Entities.UniversalDelegates;
 using Unity.Transforms;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
@@ -60,6 +61,8 @@ public class Y_PlayerAttack : MonoBehaviour
     public bool pAttacking = false;
     public float batRate = 1.05f;
 
+    public float featherSpeedB;
+    public float featherSpeedE;
     public float featherSpeed = 10;
 
     Y_NavMesh allyNavMesh;
@@ -80,7 +83,7 @@ public class Y_PlayerAttack : MonoBehaviour
         featherTime = 10;
         basicAttTime = 2;
         ESkillTime = 9; 
-        RSkillTime = 9999999999; 
+        RSkillTime = 99999999; 
         PSkillDuration = 15;
 
         featherDist = 7;
@@ -90,6 +93,9 @@ public class Y_PlayerAttack : MonoBehaviour
         enmStopTime = 1.5f;
 
         featherRNo = 24;
+
+        featherSpeedB = 50;
+        featherSpeedE = 100;
 
         AllyFSM = GetComponent<Y_AllyFSM>();
         allyNavMesh = GetComponent<Y_NavMesh>();
@@ -237,30 +243,35 @@ public class Y_PlayerAttack : MonoBehaviour
     {
         isESkill = true;
         anim.SetTrigger("ESKILL");
-        yield return new WaitForSecondsRealtime(0.9f);
+        yield return new WaitForSecondsRealtime(0.6f);
 
         feathers = Physics.OverlapSphere(transform.position, 99999f, featherLayer);
-        //int i = 0;
+        
         foreach (Collider feather in feathers)
         {
-            // Ally 에게 깃털 모아지는 파티클
             Vector3 dirFrFthToAlly = transform.position - feather.gameObject.transform.position;
             dirFrFthToAlly.y = 0;
             Vector3 dirFrFthToAllyNor = dirFrFthToAlly.normalized;
-            FeatherParticle(feather.gameObject, dirFrFthToAlly);
 
+            Vector3 destinationE = transform.position;
+            StartCoroutine(MoveFeather(feather, dirFrFthToAllyNor, destinationE, 0.1f));
+
+            
+
+            // 레이캐스트로 데미지
             RaycastHit[] hitInfos = Physics.RaycastAll(feather.transform.position + Vector3.up * 0.5f, dirFrFthToAlly, dirFrFthToAlly.magnitude, targetLayer);
 
             foreach (RaycastHit hitinfo in hitInfos)
             {
                 //i++;
                 //print(feathers.Length + ", " + i);
+
                 hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg * eAttRate);
                 StartCoroutine(StopEnemy(hitinfo));
             }
 
                 
-            Destroy(feather.gameObject);    
+                
 
         }
 
@@ -280,7 +291,6 @@ public class Y_PlayerAttack : MonoBehaviour
     {
         isRSkill = true;
         anim.SetTrigger("RSKILL");
-        print("R스킬 애니메이션 실행");
 
         yield return new WaitForSecondsRealtime(1f);
 
@@ -289,7 +299,6 @@ public class Y_PlayerAttack : MonoBehaviour
             // 깃털 360도로 퍼지게
             GameObject feather = Instantiate(featherFactory);
             feather.transform.Rotate(0, (360 / featherRNo) * i, 0);
-            feather.transform.position = transform.position + featherDist * feather.transform.forward;
 
             // Enemy 에게 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, feather.transform.forward, featherDist, targetLayer);
@@ -298,8 +307,10 @@ public class Y_PlayerAttack : MonoBehaviour
                 hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg);
             }
 
-            // 파티클 생성
-            FeatherParticle(gameObject, feather.transform.forward);
+            // feather 움직이게
+            Vector3 destinationR = transform.position + featherDist * feather.transform.forward;
+            StartCoroutine(MoveFeather(feather.GetComponent<CapsuleCollider>(), feather.transform.forward, destinationR, featherTime));
+            //FeatherParticle(gameObject, feather.transform.forward);
 
             // 무적 상태 만들기
             StartCoroutine(Unbeatable());
@@ -360,10 +371,12 @@ public class Y_PlayerAttack : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.4f);
 
         while (i < basicAttackNo)
-        { 
-            // 쏘아지는 이펙트 만들고 파괴
-            FeatherParticle(gameObject, dirFrAllyToEnm);
+        {
+            // 깃털 생성 후 Ally 위치에 놓음
+            GameObject feather = Instantiate(featherFactory);
+            feather.transform.position = transform.position;
 
+            // 레이캐스트로 적 감지 후 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, dirFrAllyToEnm, featherDist, targetLayer);
             int nth = 0;
             foreach (RaycastHit hitinfo in hitInfos)
@@ -383,14 +396,23 @@ public class Y_PlayerAttack : MonoBehaviour
 
             }
 
-            // 깃털 만들고 파괴
-            GameObject feather = Instantiate(featherFactory);
-            feather.transform.position = transform.position + featherDist * dirFrAllyToEnmNor; 
+            // 깃털 목적지로 옮기기
+            float dist = 0;
+            float nextDist = dist - 1;
+            Vector3 destinationB;
+            while (dist > nextDist)
+            {
+                destinationB = (transform.position + featherDist * dirFrAllyToEnmNor);
+                dist = Vector3.Distance(feather.transform.position, destinationB);
+                feather.transform.position += dirFrAllyToEnmNor * featherSpeedB * Time.deltaTime;
+                nextDist = Vector3.Distance(feather.transform.position, destinationB);
+                yield return null;
+            }
             Destroy(feather, featherTime);
 
 
             i++;
-            yield return new WaitForSecondsRealtime(featherEftTime);
+            //yield return new WaitForSecondsRealtime(featherEftTime);
 
         }
 
@@ -601,6 +623,30 @@ public class Y_PlayerAttack : MonoBehaviour
         yield return new WaitForSecondsRealtime(enmStopTime);
         hitinfo.transform.GetComponent<NavMeshAgent>().enabled = true;
     }
+
+    private IEnumerator MoveFeather(Collider feather, Vector3 dir, Vector3 destination, float destroyTime)
+    {
+        // 깃털 모으기
+        float dist = 0;
+        float nextDist = dist - 1;
+        while (dist > nextDist)
+        {
+            if(feather ==null)
+            {
+                yield break;
+            }
+
+            
+            dist = Vector3.Distance(feather.transform.position, destination);
+            feather.transform.position += dir * featherSpeedE * Time.deltaTime;
+            nextDist = Vector3.Distance(feather.transform.position, destination);
+
+            yield return null;
+        }
+        Destroy(feather.gameObject, destroyTime);
+    }
+
+    
 
     // R 스킬용
     private IEnumerator Unbeatable()
