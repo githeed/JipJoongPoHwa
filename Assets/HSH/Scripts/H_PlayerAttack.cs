@@ -27,8 +27,7 @@ public class H_PlayerAttack : MonoBehaviour
 
     public float attackDmg = 5f;
 
-    public float maxHP = 1000;
-    float curHP = 0;
+    
 
 
     // 박스 의 방향 벡터
@@ -70,7 +69,7 @@ public class H_PlayerAttack : MonoBehaviour
     void Start()
     {
         print("Attack");
-        curHP = maxHP;
+        H_PlayerManager.instance.curHP = H_PlayerManager.instance.maxHP;
         boxSize = new Vector3(H_PlayerManager.instance.xBox, 1, H_PlayerManager.instance.xBox);
         //mat = model.GetComponent<MeshRenderer>().GetComponent<Material>();
         anim = GetComponentInChildren<Animator>();
@@ -82,8 +81,10 @@ public class H_PlayerAttack : MonoBehaviour
     void Update()
     {
         BasicAttack();
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !H_PlayerManager.instance.eCool)
         {
+            GameManager.instance.eCoolText.enabled = true;
+            H_PlayerManager.instance.eCool = true;
             BrierESkill();
         }
         BrierRSkill();
@@ -106,7 +107,8 @@ public class H_PlayerAttack : MonoBehaviour
 
 
         currETime += Time.deltaTime;
-        if (currETime > ESkillTime || dirToTarget == Vector3.zero)
+        //|| dirToTarget == Vector3.zero
+        if (currETime > ESkillTime)
         {
             canE = false;
             H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
@@ -214,14 +216,13 @@ public class H_PlayerAttack : MonoBehaviour
         // 광란스킬
         if (!canE)
         {
-            mat.color = new Color(0, 1, 0);
+            //mat.color = new Color(0, 1, 0);
             // e 를 사용하면 기본공격의 쿨타임을 줄이자
             canE = true;
             H_PlayerManager.instance.attTime = 0.2f;
         }
         else
         {
-
             // e를 사용중이라면 돌아가자
             canE = false;
             H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
@@ -231,8 +232,10 @@ public class H_PlayerAttack : MonoBehaviour
     void BrierRSkill()
     {
         // R 눌렀을때 오브젝트 마우스 포인터 방향으로 던지기
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !H_PlayerManager.instance.rCool)
         {
+            GameManager.instance.rCoolText.enabled = true;
+            H_PlayerManager.instance.rCool = true;
             obj = Instantiate(rSkillObj);
             stPos = transform.position;
 
@@ -284,9 +287,9 @@ public class H_PlayerAttack : MonoBehaviour
     }
     public void UpdateHp(float dmg)
     {
-        curHP -= dmg;
-        print(curHP);
-        if (curHP <= 0)
+        H_PlayerManager.instance.curHP -= dmg;
+        print(H_PlayerManager.instance.curHP);
+        if (H_PlayerManager.instance.curHP <= 0)
         {
             Destroy(gameObject);
         }
