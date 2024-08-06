@@ -10,19 +10,21 @@ public class EnemyAttackCanvas : MonoBehaviour
     public float attackPower;
     public float attackRange;
     public float attackCoolTime;
+    public float maxScale; // 콜라이더에 비해 빈공간이 있어서 attackRange +1;
 
     void OnEnable()
     {
         myCanvas = GetComponent<Canvas>();
         transform.localScale = Vector3.one;
         size = 1;
+        maxScale = attackRange + 1;
     }
 
     void Update()
     {
-        size += attackRange / attackCoolTime * Time.deltaTime;
+        size += maxScale / attackCoolTime * Time.deltaTime;
         transform.localScale = size * Vector3.one;
-        if (size >= attackRange)
+        if (size >= maxScale)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange/2f, players);
             foreach(var c in colliders)

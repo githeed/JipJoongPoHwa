@@ -11,6 +11,7 @@ public class EnemyHp : MonoBehaviour
     public float curHp;
 
     public Action onDie;
+    public Action onDamageUI;
     void OnEnable()
     {
         curHp = maxHp;
@@ -23,11 +24,11 @@ public class EnemyHp : MonoBehaviour
     public void UpdateHp(float dmg)
     {
         if (curHp <= 0) return;
-
+        if(onDamageUI != null) onDamageUI();
         curHp -= dmg;
         if (curHp <= 0)
         {
-            onDie();
+            if(onDie != null)onDie();
         }
     }
 }

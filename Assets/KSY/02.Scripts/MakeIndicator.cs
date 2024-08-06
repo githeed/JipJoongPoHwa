@@ -29,9 +29,10 @@ public class MakeIndicator : MonoBehaviour
         }
     }
 
-    public void MakeAttackIndicator()
+    public void MakeAttackIndicator(float attackPower)
     {
-
+        indicator = Instantiate(indicatorFac);
+        indicator.GetComponentInChildren<EnemyAttackCanvas>().attackPower = attackPower;
     }
 
 }
