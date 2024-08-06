@@ -66,11 +66,11 @@ public class Y_PlayerAttack : MonoBehaviour
 
     Animator anim;
 
-    bool isBAttack = false;
-    bool isESkill = false;
-    bool isRSkill = false;
+    public bool isBAttack = false;
+    public bool isESkill = false;
+    public bool isRSkill = false;
 
-    GameObject player;
+    GameObject manager;
     H_PlayerManager pm;
 
     void Start()
@@ -95,8 +95,8 @@ public class Y_PlayerAttack : MonoBehaviour
         allyNavMesh = GetComponent<Y_NavMesh>();
         anim = GetComponentInChildren<Animator>();
 
-        player = GameObject.Find("Player");
-        pm = player.GetComponent<H_PlayerManager>();
+        manager = GameObject.Find("H_PlayerManager");
+        pm = manager.GetComponent<H_PlayerManager>();
     }
 
 
@@ -227,6 +227,7 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             StartCoroutine(FeatherAttack());
         }
+
         curBAttTime = 0;
 
     }
@@ -344,13 +345,19 @@ public class Y_PlayerAttack : MonoBehaviour
     // 기본 공격 (날개 달린 단검)
     private IEnumerator FeatherAttack()
     {
-        int i = 0;
-        anim.SetTrigger("BASIC_ATTACK");
-        yield return new WaitForSecondsRealtime(0.7f);
 
         Vector3 dirFrAllyToEnm = nearestTarget.transform.position - transform.position; // 처음 깃털 한 번만 해야 한다
         dirFrAllyToEnm.y = 0;
         Vector3 dirFrAllyToEnmNor = dirFrAllyToEnm.normalized;
+
+        int i = 0;
+        anim.SetTrigger("BASIC_ATTACK");
+        yield return new WaitForSecondsRealtime(0.3f);
+
+        Quaternion rotation = Quaternion.LookRotation(dirFrAllyToEnm, Vector3.up);
+        transform.rotation = rotation;
+
+        yield return new WaitForSecondsRealtime(0.4f);
 
         while (i < basicAttackNo)
         { 
