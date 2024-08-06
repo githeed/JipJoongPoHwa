@@ -38,11 +38,18 @@ public class H_PlayerManager : MonoBehaviour
     public float effScale = 0.5f;
     public float effMultiplier = 1;
 
+    public bool eCool = false;
+    public bool rCool = false;
 
+    public float curECoolTime = 0;
+    public float curRCoolTime = 0;
     public float skillRCooltime = 50.0f;
     public float skillECooltime = 10.0f;
 
     Coroutine pc;
+
+    public float maxHP = 1000;
+    public float curHP = 0;
 
     private void Awake()
     {
@@ -74,11 +81,36 @@ public class H_PlayerManager : MonoBehaviour
 
     void Update()
     {
-
         if(bIsPicking) 
         {
             Time.timeScale = 0;
         }
+
+        if(eCool)
+        {
+            GameManager.instance.SetECoolText();
+
+            curECoolTime += Time.deltaTime;
+            if(curECoolTime > skillECooltime)
+            {
+                GameManager.instance.eCoolText.enabled = false;
+                curECoolTime = 0;
+                eCool = false;
+            }
+        }
+
+        if (rCool)
+        {
+            GameManager.instance.SetRCoolText();
+            curRCoolTime += Time.deltaTime;
+            if (curRCoolTime > skillRCooltime)
+            {
+                GameManager.instance.rCoolText.enabled = false;
+                curRCoolTime = 0;
+                eCool = false;
+            }
+        }
+
     }
 
     public void UpdateExp(float value)
@@ -130,19 +162,6 @@ public class H_PlayerManager : MonoBehaviour
         attTime = curAttDelay;
         attTime -= 0.3f;
         curAttDelay = attTime;
-
-    }
-
-    float currTime;
-    public bool SkillCoolTime(float time)
-    {
-        currTime += Time.deltaTime;
-        if (currTime > time)
-        { 
-            currTime = 0;
-            return true;
-        }
-        return false;
     }
 
     //public void ChangeAlpha(float alpha)
