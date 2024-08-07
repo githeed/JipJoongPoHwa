@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class EnemyHp : MonoBehaviour
 {
-
+    [Header ("조절 가능")]
     public float maxHp;
+
+    [Header("터치 금지")]
     public float curHp;
 
     public Action onDie;

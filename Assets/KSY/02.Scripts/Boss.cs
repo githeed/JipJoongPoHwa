@@ -13,6 +13,16 @@ public class Boss : MonoBehaviour
         ATTACK_DELAY,
         DEAD
     }
+
+    [Header("조절 가능")]
+    [Tooltip("공격력")]
+    public float attackPower;
+    [Tooltip("공격 상태로 넘어가는 범위")]
+    public float attackRange;
+    [Tooltip("이동 속도")]
+    public float moveSpeed;
+
+    [Header("터치 금지")]
     public GameObject target;
     EnemyHp enemyHp;
     FindPlayers findPlayers;
@@ -29,9 +39,7 @@ public class Boss : MonoBehaviour
     float toTargetDist;
     Vector3 toTargetDir;
 
-    public float attackPower;
-    public float attackRange;
-    public float moveSpeed;
+    
 
     void Start()
     {
