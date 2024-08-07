@@ -17,19 +17,22 @@ public class IndicatorPref : MonoBehaviour
     public float maxScale; // 콜라이더에 비해 빈공간이 있어서 attackRange +1;
 
 
-    private void OnEnable()
+    private void Awake()
     {
-        indicatorsBG.transform.localScale = Vector3.one * (attackRange +1);
-        transform.localScale = Vector3.one;
+        
+        indicator.transform.localScale = Vector3.one;
         size = 1;
-        maxScale = attackRange + 1;
+        
+        print("Enable");
     }
 
     
     void Update()
     {
+        indicatorsBG.transform.localScale = Vector3.one * (attackRange + 1);
+        maxScale = attackRange + 1;
         size += maxScale / attackCoolTime * Time.deltaTime;
-        transform.localScale = size * Vector3.one;
+        indicator.transform.localScale = size * Vector3.one;
         if (size >= maxScale)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange / 2f, players);
@@ -46,7 +49,7 @@ public class IndicatorPref : MonoBehaviour
                     print("indicator로 Y 플레이어 맞음");
                 }
             }
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }

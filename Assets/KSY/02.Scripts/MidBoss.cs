@@ -43,6 +43,7 @@ public class MidBoss : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = attackRange;
+        agent.updateRotation = false;
         findPlayers = GetComponent<FindPlayers>();
         myAttackCanvas = GetComponentInChildren<EnemyAttackCanvas>();
         myIndicator = myAttackCanvas.gameObject;
@@ -58,6 +59,15 @@ public class MidBoss : MonoBehaviour
     {
         target = findPlayers.target;
         distToTarget = Vector3.Distance(transform.position, target.transform.position);
+        Vector2 forward = new Vector2(transform.position.z, transform.position.x);
+        Vector2 steeringTarget = new Vector2(agent.steeringTarget.z, agent.steeringTarget.x);
+
+        // 방향을 구한 뒤, 역함수로 각을 구함.
+        Vector2 dir = steeringTarget - forward;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        // 방향적용
+        transform.eulerAngles = Vector3.up * angle;
 
         switch (currState)
         {

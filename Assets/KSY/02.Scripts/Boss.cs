@@ -20,13 +20,16 @@ public class Boss : MonoBehaviour
 
     Vector3 attackPos;
 
-
+    public GameObject indicatorPref;
+    GameObject indicator;
+    IndicatorPref indicatorCS;
 
     public BossState currState;
     Animator myAnim;
     float toTargetDist;
     Vector3 toTargetDir;
 
+    public float attackPower;
     public float attackRange;
     public float moveSpeed;
 
@@ -134,19 +137,26 @@ public class Boss : MonoBehaviour
     float moveDist;
     IEnumerator C_AttackPatten_1()
     {
-        print("코루틴 스타트");
         // AttackGround
         myAnim.SetTrigger("AttackGround");
         attackPos = target.transform.position;
+        indicator = Instantiate(indicatorPref);
+        indicator.transform.position = attackPos;
+        indicatorCS = indicator.GetComponent<IndicatorPref>();
+        indicatorCS.attackRange = attackRange;
+        indicatorCS.attackPower = attackPower;
+        indicatorCS.attackCoolTime = 1f; // 애니메이션에서 공격타이밍에 맞춤
+
         dir = (attackPos - transform.position).normalized;
-        dist = (attackPos - transform.position).magnitude - attackRange;
+        dist = (attackPos - transform.position).magnitude - 3;
         transform.forward = dir;
+        moveDist = 0;
         if (dist > 0)
         {
             while (dist > moveDist)
             {
                 moveDist += dist * Time.deltaTime;
-                transform.Translate(dir * dist * Time.deltaTime / 2);
+                transform.Translate(dir * dist * Time.deltaTime / 2, Space.World);
                 yield return null;
             }
         }
@@ -154,15 +164,23 @@ public class Boss : MonoBehaviour
         // AttackDash
         myAnim.SetTrigger("AttackDash");
         attackPos = target.transform.position;
+        indicator = Instantiate(indicatorPref);
+        indicator.transform.position = attackPos;
+        indicatorCS = indicator.GetComponent<IndicatorPref>();
+        indicatorCS.attackRange = attackRange;
+        indicatorCS.attackPower = attackPower;
+        indicatorCS.attackCoolTime = 1.5f; // 애니메이션에서 공격타이밍에 맞춤
+
         dir = (attackPos - transform.position).normalized;
-        dist = (attackPos - transform.position).magnitude - attackRange;
+        dist = (attackPos - transform.position).magnitude - 3;
         transform.forward = dir;
+        moveDist = 0;
         if (dist > 0)
         {
             while (dist > moveDist)
             {
                 moveDist += dist * Time.deltaTime;
-                transform.Translate(dir * dist * Time.deltaTime / 2);
+                transform.Translate(dir * dist * Time.deltaTime / 2, Space.World);
                 yield return null;
             }
         }
@@ -170,15 +188,23 @@ public class Boss : MonoBehaviour
         // AttackJump2
         myAnim.SetTrigger("AttackJump2");
         attackPos = target.transform.position;
+        indicator = Instantiate(indicatorPref);
+        indicator.transform.position = attackPos;
+        indicatorCS = indicator.GetComponent<IndicatorPref>();
+        indicatorCS.attackRange = attackRange;
+        indicatorCS.attackPower = attackPower;
+        indicatorCS.attackCoolTime = 2.5f; // 애니메이션에서 공격타이밍에 맞춤
+
         dir = (attackPos - transform.position).normalized;
-        dist = (attackPos - transform.position).magnitude - attackRange;
+        dist = (attackPos - transform.position).magnitude - 3;
         transform.forward = dir;
-        if(dist > 0)
+        moveDist = 0;
+        if (dist > 0)
         {
             while (dist > moveDist)
             {
                 moveDist += dist * Time.deltaTime;
-                transform.Translate(dir * dist * Time.deltaTime/2);
+                transform.Translate(dir * dist * Time.deltaTime/2, Space.World);
                 yield return null;
             }
         }
