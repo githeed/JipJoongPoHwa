@@ -18,7 +18,9 @@ public class Boss : MonoBehaviour
     FindPlayers findPlayers;
     NavMeshAgent agent;
 
-    
+    Vector3 attackPos;
+
+
 
     public BossState currState;
     Animator myAnim;
@@ -43,7 +45,7 @@ public class Boss : MonoBehaviour
     void Update()
     {
         target = findPlayers.target;
-        if(agent.enabled == true) MyRotate();
+        if (agent.enabled) MyRotate();
         toTargetDir = target.transform.position - transform.position;
         toTargetDist = toTargetDir.magnitude;
 
@@ -58,6 +60,7 @@ public class Boss : MonoBehaviour
             case BossState.ATTACK:
                 break;
             case BossState.ATTACK_DELAY:
+                UpdateAttack_Delay();
                 break;
             case BossState.DEAD:
                 break;
@@ -69,7 +72,7 @@ public class Boss : MonoBehaviour
 
     void ChangeState(BossState state)
     {
-
+        print(currState + " ----> " + state);
         currState = state;
         myAnim.SetBool("MOVE", false);
         agent.enabled = false;
@@ -84,6 +87,7 @@ public class Boss : MonoBehaviour
                 myAnim.SetBool("MOVE", true);
                 break;
             case BossState.ATTACK:
+                OnDecideAttackPattern();
                 break;
             case BossState.ATTACK_DELAY:
                 break;
@@ -96,32 +100,116 @@ public class Boss : MonoBehaviour
 
     void UpdateMove()
     {
-        if(toTargetDist < attackRange)
+        if (toTargetDist < attackRange)
         {
             ChangeState(BossState.ATTACK);
         }
     }
 
 
-    void AttackPattern_1() // 패턴 1 : 3가지 방법으로 공격
+    void UpdateAttack_Delay()
     {
-        // AttackGround
-        
-        // AttackDash
-
-        // AttackJump2
+        if(toTargetDist < attackRange)
+        {
+            ChangeState(BossState.ATTACK);
+        }
+        else if(toTargetDist > attackRange)
+        {
+            ChangeState(BossState.MOVE);
+        }
     }
 
-    void AttackPattern_2() // 패턴 2 : 먼거리까지 닿는 칼 찍기 공격 
+    void AttackPattern_1() // 패턴 1 : 3가지 방법으로 공격
+    {
+        StartCoroutine(C_AttackPatten_1());
+    }
+
+    void ChangeAttackPos(Vector3 attackPos)
+    {
+
+    }
+
+    Vector3 dir;
+    float dist;
+    float moveDist;
+    IEnumerator C_AttackPatten_1()
+    {
+        print("코루틴 스타트");
+        // AttackGround
+        myAnim.SetTrigger("AttackGround");
+        attackPos = target.transform.position;
+        dir = (attackPos - transform.position).normalized;
+        dist = (attackPos - transform.position).magnitude - attackRange;
+        transform.forward = dir;
+        if (dist > 0)
+        {
+            while (dist > moveDist)
+            {
+                moveDist += dist * Time.deltaTime;
+                transform.Translate(dir * dist * Time.deltaTime / 2);
+                yield return null;
+            }
+        }
+        yield return new WaitForSeconds(3.233f);
+        // AttackDash
+        myAnim.SetTrigger("AttackDash");
+        attackPos = target.transform.position;
+        dir = (attackPos - transform.position).normalized;
+        dist = (attackPos - transform.position).magnitude - attackRange;
+        transform.forward = dir;
+        if (dist > 0)
+        {
+            while (dist > moveDist)
+            {
+                moveDist += dist * Time.deltaTime;
+                transform.Translate(dir * dist * Time.deltaTime / 2);
+                yield return null;
+            }
+        }
+        yield return new WaitForSeconds(4.067f);
+        // AttackJump2
+        myAnim.SetTrigger("AttackJump2");
+        attackPos = target.transform.position;
+        dir = (attackPos - transform.position).normalized;
+        dist = (attackPos - transform.position).magnitude - attackRange;
+        transform.forward = dir;
+        if(dist > 0)
+        {
+            while (dist > moveDist)
+            {
+                moveDist += dist * Time.deltaTime;
+                transform.Translate(dir * dist * Time.deltaTime/2);
+                yield return null;
+            }
+        }
+        yield return new WaitForSeconds(4.967f);
+        ChangeState(BossState.MOVE);
+        yield return null;
+    }
+
+
+    void AttackPattern_2() // 패턴 2 : 먼거리까지 닿는 칼 찍기 공격. 제자리 공격. 
     {
         // AttackJump1 애니메이션으로
+        myAnim.SetTrigger("AttackJump1");
+        attackPos = target.transform.position;
+        dir = (attackPos - transform.position).normalized;
+        transform.forward = dir;
+        currTime = 0;
+        while(currTime < 5)
+        {
+            currTime += Time.deltaTime;
+        }
+        ChangeState(BossState.MOVE);
     }
 
     int myAttackPattern = 0;
+    int totalPatternCnt = 2;
     void OnDecideAttackPattern()
     {
+        // 1번부터 번갈아 가면서 시행
         myAttackPattern++;
-        myAttackPattern %= 2; // 패턴 개수로 나머지 구하기.
+        myAttackPattern %= totalPatternCnt; // 패턴 개수로 나머지 구하기.
         if(myAttackPattern == 1)
         {
             AttackPattern_1();

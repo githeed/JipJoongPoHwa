@@ -100,7 +100,6 @@ public class EnemyMove : MonoBehaviour
         EnemyDamageUI damageUISc = damageUI.GetComponent<EnemyDamageUI>();
         damageUISc.UpdateAmount(dmg);
         damageUI.transform.position = damageUIPos.transform.position;
-        print("EnemyMove에서 : " + dmg);
     }
 
 

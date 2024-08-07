@@ -14,7 +14,7 @@ public class EnemyDamageUI : MonoBehaviour
     float size;
 
     float currTime;
-    float disableTime = 2f;
+    float disableTime = 1.5f;
 
     private void OnEnable()
     {
@@ -41,6 +41,5 @@ public class EnemyDamageUI : MonoBehaviour
     public void UpdateAmount(float dmg)
     {
         amountUI.text = ((int)dmg).ToString();
-        print("UI에서 : " + dmg);
     }
 }

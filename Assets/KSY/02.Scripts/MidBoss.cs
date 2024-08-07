@@ -81,7 +81,6 @@ public class MidBoss : MonoBehaviour
     public void ChangeState(MidBossState state)
     {
 
-        print(currState + " ----> " + state);
         currTime = 0;
         currState = state;
         agent.isStopped = true;

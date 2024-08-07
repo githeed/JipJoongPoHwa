@@ -25,7 +25,6 @@ public class EnemyHp : MonoBehaviour
     {
         if (curHp <= 0) return;
         if(onDamageUI != null) onDamageUI(dmg);
-        print("EnemyHP에서 : " + dmg);
         curHp -= dmg;
         if (curHp <= 0)
         {
