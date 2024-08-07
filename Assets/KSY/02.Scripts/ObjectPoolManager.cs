@@ -37,7 +37,7 @@ public class ObjectPoolManager : MonoBehaviour
     private void Init()
     {
         pool = new ObjectPool<GameObject>(CreatePooledEnemy, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject,true,defaultCapacity, maxPoolSize);
-        damageUIPool = new ObjectPool<GameObject>(CreatePooledEnemy, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject,true,defaultCapacity, maxPoolSize);
+        damageUIPool = new ObjectPool<GameObject>(CreateDamagePool, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject,true,defaultCapacity, maxPoolSize);
 
         // 미리 오브젝트 생성 해놓기
         for(int i = 0; i<defaultCapacity; i++)
@@ -50,7 +50,7 @@ public class ObjectPoolManager : MonoBehaviour
     private GameObject CreateDamagePool()
     {
         GameObject damageUI = Instantiate(damageUIPrefab);
-        // 여기 하기
+        damageUI.GetComponent<EnemyDamageUI>().damageUIPool = this.damageUIPool;
         return damageUI;
     }
 
