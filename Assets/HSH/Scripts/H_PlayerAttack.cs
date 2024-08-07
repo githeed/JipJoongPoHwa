@@ -10,7 +10,8 @@ using UnityEngine.UIElements;
 
 public class H_PlayerAttack : MonoBehaviour
 {
-    //public List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> cutes = new List<GameObject>();
+    
 
     Animator anim;
 
@@ -27,7 +28,8 @@ public class H_PlayerAttack : MonoBehaviour
 
     public float attackDmg = 5f;
 
-    
+    // 귀여운발사기
+    public GameObject cuteRocket;
 
 
     // 박스 의 방향 벡터
@@ -74,6 +76,12 @@ public class H_PlayerAttack : MonoBehaviour
         //mat = model.GetComponent<MeshRenderer>().GetComponent<Material>();
         anim = GetComponentInChildren<Animator>();
 
+        for(int i = 0; i < 20; i++)
+        {
+            GameObject cr = Instantiate(cuteRocket);
+            cr.SetActive(false);
+            cutes.Add(cr);
+        }
     }
 
     public float curA = 0;
@@ -89,8 +97,12 @@ public class H_PlayerAttack : MonoBehaviour
         }
         BrierRSkill();
         RMove();
+        if (H_PlayerManager.instance.isCuteOn)
+        {
+            CuteRocketAttack();
+        }
 
-        if(canE)
+        if (canE)
         {
             curA += Time.deltaTime;
             //if(curA <= 1)
@@ -118,14 +130,15 @@ public class H_PlayerAttack : MonoBehaviour
         }
     }
 
-    Transform GetNearest()
+    public Transform GetNearest()
     {
         Transform result = null;
         float dist = 9999f;
 
         //Stopwatch stopwatch = new Stopwatch();
         //stopwatch.Start();
-
+        // 오버랩 스피어 로 가까운 적을 찾자
+        targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
 
         // 구에 오버랩된 게임오브젝트 중에 가장 가까운 놈의 위치 찾기
         foreach (Collider target in targets)
@@ -137,10 +150,7 @@ public class H_PlayerAttack : MonoBehaviour
                 result = target.transform;
             }
         }
-        //print(stopwatch.ElapsedMilliseconds);
-        //print(stopwatch.Elapsed);
-        //print(stopwatch.ElapsedTicks);
-        //stopwatch.Stop();
+
         return result;
     }
 
@@ -150,10 +160,7 @@ public class H_PlayerAttack : MonoBehaviour
         curAttTime += Time.deltaTime;
         if (curAttTime > H_PlayerManager.instance.attTime)
         {
-            // 오버랩 스피어 로 가까운 적을 찾자
-            targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
             nearestTarget = GetNearest();
-
             if (nearestTarget == null) return;
             // 공격하기
             else
@@ -285,6 +292,20 @@ public class H_PlayerAttack : MonoBehaviour
         }
         BrierESkill();
     }
+
+    void CuteRocketAttack()
+    {
+        H_PlayerManager.instance.cuteCurAttDelay += Time.deltaTime;
+
+        if (H_PlayerManager.instance.cuteCurAttDelay > H_PlayerManager.instance.cuteAttTime)
+        {
+            GameObject cr = GetCute();
+            cr.transform.position = transform.position;
+
+            H_PlayerManager.instance.cuteCurAttDelay = 0;
+        }
+    }
+
     public void UpdateHp(float dmg)
     {
         H_PlayerManager.instance.curHP -= dmg;
@@ -300,4 +321,21 @@ public class H_PlayerAttack : MonoBehaviour
     //    Gizmos.color = Color.yellow;
     //    Gizmos.DrawCube(transform.position + dirToTarget * boxDist, boxSize);
     //}
+
+    GameObject GetCute()
+    {
+        GameObject cute = null;
+        if (cutes.Count > 0)
+        {
+            cute = cutes[0];
+            cute.SetActive(true);
+            cutes.RemoveAt(0);
+        }
+        else
+        {
+            cute = Instantiate(cuteRocket);
+        }
+
+        return cute;
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,9 @@ public class GameManager : MonoBehaviour
     public Image rCool;
     public Text eCoolText;
     public Text rCoolText;
+    public Text timeText;
 
+    public float gameTime = 0;
 
     public GameObject player;
 
@@ -41,12 +44,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        gameTime += Time.deltaTime;
+
+
+
         SetHPText();
         SetHPBar();
         SetLVText();
         SetExpText();
         SetECool();
         SetRCool();
+        SetTimeText();
     }
 
     void SetHPBar()
@@ -66,7 +74,11 @@ public class GameManager : MonoBehaviour
 
     void SetExpText()
     {
-        expBar.fillAmount = H_PlayerManager.instance.exp / H_PlayerManager.instance.maxExperiences[H_PlayerManager.instance.indexLev];
+        if (H_PlayerManager.instance.indexLev < H_PlayerManager.instance.maxExperiences.Length)
+        {
+            expBar.fillAmount = H_PlayerManager.instance.exp / H_PlayerManager.instance.maxExperiences[H_PlayerManager.instance.indexLev];
+        }
+        else return;
     }
 
     void SetECool()
@@ -103,5 +115,13 @@ public class GameManager : MonoBehaviour
     {
         int rc = (int)H_PlayerManager.instance.skillRCooltime - (int)H_PlayerManager.instance.curRCoolTime;
         rCoolText.text = rc.ToString();
+    }
+
+    public void SetTimeText()
+    {
+        int min = (int)(gameTime / 60);
+        int sec = (int)(gameTime % 60);
+
+        timeText.text = min.ToString() + " : " + sec.ToString();
     }
 }

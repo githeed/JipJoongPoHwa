@@ -49,7 +49,7 @@ public class Y_PlayerAttack : MonoBehaviour
     public float featherDist;
     public float featherTime;
 
-    public float featherEftTime;
+
     public float eAttRate;
     public float enmStopTime;
 
@@ -76,6 +76,8 @@ public class Y_PlayerAttack : MonoBehaviour
     GameObject manager;
     H_PlayerManager pm;
 
+    public GameObject damageParticle;
+
     void Start()
     {
         hp = GetComponent<Y_HPSystem>();
@@ -83,11 +85,10 @@ public class Y_PlayerAttack : MonoBehaviour
         featherTime = 10;
         basicAttTime = 2;
         ESkillTime = 9; 
-        RSkillTime = 99999999; 
+        RSkillTime = 9999; 
         PSkillDuration = 15;
 
         featherDist = 7;
-        featherEftTime = 0.3f;
         attackDmg = 5f;
         eAttRate = 1.2f;
         enmStopTime = 1.5f;
@@ -153,6 +154,8 @@ public class Y_PlayerAttack : MonoBehaviour
             }
         }
 
+        
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             StartCoroutine(EvolveCrt());
@@ -162,6 +165,8 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             StartCoroutine(RSkill());
         }
+
+
 
 
 
@@ -199,12 +204,12 @@ public class Y_PlayerAttack : MonoBehaviour
             RSkillTime = 30;
         }
 
-
+        batRate = 1.05f + 0.01f * pm.indexLev;
 
 
     }
 
-    Transform GetNearest()
+    public Transform GetNearest()
     {
         Transform result = null;
         float dist = 9999f;
@@ -272,6 +277,7 @@ public class Y_PlayerAttack : MonoBehaviour
                 //print(feathers.Length + ", " + i);
 
                 hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg * eAttRate);
+                DamageParticle(hitinfo.transform.position + Vector3.up);
                 StartCoroutine(StopEnemy(hitinfo));
             }
 
@@ -308,14 +314,13 @@ public class Y_PlayerAttack : MonoBehaviour
             GameObject feather = Instantiate(featherFactory);
             feather.transform.position = transform.position;
             feather.transform.Rotate(0, (360 / featherRNo) * i, 0);
-            print("!!!!!!!!!!!!!!" + feather.transform.position);
-            print("?????????????" + feather.transform.forward);
 
             // Enemy 에게 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, feather.transform.forward, featherDist, targetLayer);
             foreach (RaycastHit hitinfo in hitInfos)
             {
                 hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg);
+                DamageParticle(hitinfo.transform.position + Vector3.up);
             }
 
             // feather 움직이게
@@ -342,13 +347,13 @@ public class Y_PlayerAttack : MonoBehaviour
         hp.Damaged(dmg);
     }
 
-    void FeatherParticle(GameObject obj, Vector3 dir)
-    {
-        GameObject basicAttEff = Instantiate(basicAttEffFactory);
-        basicAttEff.transform.forward = dir;
-        basicAttEff.transform.position = obj.transform.position;
-        Destroy(basicAttEff, featherEftTime);
-    }
+    //void FeatherParticle(GameObject obj, Vector3 dir)
+    //{
+    //    GameObject basicAttEff = Instantiate(basicAttEffFactory);
+    //    basicAttEff.transform.forward = dir;
+    //    basicAttEff.transform.position = obj.transform.position;
+    //    Destroy(basicAttEff, featherEftTime);
+    //}
 
     public void RemoveFeather()
     {
@@ -358,6 +363,12 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             Destroy(feather.gameObject);
         }
+    }
+
+    void DamageParticle(Vector3 dir)
+    {
+        GameObject dp = Instantiate(damageParticle);
+        dp.transform.position = dir;
     }
 
 
@@ -401,6 +412,8 @@ public class Y_PlayerAttack : MonoBehaviour
                 nth++;
                 
                 hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg);
+                DamageParticle(hitinfo.transform.position + Vector3.up);
+
 
             }
 
@@ -416,6 +429,7 @@ public class Y_PlayerAttack : MonoBehaviour
                 nextDist = Vector3.Distance(feather.transform.position, destinationB);
                 yield return null;
             }
+            
             Destroy(feather, featherTime);
 
 
@@ -498,6 +512,7 @@ public class Y_PlayerAttack : MonoBehaviour
                 }
 
                 enemies[i].collider.gameObject.GetComponent<EnemyHp>().UpdateHp(attackDmg);
+                DamageParticle(enemies[i].collider.transform.position + Vector3.up);
 
             }
 
@@ -573,7 +588,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
                     dir = p4 - transform.position;
 
-                    time += Time.deltaTime * 7;
+                    time += Time.deltaTime * 4;
 
                     time = Mathf.Clamp(time, 0, 1);
 
@@ -608,6 +623,7 @@ public class Y_PlayerAttack : MonoBehaviour
             if(targetP != null && targetP.GetComponent<EnemyMove>() != null)
             {
                 targetP.GetComponent<EnemyHp>().UpdateHp(attackDmg * batRate * basicAttackNo);
+                DamageParticle(targetP.transform.position + Vector3.up);
             }
             yield return new WaitForSecondsRealtime(1f);
             curPAttTime += 1;
