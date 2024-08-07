@@ -158,6 +158,11 @@ public class Y_PlayerAttack : MonoBehaviour
             StartCoroutine(EvolveCrt());
         }
 
+        if(Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            StartCoroutine(RSkill());
+        }
+
 
 
 
@@ -292,13 +297,19 @@ public class Y_PlayerAttack : MonoBehaviour
         isRSkill = true;
         anim.SetTrigger("RSKILL");
 
-        yield return new WaitForSecondsRealtime(1f);
+        // 무적 상태 만들기
+        StartCoroutine(Unbeatable());
+
+        yield return new WaitForSecondsRealtime(0.8f);
 
         for (int i = 1; i <= featherRNo; i++)
         {
             // 깃털 360도로 퍼지게
             GameObject feather = Instantiate(featherFactory);
+            feather.transform.position = transform.position;
             feather.transform.Rotate(0, (360 / featherRNo) * i, 0);
+            print("!!!!!!!!!!!!!!" + feather.transform.position);
+            print("?????????????" + feather.transform.forward);
 
             // Enemy 에게 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, feather.transform.forward, featherDist, targetLayer);
@@ -311,9 +322,6 @@ public class Y_PlayerAttack : MonoBehaviour
             Vector3 destinationR = transform.position + featherDist * feather.transform.forward;
             StartCoroutine(MoveFeather(feather.GetComponent<CapsuleCollider>(), feather.transform.forward, destinationR, featherTime));
             //FeatherParticle(gameObject, feather.transform.forward);
-
-            // 무적 상태 만들기
-            StartCoroutine(Unbeatable());
 
             // 시간 지나면 깃털 파괴
             Destroy(feather, featherTime);
