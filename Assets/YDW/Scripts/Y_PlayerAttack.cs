@@ -83,7 +83,7 @@ public class Y_PlayerAttack : MonoBehaviour
         featherTime = 10;
         basicAttTime = 2;
         ESkillTime = 9; 
-        RSkillTime = 99999999; 
+        RSkillTime = 5; 
         PSkillDuration = 15;
 
         featherDist = 7;
@@ -204,7 +204,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     }
 
-    Transform GetNearest()
+    public Transform GetNearest()
     {
         Transform result = null;
         float dist = 9999f;
@@ -573,7 +573,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
                     dir = p4 - transform.position;
 
-                    time += Time.deltaTime * 7;
+                    time += Time.deltaTime * 4;
 
                     time = Mathf.Clamp(time, 0, 1);
 
