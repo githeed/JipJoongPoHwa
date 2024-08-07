@@ -15,13 +15,18 @@ public class Y_HPSystem : MonoBehaviour
     public GameObject ally;
     public GameObject playerBody;
     Y_AllyFSM allyFSM;
+    Y_DamageUI yd;
 
     public Image hpBar;
+
+   
+
+    
 
 
     private void Awake()
     {
-        maxHealth = 50;
+        maxHealth = 500;
         currHealth = maxHealth;
         isDead = false;
         rebornable = true;
@@ -35,6 +40,7 @@ public class Y_HPSystem : MonoBehaviour
         ally = GameObject.Find("Ally");
         playerBody = GameObject.Find("Player");
         allyFSM = allyBody.GetComponentInParent<Y_AllyFSM>();
+        yd = allyBody.GetComponentInChildren<Y_DamageUI>();
     }
 
     // Update is called once per frame
@@ -56,6 +62,9 @@ public class Y_HPSystem : MonoBehaviour
         currHealth -= damage;
         //allyFSM.hasDamaged = true;
         allyFSM.HitAlly(damage);
+
+        StartCoroutine(yd.ChangeColorTemporarily());
+        StartCoroutine(yd.RedVignette());
 
         if (currHealth <= 0 && isDead == false)
         {
