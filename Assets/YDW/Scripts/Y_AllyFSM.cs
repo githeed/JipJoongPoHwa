@@ -7,7 +7,7 @@ public class Y_AllyFSM : MonoBehaviour
 {
     enum AllyState
     {
-        Idle,
+        //Idle,
         Move,
         Damaged,
         Die,
@@ -18,8 +18,7 @@ public class Y_AllyFSM : MonoBehaviour
     AllyState a_State;
 
     // Distance
-    public float findDistance = 10f;
-    public float attackDistance = 10f;
+    //public float findDistance = 10f;
     public float returnDistance = 30f;
 
     // Move
@@ -74,9 +73,9 @@ public class Y_AllyFSM : MonoBehaviour
     {
         switch(a_State)
         {
-            case AllyState.Idle:
-                Idle();
-                break;
+            //case AllyState.Idle:
+            //    Idle();
+            //    break;
             case AllyState.Move:
                 Move();
                 break;
@@ -97,15 +96,15 @@ public class Y_AllyFSM : MonoBehaviour
         anim.SetFloat("MOVE", moveDir.magnitude);
     }
 
-    void Idle()
-    {
-        if(Vector3.Distance(transform.position, enemy.transform.position) < findDistance)
-        {
-            a_State = AllyState.Move;
-            print("상태 전환: Idle -> Move");
-        }
+    //void Idle()
+    //{
+    //    if(Vector3.Distance(transform.position, enemy.transform.position) < findDistance)
+    //    {
+    //        a_State = AllyState.Move;
+    //        print("상태 전환: Idle -> Move");
+    //    }
 
-    }
+    //}
 
     void Move()
     {
