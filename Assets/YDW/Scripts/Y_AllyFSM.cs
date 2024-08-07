@@ -41,6 +41,7 @@ public class Y_AllyFSM : MonoBehaviour
     GameObject allyBody;
     float enemyAttackPower;
     Animator anim;
+    
     #endregion
 
     // Start is called before the first frame update
@@ -161,10 +162,12 @@ public class Y_AllyFSM : MonoBehaviour
 
     void ReturnToPlayer()
     {
-
-        // 일단은 플레이어 오른쪽 옆으로 순간이동하자
-        transform.position = player.transform.position + new Vector3(2, 0, 0);
-        a_State = AllyState.Move;
+        if (!pa.isBAttack && !pa.isESkill && !pa.isRSkill)
+        {
+            // 일단은 플레이어 오른쪽 옆으로 순간이동하자
+            transform.position = player.transform.position + new Vector3(2, 0, 0);
+            a_State = AllyState.Move;
+        }
 
     }
 

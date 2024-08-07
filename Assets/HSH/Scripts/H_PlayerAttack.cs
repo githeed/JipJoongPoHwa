@@ -14,9 +14,6 @@ public class H_PlayerAttack : MonoBehaviour
 
     Animator anim;
 
-
-    public float attTime = 5;
-    float currAttDelay = 0;
     private float curAttTime = 0;
 
     // 가까운 위치의 적 찾기
@@ -30,8 +27,7 @@ public class H_PlayerAttack : MonoBehaviour
 
     public float attackDmg = 5f;
 
-    public float maxHP = 1000;
-    float curHP = 0;
+    
 
 
     // 박스 의 방향 벡터
@@ -73,11 +69,9 @@ public class H_PlayerAttack : MonoBehaviour
     void Start()
     {
         print("Attack");
-        curHP = maxHP;
+        H_PlayerManager.instance.curHP = H_PlayerManager.instance.maxHP;
         boxSize = new Vector3(H_PlayerManager.instance.xBox, 1, H_PlayerManager.instance.xBox);
         //mat = model.GetComponent<MeshRenderer>().GetComponent<Material>();
-        currAttDelay = attTime;
-
         anim = GetComponentInChildren<Animator>();
 
     }
@@ -87,8 +81,10 @@ public class H_PlayerAttack : MonoBehaviour
     void Update()
     {
         BasicAttack();
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !H_PlayerManager.instance.eCool)
         {
+            GameManager.instance.eCoolText.enabled = true;
+            H_PlayerManager.instance.eCool = true;
             BrierESkill();
         }
         BrierRSkill();
@@ -100,21 +96,22 @@ public class H_PlayerAttack : MonoBehaviour
             //if(curA <= 1)
             {
                 //H_PlayerManager.instance.ChangeAlpha(Mathf.Lerp(0, 1, curA));
-                H_PlayerManager.instance.ChangeAlpha(0.8f);
+                //H_PlayerManager.instance.ChangeAlpha(0.8f);
                 curA = 0;
             }
         }
         else
         {
-            H_PlayerManager.instance.ChangeAlpha(0);
+            //H_PlayerManager.instance.ChangeAlpha(0);
         }
 
 
         currETime += Time.deltaTime;
-        if (currETime > ESkillTime || dirToTarget == Vector3.zero)
+        //|| dirToTarget == Vector3.zero
+        if (currETime > ESkillTime)
         {
             canE = false;
-            attTime = 1;
+            H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
             mat.color = new Color(1, 1, 1);
 
@@ -151,7 +148,7 @@ public class H_PlayerAttack : MonoBehaviour
     {
         // 5초마다
         curAttTime += Time.deltaTime;
-        if (curAttTime > attTime)
+        if (curAttTime > H_PlayerManager.instance.attTime)
         {
             // 오버랩 스피어 로 가까운 적을 찾자
             targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
@@ -219,25 +216,26 @@ public class H_PlayerAttack : MonoBehaviour
         // 광란스킬
         if (!canE)
         {
-            mat.color = new Color(0, 1, 0);
+            //mat.color = new Color(0, 1, 0);
             // e 를 사용하면 기본공격의 쿨타임을 줄이자
             canE = true;
-            currAttDelay = 0.2f;
+            H_PlayerManager.instance.attTime = 0.2f;
         }
         else
         {
-
             // e를 사용중이라면 돌아가자
             canE = false;
-            currAttDelay = attTime;
+            H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
         }
     }
     void BrierRSkill()
     {
         // R 눌렀을때 오브젝트 마우스 포인터 방향으로 던지기
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !H_PlayerManager.instance.rCool)
         {
+            GameManager.instance.rCoolText.enabled = true;
+            H_PlayerManager.instance.rCool = true;
             obj = Instantiate(rSkillObj);
             stPos = transform.position;
 
@@ -289,9 +287,9 @@ public class H_PlayerAttack : MonoBehaviour
     }
     public void UpdateHp(float dmg)
     {
-        curHP -= dmg;
-        print(curHP);
-        if (curHP <= 0)
+        H_PlayerManager.instance.curHP -= dmg;
+        print(H_PlayerManager.instance.curHP);
+        if (H_PlayerManager.instance.curHP <= 0)
         {
             Destroy(gameObject);
         }
