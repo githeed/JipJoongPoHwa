@@ -122,7 +122,12 @@ MonoBehaviour:
   unbeatable: 0
   pAttacking: 0
   batRate: 1.05
+  featherSpeedB: 10
+  featherSpeedE: 0
   featherSpeed: 10
+  isBAttack: 0
+  isESkill: 0
+  isRSkill: 0
   allEffects:
   - {fileID: 0}
   - {fileID: 0}
@@ -295,7 +300,7 @@ PrefabInstance:
     - target: {fileID: 3546300765234506981, guid: 7568b89a3580eab4bacb566ce2183dd1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3546300765234506981, guid: 7568b89a3580eab4bacb566ce2183dd1,
         type: 3}
