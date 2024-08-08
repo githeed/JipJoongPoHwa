@@ -64,7 +64,7 @@ public class Y_HPSystem : MonoBehaviour
         allyFSM.HitAlly(damage);
 
         StartCoroutine(yd.ChangeColorTemporarily());
-        StartCoroutine(yd.RedVignette());
+        //StartCoroutine(yd.RedVignette());
 
         if (currHealth <= 0 && isDead == false)
         {
