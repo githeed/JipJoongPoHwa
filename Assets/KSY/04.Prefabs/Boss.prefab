@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 5123821975879529343}
   - component: {fileID: 5147117277651803651}
   - component: {fileID: 3167768855897397943}
-  - component: {fileID: 2074159423471335069}
   - component: {fileID: 108914142148593840}
+  - component: {fileID: 2074159423471335069}
   - component: {fileID: 359890185401976291}
   m_Layer: 30
   m_Name: Boss
@@ -98,6 +98,25 @@ MonoBehaviour:
   player0: {fileID: 0}
   player1: {fileID: 0}
   target: {fileID: 0}
+--- !u!114 &108914142148593840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151405840507370767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61a4036cc9801f49b16560f880a3706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 10
+  attackRange: 15
+  moveSpeed: 5
+  target: {fileID: 0}
+  indicatorPref: {fileID: 3482020800740940013, guid: 58774e9aab8bf4543825707db10b79b1,
+    type: 3}
+  currState: 0
 --- !u!95 &2074159423471335069
 Animator:
   serializedVersion: 5
@@ -119,25 +138,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &108914142148593840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151405840507370767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d61a4036cc9801f49b16560f880a3706, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  indicatorPref: {fileID: 3482020800740940013, guid: 58774e9aab8bf4543825707db10b79b1,
-    type: 3}
-  currState: 0
-  attackPower: 10
-  attackRange: 15
-  moveSpeed: 5
 --- !u!195 &359890185401976291
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -14,13 +14,18 @@ public class MidBoss : MonoBehaviour
         ATTACK_DELAY,
         DEAD
     }
-
-    public MidBossState currState;
-
-    public float attackDelay;
-    WaitForSeconds attackDelays;
+    [Header("조절 가능")]
+    [Tooltip("공격력")]
     public float attackPower;
+    [Tooltip("공격 상태로 넘어가는 범위")]
     public float attackRange;
+    [Tooltip("공격 상태로 전환된 후 다시 공격 가능할 때 까지 걸리는 시간")]
+    public float attackDelay;
+
+    [Header("터치 금지")]
+    public MidBossState currState;
+    
+    WaitForSeconds attackDelays;
 
     EnemyHp enemyHp;
     EnemyAttackCanvas myAttackCanvas;

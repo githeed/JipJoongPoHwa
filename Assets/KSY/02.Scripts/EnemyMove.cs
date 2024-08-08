@@ -11,25 +11,34 @@ using UnityEngine.Pool;
 
 public class EnemyMove : MonoBehaviour
 {
+
+    [Header("조절 가능")]
+    [Tooltip("공격력")]
+    public float attackPower;
+    [Tooltip("죽을 때 플레이어에게 주는 경험치 양")]
+    public float giveEXP;
+    [Tooltip("소환될 때 플레이어로 부터 최소 거리")]
+    public float distanceMin;
+    [Tooltip("소환될 때 플레이어로 부터 최대 거리")]
+    public float distanceMax;
+
+    [Header("터치 금지")]
+
+    public GameObject target;
+
     public IObjectPool<GameObject> pool { get; set; }
     
-    public GameObject target;
+
     float dist0;
     float dist1;
     FindPlayers findPlayers;
     EnemyHp enemyHp;
-
-    protected H_PlayerAttack playerCsH;
-    protected Y_PlayerAttack playerCsY;
-    public float attackPower;
-    public float giveEXP;
-
     bool canAttack;
     protected Coroutine attackCoroutine;
     public NavMeshAgent agent;
 
-    public float distanceMin;
-    public float distanceMax;
+    protected H_PlayerAttack playerCsH;
+    protected Y_PlayerAttack playerCsY;
     protected Vector2 distance;
     float rand;
     float randDirX;
