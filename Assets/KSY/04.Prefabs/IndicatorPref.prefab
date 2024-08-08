@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3482020800740940013}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 15.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -45,11 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac2e415d50bf55459e2f54e08775958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indicatorsBG: {fileID: 0}
-  indicator: {fileID: 0}
+  indicatorsBG: {fileID: 4631231735476184789}
+  indicator: {fileID: 5906806690321852164}
+  players:
+    serializedVersion: 2
+    m_Bits: 2147483648
   attackPower: 0
   attackRange: 0
   attackCoolTime: 0
+  maxScale: 0
 --- !u!1 &4631231735476184789
 GameObject:
   m_ObjectHideFlags: 0

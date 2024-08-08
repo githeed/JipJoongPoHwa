@@ -14,13 +14,18 @@ public class MidBoss : MonoBehaviour
         ATTACK_DELAY,
         DEAD
     }
-
-    public MidBossState currState;
-
-    public float attackDelay;
-    WaitForSeconds attackDelays;
+    [Header("조절 가능")]
+    [Tooltip("공격력")]
     public float attackPower;
+    [Tooltip("공격 상태로 넘어가는 범위")]
     public float attackRange;
+    [Tooltip("공격 상태로 전환된 후 다시 공격 가능할 때 까지 걸리는 시간")]
+    public float attackDelay;
+
+    [Header("터치 금지")]
+    public MidBossState currState;
+    
+    WaitForSeconds attackDelays;
 
     EnemyHp enemyHp;
     EnemyAttackCanvas myAttackCanvas;
@@ -43,6 +48,7 @@ public class MidBoss : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = attackRange;
+        agent.updateRotation = false;
         findPlayers = GetComponent<FindPlayers>();
         myAttackCanvas = GetComponentInChildren<EnemyAttackCanvas>();
         myIndicator = myAttackCanvas.gameObject;
@@ -58,6 +64,15 @@ public class MidBoss : MonoBehaviour
     {
         target = findPlayers.target;
         distToTarget = Vector3.Distance(transform.position, target.transform.position);
+        Vector2 forward = new Vector2(transform.position.z, transform.position.x);
+        Vector2 steeringTarget = new Vector2(agent.steeringTarget.z, agent.steeringTarget.x);
+
+        // 방향을 구한 뒤, 역함수로 각을 구함.
+        Vector2 dir = steeringTarget - forward;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        // 방향적용
+        transform.eulerAngles = Vector3.up * angle;
 
         switch (currState)
         {

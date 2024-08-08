@@ -15,19 +15,27 @@ public class Nokturne : MonoBehaviour
         DEAD
     }
 
-    EnemyHp enemyHp;
-    FindPlayers findPlayers;
-    NokturneState currState;
+    [Header ("조절 가능")]
+    [Tooltip("공격상태 후 다시 공격 가능할 때까지 걸리는 시간")]
+    public float attackDelay;
+    [Tooltip("공격할 때 돌진하는 속도")]
+    public float attackSpeed;
+    [Tooltip("공격력")]
+    public float attackPower;
 
+
+    [Header ("터치 금지")]
     public GameObject attackIndicatorPos;
     public GameObject target;
     NavMeshAgent agent;
+    EnemyHp enemyHp;
+    FindPlayers findPlayers;
+    NokturneState currState;
 
     Vector3 rayDir;
     Vector3 attackDir;
     Vector3 targetPos;
 
-    public float attackDelay;
     WaitForSeconds attackDelays;
 
     Ray toTarget;
@@ -35,8 +43,7 @@ public class Nokturne : MonoBehaviour
 
     bool canAttack;
     bool attacking;
-    public float attackSpeed;
-    public float attackPower;
+    
 
     Vector3 destination;
     Vector3 indicatorOrgPos;
@@ -49,6 +56,8 @@ public class Nokturne : MonoBehaviour
     H_PlayerAttack playerCsH;
     Y_PlayerAttack playerCsY;
 
+    Animator myAnim;
+
     private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
@@ -59,6 +68,7 @@ public class Nokturne : MonoBehaviour
         attackDelays = new WaitForSeconds(attackDelay);
         agent = GetComponent<NavMeshAgent>();
         indicatorOrgPos = attackIndicatorPos.transform.localPosition;
+        myAnim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -155,6 +165,7 @@ public class Nokturne : MonoBehaviour
     }
     void OnAttack()
     {
+        myAnim.SetTrigger("Attack");
         StartCoroutine(NocturneAttack());
     }
 
