@@ -14,9 +14,11 @@ public class Y_NavMesh : MonoBehaviour
     float defaultDist = 20f;
     public float moveSpeed = 10f;
 
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
         player = GameObject.Find("Player");
         ally = GameObject.Find("Ally");
         allyFSM = ally.GetComponent<Y_AllyFSM>();
