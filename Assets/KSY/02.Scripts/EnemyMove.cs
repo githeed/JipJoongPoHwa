@@ -80,15 +80,17 @@ public class EnemyMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             canAttack = true;
-            attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
             if (target != null)
             {
                 playerCsH = other.GetComponent<H_PlayerAttack>();
                 playerCsY = other.GetComponent<Y_PlayerAttack>();
+                if (playerCsY != null) print("닿음");
             }
+            attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
         }
     }
 
@@ -131,8 +133,12 @@ public class EnemyMove : MonoBehaviour
     }
     IEnumerator Attack()
     {
+        print("!!!!!!");
+
+        if (playerCsY != null) print("때림");
         while (canAttack)
         {
+            if (playerCsY != null) print("때림22");
             if(playerCsH != null)
             {
                 playerCsH.UpdateHp(attackPower);
