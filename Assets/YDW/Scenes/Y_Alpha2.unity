@@ -7668,7 +7668,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 2fe0142cbc5c52d48a7701ac86c208a7, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: c4e5881a45c40de4a85b2508163894da, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &1333117508
 PrefabInstance:
@@ -7979,6 +7979,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2146689180}
+    - targetCorrespondingSourceObject: {fileID: 3904714552585844357, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2146689189}
     - targetCorrespondingSourceObject: {fileID: 2638087629086633336, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       insertIndex: -1
@@ -11402,6 +11406,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95e58b689c86b85438724492b9b96767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2146689189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146689171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa6dd4defe5d1cf409ec4e39467177d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2147450114
