@@ -28,7 +28,7 @@ public class PlayerTest_K : MonoBehaviour
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            other.GetComponent<EnemyMove>().UpdateHp(10);
+            other.GetComponent<EnemyHp>().UpdateHp(10);
         }
     }
 }

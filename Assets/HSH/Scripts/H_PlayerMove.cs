@@ -54,8 +54,12 @@ public class H_PlayerMove : MonoBehaviour
         {
             dir = pa.dirToTarget;
             model.transform.forward = dir;
-            dir.Normalize();
-            cc.Move(dir * pMoveSpeed * Time.deltaTime);
+            float mag = (pa.GetNearest().position - transform.position).magnitude;
+            //print(mag);
+            if(mag > 1)
+            {
+                cc.Move(dir * pMoveSpeed * Time.deltaTime);
+            }    
         }
     }
 }

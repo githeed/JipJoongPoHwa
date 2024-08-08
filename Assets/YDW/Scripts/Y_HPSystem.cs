@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Y_HPSystem : MonoBehaviour
 {
@@ -15,10 +16,12 @@ public class Y_HPSystem : MonoBehaviour
     public GameObject playerBody;
     Y_AllyFSM allyFSM;
 
+    public Image hpBar;
+
 
     private void Awake()
     {
-        maxHealth = 1000;
+        maxHealth = 50;
         currHealth = maxHealth;
         isDead = false;
         rebornable = true;
@@ -37,8 +40,13 @@ public class Y_HPSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateHP();
 
+    }
 
+    public void UpdateHP()
+    {
+        hpBar.fillAmount = currHealth / maxHealth;
     }
 
     public void Damaged(float damage)
@@ -53,6 +61,13 @@ public class Y_HPSystem : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void Heal(float amt)
+    {
+        if (isDead) return;
+
+        currHealth += amt;
     }
 
     public void Die()

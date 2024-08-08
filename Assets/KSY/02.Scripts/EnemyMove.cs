@@ -12,6 +12,7 @@ using UnityEngine.Pool;
 public class EnemyMove : MonoBehaviour
 {
     public IObjectPool<GameObject> pool { get; set; }
+    
     public GameObject target;
     float dist0;
     float dist1;
@@ -37,6 +38,8 @@ public class EnemyMove : MonoBehaviour
 
     public string[] debug = new string[10];
 
+    public GameObject damageUIPos;
+
 
     private void Awake()
     {
@@ -45,6 +48,7 @@ public class EnemyMove : MonoBehaviour
         agent.updateRotation = false;
         enemyHp = GetComponent<EnemyHp>();
         enemyHp.onDie = onDie;
+        enemyHp.onDamageUI = OnDamageUI;
     }
 
 
@@ -90,11 +94,14 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-
-    public void UpdateHp(float dmg)
+    void OnDamageUI(float dmg)
     {
-        
+        GameObject damageUI = ObjectPoolManager.instance.damageUIPool.Get();
+        EnemyDamageUI damageUISc = damageUI.GetComponent<EnemyDamageUI>();
+        damageUISc.UpdateAmount(dmg);
+        damageUI.transform.position = damageUIPos.transform.position;
     }
+
 
     void onDie()
     {

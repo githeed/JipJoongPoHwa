@@ -10,13 +10,11 @@ using UnityEngine.UIElements;
 
 public class H_PlayerAttack : MonoBehaviour
 {
-    //public List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> cutes = new List<GameObject>();
+    
 
     Animator anim;
 
-
-    public float attTime = 5;
-    float currAttDelay = 0;
     private float curAttTime = 0;
 
     // 가까운 위치의 적 찾기
@@ -30,8 +28,8 @@ public class H_PlayerAttack : MonoBehaviour
 
     public float attackDmg = 5f;
 
-    public float maxHP = 1000;
-    float curHP = 0;
+    // 귀여운발사기
+    public GameObject cuteRocket;
 
 
     // 박스 의 방향 벡터
@@ -73,13 +71,17 @@ public class H_PlayerAttack : MonoBehaviour
     void Start()
     {
         print("Attack");
-        curHP = maxHP;
+        H_PlayerManager.instance.curHP = H_PlayerManager.instance.maxHP;
         boxSize = new Vector3(H_PlayerManager.instance.xBox, 1, H_PlayerManager.instance.xBox);
         //mat = model.GetComponent<MeshRenderer>().GetComponent<Material>();
-        currAttDelay = attTime;
-
         anim = GetComponentInChildren<Animator>();
 
+        for(int i = 0; i < 20; i++)
+        {
+            GameObject cr = Instantiate(cuteRocket);
+            cr.SetActive(false);
+            cutes.Add(cr);
+        }
     }
 
     public float curA = 0;
@@ -87,47 +89,56 @@ public class H_PlayerAttack : MonoBehaviour
     void Update()
     {
         BasicAttack();
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !H_PlayerManager.instance.eCool)
         {
+            GameManager.instance.eCoolText.enabled = true;
+            H_PlayerManager.instance.eCool = true;
             BrierESkill();
         }
         BrierRSkill();
         RMove();
+        if (H_PlayerManager.instance.isCuteOn)
+        {
+            CuteRocketAttack();
+        }
 
-        if(canE)
+        if (canE)
         {
             curA += Time.deltaTime;
             //if(curA <= 1)
             {
                 //H_PlayerManager.instance.ChangeAlpha(Mathf.Lerp(0, 1, curA));
-                H_PlayerManager.instance.ChangeAlpha(0.8f);
+                //H_PlayerManager.instance.ChangeAlpha(0.8f);
                 curA = 0;
             }
         }
         else
         {
-            H_PlayerManager.instance.ChangeAlpha(0);
+            //H_PlayerManager.instance.ChangeAlpha(0);
         }
 
 
         currETime += Time.deltaTime;
-        if (currETime > ESkillTime || dirToTarget == Vector3.zero)
+        //|| dirToTarget == Vector3.zero
+        if (currETime > ESkillTime)
         {
             canE = false;
-            attTime = 1;
+            H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
+            mat.color = new Color(1, 1, 1);
 
         }
     }
 
-    Transform GetNearest()
+    public Transform GetNearest()
     {
         Transform result = null;
         float dist = 9999f;
 
         //Stopwatch stopwatch = new Stopwatch();
         //stopwatch.Start();
-
+        // 오버랩 스피어 로 가까운 적을 찾자
+        targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
 
         // 구에 오버랩된 게임오브젝트 중에 가장 가까운 놈의 위치 찾기
         foreach (Collider target in targets)
@@ -139,10 +150,7 @@ public class H_PlayerAttack : MonoBehaviour
                 result = target.transform;
             }
         }
-        //print(stopwatch.ElapsedMilliseconds);
-        //print(stopwatch.Elapsed);
-        //print(stopwatch.ElapsedTicks);
-        //stopwatch.Stop();
+
         return result;
     }
 
@@ -150,12 +158,9 @@ public class H_PlayerAttack : MonoBehaviour
     {
         // 5초마다
         curAttTime += Time.deltaTime;
-        if (curAttTime > attTime)
+        if (curAttTime > H_PlayerManager.instance.attTime)
         {
-            // 오버랩 스피어 로 가까운 적을 찾자
-            targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
             nearestTarget = GetNearest();
-
             if (nearestTarget == null) return;
             // 공격하기
             else
@@ -218,24 +223,26 @@ public class H_PlayerAttack : MonoBehaviour
         // 광란스킬
         if (!canE)
         {
+            //mat.color = new Color(0, 1, 0);
             // e 를 사용하면 기본공격의 쿨타임을 줄이자
             canE = true;
-            attTime = 0.2f;
+            H_PlayerManager.instance.attTime = 0.2f;
         }
         else
         {
-
             // e를 사용중이라면 돌아가자
             canE = false;
-            attTime = currAttDelay;
+            H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
         }
     }
     void BrierRSkill()
     {
         // R 눌렀을때 오브젝트 마우스 포인터 방향으로 던지기
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !H_PlayerManager.instance.rCool)
         {
+            GameManager.instance.rCoolText.enabled = true;
+            H_PlayerManager.instance.rCool = true;
             obj = Instantiate(rSkillObj);
             stPos = transform.position;
 
@@ -285,11 +292,25 @@ public class H_PlayerAttack : MonoBehaviour
         }
         BrierESkill();
     }
+
+    void CuteRocketAttack()
+    {
+        H_PlayerManager.instance.cuteCurAttDelay += Time.deltaTime;
+
+        if (H_PlayerManager.instance.cuteCurAttDelay > H_PlayerManager.instance.cuteAttTime)
+        {
+            GameObject cr = GetCute();
+            cr.transform.position = transform.position;
+
+            H_PlayerManager.instance.cuteCurAttDelay = 0;
+        }
+    }
+
     public void UpdateHp(float dmg)
     {
-        curHP -= dmg;
-        print(curHP);
-        if (curHP <= 0)
+        H_PlayerManager.instance.curHP -= dmg;
+        print(H_PlayerManager.instance.curHP);
+        if (H_PlayerManager.instance.curHP <= 0)
         {
             Destroy(gameObject);
         }
@@ -300,4 +321,21 @@ public class H_PlayerAttack : MonoBehaviour
     //    Gizmos.color = Color.yellow;
     //    Gizmos.DrawCube(transform.position + dirToTarget * boxDist, boxSize);
     //}
+
+    GameObject GetCute()
+    {
+        GameObject cute = null;
+        if (cutes.Count > 0)
+        {
+            cute = cutes[0];
+            cute.SetActive(true);
+            cutes.RemoveAt(0);
+        }
+        else
+        {
+            cute = Instantiate(cuteRocket);
+        }
+
+        return cute;
+    }
 }
