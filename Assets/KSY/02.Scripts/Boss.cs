@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Boss : MonoBehaviour
+public class Boss : MonoBehaviour, IAnimatorInterface
 {
     public enum BossState
     {
@@ -148,12 +148,6 @@ public class Boss : MonoBehaviour
         // AttackGround
         myAnim.SetTrigger("AttackGround");
         attackPos = target.transform.position;
-        indicator = Instantiate(indicatorPref);
-        indicator.transform.position = attackPos;
-        indicatorCS = indicator.GetComponent<IndicatorPref>();
-        indicatorCS.attackRange = attackRange;
-        indicatorCS.attackPower = attackPower;
-        indicatorCS.attackCoolTime = 1f; // 애니메이션에서 공격타이밍에 맞춤
 
         dir = (attackPos - transform.position).normalized;
         dist = (attackPos - transform.position).magnitude - 3;
@@ -172,12 +166,6 @@ public class Boss : MonoBehaviour
         // AttackDash
         myAnim.SetTrigger("AttackDash");
         attackPos = target.transform.position;
-        indicator = Instantiate(indicatorPref);
-        indicator.transform.position = attackPos;
-        indicatorCS = indicator.GetComponent<IndicatorPref>();
-        indicatorCS.attackRange = attackRange;
-        indicatorCS.attackPower = attackPower;
-        indicatorCS.attackCoolTime = 1.5f; // 애니메이션에서 공격타이밍에 맞춤
 
         dir = (attackPos - transform.position).normalized;
         dist = (attackPos - transform.position).magnitude - 3;
@@ -194,14 +182,8 @@ public class Boss : MonoBehaviour
         }
         yield return new WaitForSeconds(4.067f);
         // AttackJump2
-        myAnim.SetTrigger("AttackJump2");
         attackPos = target.transform.position;
-        indicator = Instantiate(indicatorPref);
-        indicator.transform.position = attackPos;
-        indicatorCS = indicator.GetComponent<IndicatorPref>();
-        indicatorCS.attackRange = attackRange;
-        indicatorCS.attackPower = attackPower;
-        indicatorCS.attackCoolTime = 2.5f; // 애니메이션에서 공격타이밍에 맞춤
+        myAnim.SetTrigger("AttackJump2");
 
         dir = (attackPos - transform.position).normalized;
         dist = (attackPos - transform.position).magnitude - 3;
@@ -295,6 +277,37 @@ public class Boss : MonoBehaviour
         return false;
     }
 
-
-
+    public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (stateInfo.IsName("Attack_Ground"))
+        {
+            attackPos = target.transform.position;
+            indicator = Instantiate(indicatorPref);
+            indicator.transform.position = attackPos;
+            indicatorCS = indicator.GetComponent<IndicatorPref>();
+            indicatorCS.attackRange = attackRange;
+            indicatorCS.attackPower = attackPower;
+            indicatorCS.attackCoolTime = 1f; // 애니메이션에서 공격타이밍에 맞춤
+        }
+        if (stateInfo.IsName("Attack_Dash"))
+        {
+            attackPos = target.transform.position;
+            indicator = Instantiate(indicatorPref);
+            indicator.transform.position = attackPos;
+            indicatorCS = indicator.GetComponent<IndicatorPref>();
+            indicatorCS.attackRange = attackRange;
+            indicatorCS.attackPower = attackPower;
+            indicatorCS.attackCoolTime = 1.5f; // 애니메이션에서 공격타이밍에 맞춤
+        }
+        if (stateInfo.IsName("Attack_Jump02"))
+        {
+            attackPos = target.transform.position;
+            indicator = Instantiate(indicatorPref);
+            indicator.transform.position = attackPos;
+            indicatorCS = indicator.GetComponent<IndicatorPref>();
+            indicatorCS.attackRange = attackRange;
+            indicatorCS.attackPower = attackPower;
+            indicatorCS.attackCoolTime = 2.5f; // 애니메이션에서 공격타이밍에 맞춤
+        }
+    }
 }

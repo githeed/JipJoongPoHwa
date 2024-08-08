@@ -32,7 +32,7 @@ public class Y_DamageUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public IEnumerator ChangeColorTemporarily()
@@ -70,7 +70,6 @@ public class Y_DamageUI : MonoBehaviour
             p = easeOutExpo(p);
             float alpha = Mathf.Lerp(0f, 1f, p);
             SetAlpha(alpha);
-            currTime += Time.unscaledDeltaTime;
 
             yield return null;
         }
@@ -84,11 +83,11 @@ public class Y_DamageUI : MonoBehaviour
             p = easeOutExpo(p);
             float alpha = Mathf.Lerp(1f, 0f, p);
             SetAlpha(alpha);
-            currTime += Time.unscaledDeltaTime;
 
             yield return null;
         }
         SetAlpha(0f);
+        currTime = 0;
         VigImage.gameObject.SetActive(false);
 
     }
