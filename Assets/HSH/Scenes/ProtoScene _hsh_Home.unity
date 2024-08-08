@@ -961,7 +961,7 @@ MonoBehaviour:
   e_UI: {fileID: 0}
   attTime: 7
   curAttDelay: 0
-  cuteAttTime: 5
+  cuteAttTime: 0.5
   cuteCurAttDelay: 0
   maxExperiences:
   - 0
@@ -2422,6 +2422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdc2fd8107f7dbd49829ce3dde1d05d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allyCamera: {fileID: 0}
 --- !u!114 &472515864
 MonoBehaviour:
   m_ObjectHideFlags: 0
