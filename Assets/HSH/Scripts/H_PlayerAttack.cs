@@ -25,6 +25,9 @@ public class H_PlayerAttack : MonoBehaviour
 
     // 이펙트 공장
     public GameObject scratchFac;
+    public GameObject eBuff;
+    public GameObject rEffectFac;
+    public GameObject rReady;
 
     public float attackDmg = 5f;
 
@@ -125,8 +128,7 @@ public class H_PlayerAttack : MonoBehaviour
             canE = false;
             H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
-            mat.color = new Color(1, 1, 1);
-
+            eBuff.GetComponent<ParticleSystem>().Stop();
         }
     }
 
@@ -227,6 +229,8 @@ public class H_PlayerAttack : MonoBehaviour
             // e 를 사용하면 기본공격의 쿨타임을 줄이자
             canE = true;
             H_PlayerManager.instance.attTime = 0.2f;
+
+            eBuff.GetComponent<ParticleSystem>().Play();
         }
         else
         {
@@ -234,6 +238,8 @@ public class H_PlayerAttack : MonoBehaviour
             canE = false;
             H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
+            eBuff.GetComponent<ParticleSystem>().Stop();
+
         }
     }
     void BrierRSkill()
@@ -241,25 +247,8 @@ public class H_PlayerAttack : MonoBehaviour
         // R 눌렀을때 오브젝트 마우스 포인터 방향으로 던지기
         if (Input.GetKeyDown(KeyCode.R) && !H_PlayerManager.instance.rCool)
         {
-            GameManager.instance.rCoolText.enabled = true;
-            H_PlayerManager.instance.rCool = true;
-            obj = Instantiate(rSkillObj);
-            stPos = transform.position;
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                dirToR = hit.point - transform.position;
-                dirToR.y = 0;
-                rMag = dirToR.magnitude;
-                dirToR.Normalize();
-            }
-            else
-            {
-                dirToR = transform.forward * 10;
-            }
-            obj.transform.position = transform.position;
+            rReady.GetComponent<ParticleSystem>().Play();
+            Coroutine cr = StartCoroutine(PushRSkill());
         }
     }
 
@@ -284,6 +273,10 @@ public class H_PlayerAttack : MonoBehaviour
     void RBlow()
     {
         // R 스킬 터질때
+        GameObject re = Instantiate(rEffectFac);
+        re.transform.position = transform.position;
+        Destroy(re, 2);
+
         Collider[] cols = Physics.OverlapSphere(transform.position, 10, targetLayer);
         foreach (Collider col in cols)
         {
@@ -337,5 +330,32 @@ public class H_PlayerAttack : MonoBehaviour
         }
 
         return cute;
+    }
+
+    IEnumerator PushRSkill()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        rReady.GetComponent<ParticleSystem>().Stop();
+
+        GameManager.instance.rCoolText.enabled = true;
+        H_PlayerManager.instance.rCool = true;
+        obj = Instantiate(rSkillObj);
+        stPos = transform.position;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            dirToR = hit.point - transform.position;
+            dirToR.y = 0;
+            rMag = dirToR.magnitude;
+            dirToR.Normalize();
+        }
+        else
+        {
+            dirToR = transform.forward * 10;
+        }
+        obj.transform.position = transform.position;
     }
 }
