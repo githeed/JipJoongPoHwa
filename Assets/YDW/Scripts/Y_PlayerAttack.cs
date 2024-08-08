@@ -78,6 +78,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public GameObject damageParticle;
 
+    public GameObject allyBody;
+
     void Start()
     {
         hp = GetComponent<Y_HPSystem>();
@@ -104,6 +106,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
         manager = GameObject.Find("H_PlayerManager");
         pm = manager.GetComponent<H_PlayerManager>();
+        allyBody = GameObject.Find("AllyBody");
     }
 
 
@@ -384,8 +387,9 @@ public class Y_PlayerAttack : MonoBehaviour
         anim.SetTrigger("BASIC_ATTACK");
         yield return new WaitForSecondsRealtime(0.3f);
 
-        Quaternion rotation = Quaternion.LookRotation(dirFrAllyToEnm, Vector3.up);
-        transform.rotation = rotation;
+        //Quaternion rotation = Quaternion.LookRotation(dirFrAllyToEnm, Vector3.up);
+        //transform.rotation = rotation;
+        allyBody.transform.forward = dirFrAllyToEnm;
 
         yield return new WaitForSecondsRealtime(0.4f);
 
@@ -579,8 +583,10 @@ public class Y_PlayerAttack : MonoBehaviour
                 if(i == 0)
                 {
                     // 몸통 회전시키기
-                    Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
-                    transform.rotation = rotation;
+                    allyBody.transform.forward = dir;
+                    //Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
+                    ///////////////////////////////////////////
+                    //transform.rotation = rotation;
                 }
 
                 while (true)
