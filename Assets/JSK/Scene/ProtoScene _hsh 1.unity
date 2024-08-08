@@ -942,10 +942,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardButton: {fileID: 940780886}
+  cuteButton: {fileID: 0}
+  cuteSkillBox: {fileID: 0}
+  isCuteOn: 0
   bg: {fileID: 704135768}
   e_UI: {fileID: 0}
   attTime: 7
   curAttDelay: 0
+  cuteAttTime: 5
+  cuteCurAttDelay: 0
   maxExperiences:
   - 0
   - 0
@@ -6384,6 +6389,8 @@ MonoBehaviour:
   rCool: {fileID: 1833585193}
   eCoolText: {fileID: 1409181974}
   rCoolText: {fileID: 1548319179}
+  timeText: {fileID: 0}
+  gameTime: 0
   player: {fileID: 1341595197}
 --- !u!1 &1217495135
 GameObject:
@@ -7212,6 +7219,94 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: fefce94e57e41cb46ad6e76242db2ec9, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1001 &1317082949
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 296.03
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 296.03
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 296.03
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.657331
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.2393227
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 16.442293
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3f36c994a5f304c4d875fbea80967733,
+        type: 3}
+      propertyPath: m_Name
+      value: rune_stone_low
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3f36c994a5f304c4d875fbea80967733, type: 3}
 --- !u!1001 &1333117508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12550,3 +12645,4 @@ SceneRoots:
   - {fileID: 1242810073}
   - {fileID: 1413999189}
   - {fileID: 1957401651}
+  - {fileID: 1317082949}
