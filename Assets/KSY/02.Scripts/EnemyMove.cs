@@ -117,7 +117,7 @@ public class EnemyMove : MonoBehaviour
     {
         agent.enabled = false;
         pool.Release(this.gameObject);
-        H_PlayerManager.instance.UpdateExp(giveEXP);
+        H_PlayerManager.instance.SpawnExp(transform.position);
     }
 
     public void OnNav()
