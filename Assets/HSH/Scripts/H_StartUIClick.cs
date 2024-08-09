@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class H_StartUIClick : MonoBehaviour
@@ -21,5 +22,13 @@ public class H_StartUIClick : MonoBehaviour
     public void OnClickButton()
     {
         StartUIClick.enabled = true;
+        StartCoroutine(SceneLoader());
+    }
+
+    IEnumerator SceneLoader()
+    {
+        yield return new WaitForSeconds(0.8f);
+
+        SceneManager.LoadScene("AlphaScene_HSH");
     }
 }

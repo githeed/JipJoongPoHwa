@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -23,11 +24,15 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
 
+    public bool bISWin = false;
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            // 씬 전환이 되도 게임오브젝트를 파괴하고 싶지않다.
+            DontDestroyOnLoad(gameObject);
         }
         // 그렇지 않다면
         else
@@ -46,7 +51,17 @@ public class GameManager : MonoBehaviour
     {
         gameTime += Time.deltaTime;
 
+        if (H_PlayerManager.instance.curHP <= 0)
+        {
+            bISWin = false;
+            SceneManager.LoadScene("EndUIScene");
+        }
 
+        //if (gameTime > 15)
+        //{
+        //    bISWin = true;
+        //    SceneManager.LoadScene("EndUIScene");
+        //}
 
         SetHPText();
         SetHPBar();
