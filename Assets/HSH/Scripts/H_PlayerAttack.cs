@@ -302,6 +302,9 @@ public class H_PlayerAttack : MonoBehaviour
     public void UpdateHp(float dmg)
     {
         H_PlayerManager.instance.curHP -= dmg;
+        Y_DamageUI yd = GetComponentInChildren<Y_DamageUI>();
+
+        StartCoroutine(yd.ChangeColorTemporarily());
         if (H_PlayerManager.instance.curHP <= 0)
         {
             Destroy(gameObject);

@@ -6649,8 +6649,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1047529596090558219, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1178061650}
   m_SourcePrefab: {fileID: 100100000, guid: 08b89f6259071f64f8b7efd12593ff13, type: 3}
+--- !u!1 &1178061649 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1047529596090558219, guid: 08b89f6259071f64f8b7efd12593ff13,
+    type: 3}
+  m_PrefabInstance: {fileID: 1178061648}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1178061650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178061649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fdabfb54f0b21d45bc7e8e750596f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitColor: {r: 1, g: 0, b: 0, a: 0.5}
+  colorChangeDuration: 0.5
 --- !u!1001 &1201606983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6773,6 +6797,7 @@ MonoBehaviour:
   timeText: {fileID: 443968462}
   gameTime: 0
   player: {fileID: 1341595197}
+  bISWin: 0
 --- !u!1 &1217495135
 GameObject:
   m_ObjectHideFlags: 0

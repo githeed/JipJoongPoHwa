@@ -20,7 +20,7 @@ public class Y_DamageUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        renderers = GetComponents<SkinnedMeshRenderer>();
+        renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
 
         // Store the original color
         if (renderers.Length > 0)
