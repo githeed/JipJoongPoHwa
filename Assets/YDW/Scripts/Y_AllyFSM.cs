@@ -23,6 +23,8 @@ public class Y_AllyFSM : MonoBehaviour
 
     // Move
     public Vector3 moveDir = new Vector3(0, 0, 0);
+    public float currTime = 5;
+    public float moveTime = 5;
 
     // Return
     Vector3 playerPos;
@@ -40,8 +42,11 @@ public class Y_AllyFSM : MonoBehaviour
     GameObject allyBody;
     float enemyAttackPower;
     Animator anim;
-    
+
     #endregion
+
+    public LayerMask enemyLayer;
+    public Collider[] targets;
 
     // Start is called before the first frame update
     void Start()
@@ -61,7 +66,7 @@ public class Y_AllyFSM : MonoBehaviour
 
         hasDamaged = false;
 
-        StartCoroutine(ChooseDir());
+        //StartCoroutine(ChooseDir());
         a_State = AllyState.Move;
 
 
@@ -106,6 +111,14 @@ public class Y_AllyFSM : MonoBehaviour
 
     //}
 
+    public int quadrant1 = 0;
+    public int quadrant2 = 0;
+    public int quadrant3 = 0;
+    public int quadrant4 = 0;
+
+    float forwardDot = 0;
+    float rightDot = 0;
+
     void Move()
     {
         // 퀘스트가 있으면 몬스터를 피하면서 퀘스트 목표 장소로 이동
@@ -125,7 +138,7 @@ public class Y_AllyFSM : MonoBehaviour
         //        allyBody.transform.forward = moveDir;
         //    }
         //}
-        
+
 
         // Player 에게 이동
         //if(Vector3.Distance(transform.position, player.transform.position) > returnDistance)
@@ -135,8 +148,71 @@ public class Y_AllyFSM : MonoBehaviour
         //}
 
         //hasDamaged = false;
+        currTime += Time.deltaTime;
+        if(currTime > 5)
+        {
+            print("MoveStart");
+            targets = Physics.OverlapSphere(transform.position, 100000f, enemyLayer);
+            quadrant1 = 0;
+            quadrant2 = 0;
+            quadrant3 = 0;
+            quadrant4 = 0;
+            foreach (Collider target in targets)
+            {
+                forwardDot = Vector3.Dot(Vector3.forward, target.transform.position);
+                rightDot = Vector3.Dot(Vector3.right, target.transform.position);
 
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+                if(forwardDot > 0 && rightDot > 0)
+                {
+                    quadrant1++;
+                }
+                else if(forwardDot > 0 && rightDot < 0)
+                {
+                    quadrant2++;
+                }
+                else if (forwardDot < 0 && rightDot < 0)
+                {
+                    quadrant3++;
+                }
+                else if (forwardDot < 0 && rightDot > 0)
+                {
+                    quadrant4++;
+                }
+            }
+
+            int[] quadrants = new int[4]{quadrant1, quadrant2, quadrant3, quadrant4};
+
+
+            // a, b 양수인지 음수인지에 따라 방향 결정
+            // 방향은 사분면 고르고 그 다음에 가장 가까운 적에게
+            // 5초마다 한 번씩 방향 바꾼다
+
+
+            if(Mathf.Max(quadrants) == quadrant1)
+            {
+                moveDir = transform.position + new Vector3(1, 0, 1).normalized;
+            }
+            else if(Mathf.Max(quadrants) == quadrant2)
+            {
+                moveDir = transform.position + new Vector3(-1, 0, 1).normalized;
+            }
+            else if (Mathf.Max(quadrants) == quadrant3)
+            {
+                moveDir = transform.position + new Vector3(-1, 0, -1).normalized;
+            }
+            else if (Mathf.Max(quadrants) == quadrant4)
+            {
+                moveDir = transform.position + new Vector3(1, 0, -1).normalized;
+            }
+
+            currTime = 0;
+        }
+
+
+
+
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             a_State = AllyState.ReturnToPlayer;
         }
@@ -195,8 +271,13 @@ public class Y_AllyFSM : MonoBehaviour
         }
     }
 
+
+    
+
     private IEnumerator ChooseDir()
     {
+        
+
         while (hp.isDead == false)
         {
             int randInt = Random.Range(1, 9);

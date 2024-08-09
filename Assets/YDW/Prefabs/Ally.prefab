@@ -444,6 +444,7 @@ Transform:
   m_Children:
   - {fileID: 176045145813752165}
   - {fileID: 863395177124461777}
+  - {fileID: 3643249506694011028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &94842928021779666
@@ -460,7 +461,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   returnDistance: 20
   moveDir: {x: 0, y: 0, z: 0}
+  currTime: 0
+  moveTime: 5
   hasDamaged: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 1073741824
+  targets: []
+  quadrant1: 0
+  quadrant2: 0
+  quadrant3: 0
+  quadrant4: 0
 --- !u!114 &5138367024975127787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -880,7 +891,7 @@ RectTransform:
   m_Children:
   - {fileID: 2912349028017923003}
   - {fileID: 9040284060504658861}
-  m_Father: {fileID: 1486935650467049396}
+  m_Father: {fileID: 8101318993530173819}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1132,11 +1143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3345946441092022144, guid: 7568b89a3580eab4bacb566ce2183dd1,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3643249506694011028}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2184745202122095948, guid: 7568b89a3580eab4bacb566ce2183dd1,
         type: 3}
@@ -1146,12 +1153,6 @@ PrefabInstance:
 --- !u!4 &863395177124461777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3546300765234506981, guid: 7568b89a3580eab4bacb566ce2183dd1,
-    type: 3}
-  m_PrefabInstance: {fileID: 4237210599055314996}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1486935650467049396 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3345946441092022144, guid: 7568b89a3580eab4bacb566ce2183dd1,
     type: 3}
   m_PrefabInstance: {fileID: 4237210599055314996}
   m_PrefabAsset: {fileID: 0}
