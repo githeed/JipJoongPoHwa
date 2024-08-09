@@ -10,7 +10,24 @@ public class H_PlayerManager : MonoBehaviour
     public GameObject cardButton;
     Button weaponBtn;
     Image img;
+    int briarNum = 1;
 
+    public GameObject cuteButton;
+    Button cuteBtn;
+    Image cuteImg;
+    public Image cuteSkillBox;
+    int cuteNum = 0;
+
+    public bool isCuteOn = false;
+
+    public Image bg;
+    public Image e_UI;
+
+    public float attTime = 7;
+    public float curAttDelay = 0;
+
+    public float cuteAttTime = 5;
+    public float cuteCurAttDelay = 0;
 
     public float[] maxExperiences = new float[16];
     public int indexLev = 0;
@@ -24,17 +41,28 @@ public class H_PlayerManager : MonoBehaviour
 
     // 박스의 x, z 사이즈
     public float xBox = 10f;
+    public float boxMultiplier = 1;
     //float zBox = 10f;
 
     // 박스의 전방위치
     public float boxDist = 1f;
+    public float distMultiplier = 1;
 
     public float effScale = 0.5f;
+    public float effMultiplier = 1;
 
+    public bool eCool = false;
+    public bool rCool = false;
+
+    public float curECoolTime = 0;
+    public float curRCoolTime = 0;
     public float skillRCooltime = 50.0f;
     public float skillECooltime = 10.0f;
 
     Coroutine pc;
+
+    public float maxHP = 1000;
+    public float curHP = 0;
 
     private void Awake()
     {
@@ -56,18 +84,50 @@ public class H_PlayerManager : MonoBehaviour
             maxExperiences[i] = i * expMultiplier;
         }
         indexLev = 1;
-        print("Manager");
+        //print("Manager");
+
         weaponBtn = cardButton.GetComponent<Button>();
         img = cardButton.GetComponent<Image>();
+
+        cuteBtn = cuteButton.GetComponent<Button>();
+        cuteImg = cuteButton.GetComponent<Image>();
+        //ChangeAlpha(0);
+
+        curAttDelay = attTime;
     }
 
     void Update()
     {
-
         if(bIsPicking) 
         {
             Time.timeScale = 0;
         }
+
+        if(eCool)
+        {
+            GameManager.instance.SetECoolText();
+
+            curECoolTime += Time.deltaTime;
+            if(curECoolTime > skillECooltime)
+            {
+                GameManager.instance.eCoolText.enabled = false;
+                curECoolTime = 0;
+                eCool = false;
+            }
+        }
+
+        if (rCool)
+        {
+            GameManager.instance.SetRCoolText();
+            curRCoolTime += Time.deltaTime;
+            if (curRCoolTime > skillRCooltime)
+            {
+                GameManager.instance.rCoolText.enabled = false;
+                curRCoolTime = 0;
+                eCool = false;
+            }
+        }
+
     }
 
     public void UpdateExp(float value)
@@ -76,10 +136,21 @@ public class H_PlayerManager : MonoBehaviour
         exp += value;
         if (exp >= maxExperiences[indexLev])
         {
-            weaponBtn.enabled = true;
-            img.enabled = true;
-            indexLev++;
+            if(briarNum < 5)
+            {
+                weaponBtn.enabled = true;
+                img.enabled = true;
+            }
+            if (cuteNum < 5)
+            {
+                cuteBtn.enabled = true;
+                cuteImg.enabled = true;
+
+            }
+
+            bg.enabled = true;
             bIsPicking = true;
+            indexLev++;
             pc = StartCoroutine(PickCard(10));
             print("start pick");
         }
@@ -88,38 +159,61 @@ public class H_PlayerManager : MonoBehaviour
     IEnumerator PickCard(float time)
     {
         yield return new WaitForSecondsRealtime(time);
-        Time.timeScale = 1;
-        xBox += 2;
-        boxDist++;
-        effScale++;
-        bIsPicking = false;
-        print("endpick");
-        weaponBtn.enabled = false;
-        img.enabled = false;
+        ImgShow();
+        BriarCardPick();
     }
 
     public void CardPickingButton()
     {
         StopCoroutine(pc);
-        //print(effScale);
-        xBox += 2;
-        boxDist++;
-        effScale += 0.3f;
+        ImgShow();
+        BriarCardPick();
+    }
+
+    public void CuteCardPickingButton()
+    {
+        StopCoroutine(pc);
+        cuteNum++;
+        if(!isCuteOn)
+        {
+            cuteSkillBox.enabled = true;
+            isCuteOn = true;
+        }
+        else
+        {
+            ImgShow();
+            CuteCardPick();
+        }
+    }
+
+    void BriarCardPick()
+    {
+        xBox += boxMultiplier;
+        boxDist += distMultiplier;
+        effScale += effMultiplier;
+        attTime = curAttDelay;
+        attTime -= 0.3f;
+        curAttDelay = attTime;
+        briarNum++;
+    }
+
+    void CuteCardPick()
+    {
+        cuteAttTime--;
+    }
+
+    void ImgShow()
+    {
         Time.timeScale = 1;
         bIsPicking = false;
         weaponBtn.enabled = false;
         img.enabled = false;
+        cuteBtn.enabled = false;
+        cuteImg.enabled = false;
+        bg.enabled = false;
     }
-
-    float currTime;
-    public bool SkillCoolTime(float time)
-    {
-        currTime += Time.deltaTime;
-        if (currTime > time)
-        { 
-            currTime = 0;
-            return true;
-        }
-        return false;
-    }
+    //public void ChangeAlpha(float alpha)
+    //{
+    //    e_UI.color = new Color(1, 0, 0, alpha);
+    //}
 }

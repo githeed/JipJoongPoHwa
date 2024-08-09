@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3789277277709037035}
-  - component: {fileID: 2837543813166694309}
-  - component: {fileID: 8054608339505036986}
-  - component: {fileID: 3530962787779783456}
   - component: {fileID: 1904359473959816446}
+  - component: {fileID: 8054608339505036986}
+  - component: {fileID: 2929561846579308397}
+  - component: {fileID: 8537762631974780768}
+  - component: {fileID: 3530962787779783456}
   m_Layer: 30
   m_Name: Enemy
   m_TagString: Untagged
@@ -34,9 +35,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4778588722476918835}
+  - {fileID: 3685474133195036638}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2837543813166694309
+--- !u!114 &1904359473959816446
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,27 +47,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8816372215565858060}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13202f09fdaa68945b78a5b025e32e8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d9093fb8065e604dadf7f909cad0150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player0: {fileID: 0}
+  player1: {fileID: 0}
   target: {fileID: 0}
-  attackPower: 10
-  agent: {fileID: 0}
-  maxHp: 10
-  curHp: 0
-  distanceMin: 15
-  distanceMax: 30
-  debug:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
 --- !u!195 &8054608339505036986
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -80,7 +67,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 480
-  m_StoppingDistance: 0.5
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -88,6 +75,50 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2929561846579308397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816372215565858060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26aad83e6139747469481333dd00d728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 10
+  curHp: 0
+--- !u!114 &8537762631974780768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816372215565858060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44bd133b343cd1143a99c2739dd707a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 2
+  giveEXP: 1
+  distanceMin: 0
+  distanceMax: 0
+  target: {fileID: 0}
+  agent: {fileID: 0}
+  debug:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  damageUIPos: {fileID: 8843361169772784742}
 --- !u!136 &3530962787779783456
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -111,21 +142,37 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1904359473959816446
-MonoBehaviour:
+--- !u!1 &8843361169772784742
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8816372215565858060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d9093fb8065e604dadf7f909cad0150, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player0: {fileID: 0}
-  player1: {fileID: 0}
-  target: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3685474133195036638}
+  m_Layer: 30
+  m_Name: DamageUIPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3685474133195036638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8843361169772784742}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.973, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3789277277709037035}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5033419497941356504
 PrefabInstance:
   m_ObjectHideFlags: 0

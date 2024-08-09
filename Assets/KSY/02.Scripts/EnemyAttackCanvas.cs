@@ -8,33 +8,37 @@ public class EnemyAttackCanvas : MonoBehaviour
     float size = 1;
     public LayerMask players;
     public float attackPower;
+    public float attackRange;
+    public float attackCoolTime;
+    public float maxScale; // 콜라이더에 비해 빈공간이 있어서 attackRange +1;
 
-    void Start()
+    void OnEnable()
     {
         myCanvas = GetComponent<Canvas>();
         transform.localScale = Vector3.one;
+        size = 1;
+        maxScale = attackRange + 1;
     }
 
     void Update()
     {
-        size += 2 * Time.deltaTime;
+        size += maxScale / attackCoolTime * Time.deltaTime;
         transform.localScale = size * Vector3.one;
-        if (size >= 5)
+        if (size >= maxScale)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, 2.5f, players);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange/2f, players);
             foreach(var c in colliders)
             {
                 if(c.gameObject.tag == "Player")
                 {
                     c.GetComponent<H_PlayerAttack>().UpdateHp(attackPower);
                 }
-                else
+                else if(c.gameObject.tag == "Player1")
                 {
                     c.GetComponent<Y_PlayerAttack>().UpdateHp(attackPower);
                 }
             }
-            Destroy(gameObject);
-            print("5가 되고 터짐!");
+            gameObject.SetActive(false);
         }
     }
 }

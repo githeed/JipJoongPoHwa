@@ -11,25 +11,34 @@ using UnityEngine.Pool;
 
 public class EnemyMove : MonoBehaviour
 {
-    public IObjectPool<GameObject> pool { get; set; }
+
+    [Header("조절 가능")]
+    [Tooltip("공격력")]
+    public float attackPower;
+    [Tooltip("죽을 때 플레이어에게 주는 경험치 양")]
+    public float giveEXP;
+    [Tooltip("소환될 때 플레이어로 부터 최소 거리")]
+    public float distanceMin;
+    [Tooltip("소환될 때 플레이어로 부터 최대 거리")]
+    public float distanceMax;
+
+    [Header("터치 금지")]
+
     public GameObject target;
+
+    public IObjectPool<GameObject> pool { get; set; }
+    
+
     float dist0;
     float dist1;
     FindPlayers findPlayers;
-
-    protected H_PlayerAttack playerCsH;
-    protected Y_PlayerAttack playerCsY;
-    public float attackPower;
-
+    EnemyHp enemyHp;
     bool canAttack;
     protected Coroutine attackCoroutine;
     public NavMeshAgent agent;
 
-    public float maxHp;
-    public float curHp;
-
-    public float distanceMin;
-    public float distanceMax;
+    protected H_PlayerAttack playerCsH;
+    protected Y_PlayerAttack playerCsY;
     protected Vector2 distance;
     float rand;
     float randDirX;
@@ -38,18 +47,19 @@ public class EnemyMove : MonoBehaviour
 
     public string[] debug = new string[10];
 
+    public GameObject damageUIPos;
+
 
     private void Awake()
     {
         findPlayers = GetComponent<FindPlayers>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
+        enemyHp = GetComponent<EnemyHp>();
+        enemyHp.onDie = onDie;
+        enemyHp.onDamageUI = OnDamageUI;
     }
 
-    private void OnEnable()
-    {
-        curHp = maxHp;
-    }
 
     private void Update()
     {
@@ -70,15 +80,17 @@ public class EnemyMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             canAttack = true;
-            attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
             if (target != null)
             {
                 playerCsH = other.GetComponent<H_PlayerAttack>();
                 playerCsY = other.GetComponent<Y_PlayerAttack>();
+                if (playerCsY != null) print("닿음");
             }
+            attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
         }
     }
 
@@ -93,22 +105,22 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 매개변수에 float형으로 공격력(attackPower)넣어주면 됨.
-    /// </summary>
-    /// <param name="dmg"></param>
-    public void UpdateHp(float dmg)
+    void OnDamageUI(float dmg)
     {
-        if (curHp <= 0) return;
-
-        curHp -= dmg;
-        if(curHp <= 0)
-        {
-            agent.enabled = false;            
-            pool.Release(this.gameObject);
-            H_PlayerManager.instance.UpdateExp(1);
-        }
+        GameObject damageUI = ObjectPoolManager.instance.damageUIPool.Get();
+        EnemyDamageUI damageUISc = damageUI.GetComponent<EnemyDamageUI>();
+        damageUISc.UpdateAmount(dmg);
+        damageUI.transform.position = damageUIPos.transform.position;
     }
+
+
+    void onDie()
+    {
+        agent.enabled = false;
+        pool.Release(this.gameObject);
+        H_PlayerManager.instance.UpdateExp(giveEXP);
+    }
+
     public void OnNav()
     {
         StartCoroutine(Co_OnNav());
@@ -121,6 +133,7 @@ public class EnemyMove : MonoBehaviour
     }
     IEnumerator Attack()
     {
+
         while (canAttack)
         {
             if(playerCsH != null)
@@ -131,7 +144,7 @@ public class EnemyMove : MonoBehaviour
             {
                 playerCsY.UpdateHp(attackPower);
             }
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 

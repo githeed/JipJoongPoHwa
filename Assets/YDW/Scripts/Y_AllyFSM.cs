@@ -7,7 +7,7 @@ public class Y_AllyFSM : MonoBehaviour
 {
     enum AllyState
     {
-        Idle,
+        //Idle,
         Move,
         Damaged,
         Die,
@@ -18,12 +18,10 @@ public class Y_AllyFSM : MonoBehaviour
     AllyState a_State;
 
     // Distance
-    public float findDistance = 10f;
-    public float attackDistance = 10f;
+    //public float findDistance = 10f;
     public float returnDistance = 30f;
 
     // Move
-    public float moveSpeed;
     public Vector3 moveDir = new Vector3(0, 0, 0);
 
     // Return
@@ -32,15 +30,17 @@ public class Y_AllyFSM : MonoBehaviour
     // Damaged
     public bool hasDamaged;
 
-    CharacterController cc;
 
     #region 가져오기
+    CharacterController cc;
     GameObject enemy;
     Y_HPSystem hp;
     Y_PlayerAttack pa;
     GameObject player;
     GameObject allyBody;
     float enemyAttackPower;
+    Animator anim;
+    
     #endregion
 
     // Start is called before the first frame update
@@ -57,12 +57,14 @@ public class Y_AllyFSM : MonoBehaviour
         hp = GetComponent<Y_HPSystem>();
         pa = GetComponent<Y_PlayerAttack>();
 
+        anim = GetComponentInChildren<Animator>();
+
         hasDamaged = false;
 
         StartCoroutine(ChooseDir());
         a_State = AllyState.Move;
 
-        moveSpeed = 10f;
+
 
     }
 
@@ -71,9 +73,9 @@ public class Y_AllyFSM : MonoBehaviour
     {
         switch(a_State)
         {
-            case AllyState.Idle:
-                Idle();
-                break;
+            //case AllyState.Idle:
+            //    Idle();
+            //    break;
             case AllyState.Move:
                 Move();
                 break;
@@ -90,17 +92,19 @@ public class Y_AllyFSM : MonoBehaviour
                 Reborn();
                 break;
         }
+
+        anim.SetFloat("MOVE", moveDir.magnitude);
     }
 
-    void Idle()
-    {
-        if(Vector3.Distance(transform.position, enemy.transform.position) < findDistance)
-        {
-            a_State = AllyState.Move;
-            print("상태 전환: Idle -> Move");
-        }
+    //void Idle()
+    //{
+    //    if(Vector3.Distance(transform.position, enemy.transform.position) < findDistance)
+    //    {
+    //        a_State = AllyState.Move;
+    //        print("상태 전환: Idle -> Move");
+    //    }
 
-    }
+    //}
 
     void Move()
     {
@@ -124,13 +128,18 @@ public class Y_AllyFSM : MonoBehaviour
         
 
         // Player 에게 이동
-        if(Vector3.Distance(transform.position, player.transform.position) > returnDistance)
-        {
-            a_State = AllyState.ReturnToPlayer;
+        //if(Vector3.Distance(transform.position, player.transform.position) > returnDistance)
+        //{
+        //    a_State = AllyState.ReturnToPlayer;
 
-        }
+        //}
 
         //hasDamaged = false;
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            a_State = AllyState.ReturnToPlayer;
+        }
 
     }
 
@@ -157,10 +166,12 @@ public class Y_AllyFSM : MonoBehaviour
 
     void ReturnToPlayer()
     {
-
-        // 일단은 플레이어 오른쪽 옆으로 순간이동하자
-        transform.position = player.transform.position + new Vector3(2, 0, 0);
-        a_State = AllyState.Move;
+        if (!pa.isBAttack && !pa.isESkill && !pa.isRSkill)
+        {
+            // 일단은 플레이어 오른쪽 옆으로 순간이동하자
+            transform.position = player.transform.position + new Vector3(2, 0, 0);
+            a_State = AllyState.Move;
+        }
 
     }
 
