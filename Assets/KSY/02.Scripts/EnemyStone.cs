@@ -4,8 +4,24 @@ using UnityEngine;
 
 public class EnemyStone : MonoBehaviour
 {
-    EnemyHp myHp;
+    [Header("조절 가능")]
+    [Tooltip("피격시 빨개지는 이펙트 지속 시간")]
     public float effTime;
+    public float attackPower;
+    public float attackRange;
+    public float attackCoolTime;
+    public float myMaxRange;
+    public float indiSpawnCoolTime;
+
+
+    List<GameObject> indiList = new List<GameObject>();
+
+    [Header("터치 금지")]
+    public GameObject indicatorPrf;
+    GameObject indicator;
+    int minIndiCnt = 10;
+    float currTime;
+    EnemyHp myHp;
     WaitForSeconds effTimeSec;
     Material myMaterial;
     Color orgColor;
@@ -17,13 +33,33 @@ public class EnemyStone : MonoBehaviour
         myMaterial = GetComponentInChildren<MeshRenderer>().material;
         effTimeSec = new WaitForSeconds(effTime);
         orgColor = myMaterial.color;
+
+        for(int i = 0; i < minIndiCnt; i++)
+        {
+            indicator = Instantiate(indicatorPrf);
+            indiList.Add(indicator);
+            indicator.SetActive(false);
+        }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        currTime += Time.deltaTime;
+        if(currTime > indiSpawnCoolTime)
         {
-            DamageEff();
+            Vector2 rand = Random.insideUnitCircle * myMaxRange;
+            if(indiList.Count == 0)
+            {
+                indicator = Instantiate(indicatorPrf);
+
+            }
+            else
+            {
+                indicator = indiList[0];
+                indiList.RemoveAt(0);
+            }
+            indicator.SetActive(true);
+            indicator.transform.position = transform.position + Vector3.right * rand.x + Vector3.forward * rand.y;
         }
     }
 
@@ -34,7 +70,7 @@ public class EnemyStone : MonoBehaviour
 
     void OnDie()
     {
-
+        // 사라지고 Boss 다시 활동
     }
 
     IEnumerator C_DamageEff()
