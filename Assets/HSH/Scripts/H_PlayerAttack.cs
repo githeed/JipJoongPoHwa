@@ -302,7 +302,6 @@ public class H_PlayerAttack : MonoBehaviour
     public void UpdateHp(float dmg)
     {
         H_PlayerManager.instance.curHP -= dmg;
-        print(H_PlayerManager.instance.curHP);
         if (H_PlayerManager.instance.curHP <= 0)
         {
             Destroy(gameObject);

@@ -133,12 +133,9 @@ public class EnemyMove : MonoBehaviour
     }
     IEnumerator Attack()
     {
-        print("!!!!!!");
 
-        if (playerCsY != null) print("때림");
         while (canAttack)
         {
-            if (playerCsY != null) print("때림22");
             if(playerCsH != null)
             {
                 playerCsH.UpdateHp(attackPower);
