@@ -13,6 +13,7 @@ public class EnemyHp : MonoBehaviour
     public float curHp;
 
     public Action onDie;
+    public Action damageEff;
     public Action<float> onDamageUI;
     void OnEnable()
     {
@@ -27,6 +28,7 @@ public class EnemyHp : MonoBehaviour
     {
         if (curHp <= 0) return;
         if(onDamageUI != null) onDamageUI(dmg);
+        if (damageEff != null) damageEff();
         curHp -= dmg;
         if (curHp <= 0)
         {

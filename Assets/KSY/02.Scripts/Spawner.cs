@@ -7,27 +7,35 @@ using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
-    Transform player;
+    [Header("조절 가능")]
+    [Tooltip("소환 주기")]
     public float coolTime;
     float currTime;
+    [Tooltip("플레이어로부터 최소 거리")]
     public float distanceMin;
+    [Tooltip("플레이어로부터 최대 거리")]
     public float distanceMax;
+    [Tooltip("체크 시 스폰 중지")]
+    public bool StopSpawn;
+    Transform player;
     Vector2 distance;
     float rand;
     float randDirX;
     float randDirZ;
     Vector3 dir;
+    [Header("터치 금지")]
     public Transform leftTopTr;
     public Transform rightBottomTr;
     Vector3 leftTop;
     Vector3 rightBottom;
-    
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
         distance = new Vector2(distanceMin, distanceMax);
+        if (leftTopTr == null) leftTopTr = GameObject.Find("LeftTop").transform;
+        if (rightBottomTr == null) rightBottomTr = GameObject.Find("RightBottom").transform;
         leftTop = leftTopTr.position;
         rightBottom = rightBottomTr.position;
     }
@@ -35,6 +43,7 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (StopSpawn) return;
         currTime += Time.deltaTime;
         
         if (currTime >= coolTime)

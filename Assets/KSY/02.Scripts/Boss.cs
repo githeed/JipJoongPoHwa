@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour, IAnimatorInterface
 {
@@ -23,6 +24,10 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     public float moveSpeed;
 
     [Header("터치 금지")]
+    public GameObject stonePrf;
+    GameObject stone;
+    public Transform stoneSpawnPos;
+
     public GameObject target;
     EnemyHp enemyHp;
     FindPlayers findPlayers;
@@ -39,25 +44,50 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     float toTargetDist;
     Vector3 toTargetDir;
 
-    
+    IndicatorLongLine longIndicator;
+    bool workingPattern01;
 
-    void Start()
+    private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
+        agent = GetComponent<NavMeshAgent>();
+        myAnim = GetComponent<Animator>();
+        longIndicator = GetComponentInChildren<IndicatorLongLine>();
+    }
+    void Start()
+    {
+        
         enemyHp.onDie = OnDie;
         findPlayers = GetComponent<FindPlayers>();
-        agent = GetComponent<NavMeshAgent>();
+        
         agent.speed = moveSpeed;
-        myAnim = GetComponent<Animator>();
+        
         ChangeState(BossState.MOVE);
         agent.updateRotation = false;
+        
+        longIndicator.attackPower = attackPower;
+        longIndicator.attackDelay = 2.1f;
+        if (stone == null)
+        {
+            stone = Instantiate(stonePrf);
+            stone.SetActive(false);
+        }
+        if(indicator == null)
+        {
+            indicator = Instantiate(indicatorPref);
+            indicatorCS = indicator.GetComponent<IndicatorPref>();
+            indicatorCS.attackRange = attackRange;
+            indicatorCS.attackPower = attackPower;
+            indicator.SetActive(false);
+        }
     }
 
     void Update()
     {
         target = findPlayers.target;
         if (agent.enabled) MyRotate();
-        toTargetDir = target.transform.position - transform.position;
+        //toTargetDir = target.transform.position - transform.position;
+        toTargetDir = new Vector3(target.transform.position.x - transform.position.x, 0, target.transform.position.z - transform.position.z);
         toTargetDist = toTargetDir.magnitude;
 
 
@@ -135,72 +165,36 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         StartCoroutine(C_AttackPatten_1());
     }
 
-    void ChangeAttackPos(Vector3 attackPos)
-    {
-
-    }
 
     Vector3 dir;
     float dist;
     float moveDist;
     IEnumerator C_AttackPatten_1()
     {
+        workingPattern01 = true;
         // AttackGround
-        myAnim.SetTrigger("AttackGround");
-        attackPos = target.transform.position;
-
-        dir = (attackPos - transform.position).normalized;
-        dist = (attackPos - transform.position).magnitude - 3;
-        transform.forward = dir;
-        moveDist = 0;
-        if (dist > 0)
-        {
-            while (dist > moveDist)
-            {
-                moveDist += dist * Time.deltaTime;
-                transform.Translate(dir * dist * Time.deltaTime / 2, Space.World);
-                yield return null;
-            }
-        }
-        yield return new WaitForSeconds(3.233f);
         // AttackDash
-        myAnim.SetTrigger("AttackDash");
-        attackPos = target.transform.position;
-
-        dir = (attackPos - transform.position).normalized;
-        dist = (attackPos - transform.position).magnitude - 3;
-        transform.forward = dir;
-        moveDist = 0;
-        if (dist > 0)
-        {
-            while (dist > moveDist)
-            {
-                moveDist += dist * Time.deltaTime;
-                transform.Translate(dir * dist * Time.deltaTime / 2, Space.World);
-                yield return null;
-            }
-        }
-        yield return new WaitForSeconds(4.067f);
         // AttackJump2
-        attackPos = target.transform.position;
-        myAnim.SetTrigger("AttackJump2");
-
-        dir = (attackPos - transform.position).normalized;
-        dist = (attackPos - transform.position).magnitude - 3;
-        transform.forward = dir;
-        moveDist = 0;
-        if (dist > 0)
+        myAnim.SetTrigger("AttackGround");
+        while (workingPattern01)
         {
-            while (dist > moveDist)
+            dir = new Vector3(attackPos.x - transform.position.x, 0, attackPos.z - transform.position.z).normalized;
+            dist = new Vector3(attackPos.x - transform.position.x, 0, attackPos.z - transform.position.z).magnitude - 3;
+            transform.forward = dir;
+            moveDist = 0;
+            if (dist > 0)
             {
-                moveDist += dist * Time.deltaTime;
-                transform.Translate(dir * dist * Time.deltaTime/2, Space.World);
-                yield return null;
+                while (dist > moveDist)
+                {
+                    moveDist += dist * Time.deltaTime;
+                    transform.Translate(dir * dist * Time.deltaTime / 2, Space.World);
+                    yield return null;
+                }
             }
+            //transform.position = Vector3.MoveTowards(transform.position, attackPos, moveSpeed*Time.deltaTime);
+            yield return null;
         }
-        yield return new WaitForSeconds(4.967f);
-        ChangeState(BossState.MOVE);
-        yield return null;
+        // 애니메이션이 끝나면 Move상태로 변경. -> 애니메이션의 OnStateExit에서 처리.
     }
 
 
@@ -208,40 +202,101 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     {
         // AttackJump1 애니메이션으로
         myAnim.SetTrigger("AttackJump1");
-        attackPos = target.transform.position;
-        dir = (attackPos - transform.position).normalized;
-        transform.forward = dir;
-        currTime = 0;
-        while(currTime < 5)
-        {
-            currTime += Time.deltaTime;
-        }
-        ChangeState(BossState.MOVE);
+
+        // 애니메이션이 끝나면 Move상태로 변경. -> 애니메이션의 OnStateExit에서 처리.
     }
 
-    int myAttackPattern = 0;
-    int totalPatternCnt = 2;
+    int myAttackPattern = -1;
+    int totalPatternCnt = 3;
     void OnDecideAttackPattern()
     {
         // 1번부터 번갈아 가면서 시행
         myAttackPattern++;
         myAttackPattern %= totalPatternCnt; // 패턴 개수로 나머지 구하기.
-        if(myAttackPattern == 1)
+        switch (myAttackPattern)
         {
-            AttackPattern_1();
-        }
-        if(myAttackPattern == 0)
-        {
-            AttackPattern_2();
+            case 0:
+                AttackPattern_1();
+                break;
+            case 1:
+                AttackPattern_2();
+                break;
+            case 2:
+                AttackPattern_3();
+                break;
+            default:
+                break;
         }
     }
 
+    void AttackPattern_3() // 패턴 3 : 기둥 패턴
+    {
+        stone.SetActive(true);
+        stone.transform.position = stoneSpawnPos.position;
+    }
 
     void OnDie()
     {
-
+        GameManager.instance.bISWin = true;
+        SceneManager.LoadScene("EndUIScene");
     }
 
+
+    public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (stateInfo.IsName("Attack_Ground"))
+        {
+            attackPos = target.transform.position;
+            indicator.SetActive(true);
+            indicator.transform.position = attackPos;
+            indicatorCS.attackCoolTime = 1f; // 애니메이션에서 공격타이밍에 맞춤
+        }
+        if (stateInfo.IsName("Attack_Dash"))
+        {
+            attackPos = target.transform.position;
+            indicator.SetActive(true);
+            indicator.transform.position = attackPos;
+            indicatorCS.attackCoolTime = 1.5f; // 애니메이션에서 공격타이밍에 맞춤
+        }
+        if (stateInfo.IsName("Attack_Jump02"))
+        {
+            attackPos = target.transform.position;
+            indicator.SetActive(true);
+            indicator.transform.position = attackPos;
+            indicatorCS.attackCoolTime = 2.5f; // 애니메이션에서 공격타이밍에 맞춤
+        }
+
+        if (stateInfo.IsName("Attack_Jump01"))
+        {
+            attackPos = target.transform.position;
+            dir = new Vector3(attackPos.x - transform.position.x, 0, attackPos.z - transform.position.z).normalized;
+            transform.forward = dir;
+            
+            longIndicator.gameObject.SetActive(true);
+        }
+    }
+
+    public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (stateInfo.IsName("Attack_Ground"))
+        {
+            myAnim.SetTrigger("AttackDash");
+        }
+        if (stateInfo.IsName("Attack_Dash"))
+        {
+            myAnim.SetTrigger("AttackJump2");
+        }
+        if (stateInfo.IsName("Attack_Jump02"))
+        {
+            workingPattern01 = false;
+            ChangeState(BossState.MOVE);
+        }
+
+        if (stateInfo.IsName("Attack_Jump01"))
+        {
+            ChangeState(BossState.MOVE);
+        }
+    }
 
 
 
@@ -275,39 +330,5 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             return true;
         }
         return false;
-    }
-
-    public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if (stateInfo.IsName("Attack_Ground"))
-        {
-            attackPos = target.transform.position;
-            indicator = Instantiate(indicatorPref);
-            indicator.transform.position = attackPos;
-            indicatorCS = indicator.GetComponent<IndicatorPref>();
-            indicatorCS.attackRange = attackRange;
-            indicatorCS.attackPower = attackPower;
-            indicatorCS.attackCoolTime = 1f; // 애니메이션에서 공격타이밍에 맞춤
-        }
-        if (stateInfo.IsName("Attack_Dash"))
-        {
-            attackPos = target.transform.position;
-            indicator = Instantiate(indicatorPref);
-            indicator.transform.position = attackPos;
-            indicatorCS = indicator.GetComponent<IndicatorPref>();
-            indicatorCS.attackRange = attackRange;
-            indicatorCS.attackPower = attackPower;
-            indicatorCS.attackCoolTime = 1.5f; // 애니메이션에서 공격타이밍에 맞춤
-        }
-        if (stateInfo.IsName("Attack_Jump02"))
-        {
-            attackPos = target.transform.position;
-            indicator = Instantiate(indicatorPref);
-            indicator.transform.position = attackPos;
-            indicatorCS = indicator.GetComponent<IndicatorPref>();
-            indicatorCS.attackRange = attackRange;
-            indicatorCS.attackPower = attackPower;
-            indicatorCS.attackCoolTime = 2.5f; // 애니메이션에서 공격타이밍에 맞춤
-        }
     }
 }

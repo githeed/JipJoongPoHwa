@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IndicatorLongLine : MonoBehaviour
 {
@@ -12,7 +13,18 @@ public class IndicatorLongLine : MonoBehaviour
     H_PlayerAttack H_Player;
     Y_PlayerAttack Y_Player;
     public float attackPower;
-    // Start is called before the first frame update
+    public float attackDelay;
+    float currTime;
+    public GameObject BG;
+    public GameObject attackIndi;
+
+
+
+    private void OnEnable()
+    {
+        attackIndi.transform.localScale = Vector3.one - Vector3.right * 0.9f;
+    }
+
     void Start()
     {
         myCollider = GetComponent<BoxCollider>();
@@ -22,12 +34,15 @@ public class IndicatorLongLine : MonoBehaviour
         collider1 = player1.GetComponent<Collider>();
         H_Player = player0.GetComponent<H_PlayerAttack>();
         Y_Player = player1.GetComponent<Y_PlayerAttack>();
+
+        gameObject.SetActive(false);
     }
 
+    
     // Update is called once per frame
     void Update()
     {
-        
+        AttackPlayer();
     }
 
     public void CheckOverlap()
@@ -35,15 +50,24 @@ public class IndicatorLongLine : MonoBehaviour
         if (myCollider.bounds.Intersects(collider0.bounds))
         {
             H_Player.UpdateHp(attackPower);
+            print("H플레이어 때림");
         }
         if (myCollider.bounds.Intersects(collider1.bounds))
         {
-
+            Y_Player.UpdateHp(attackPower);
+            print("Y플레이어 때림");
         }
+        gameObject.SetActive(false);
     }
 
     public void AttackPlayer()
     {
-
+        currTime += Time.deltaTime;
+        attackIndi.transform.localScale += Vector3.right * (0.9f * Time.deltaTime / attackDelay);
+        if (currTime > attackDelay)
+        {
+            currTime = 0;
+            CheckOverlap();
+        }
     }
 }

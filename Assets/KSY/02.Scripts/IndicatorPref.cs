@@ -12,21 +12,19 @@ public class IndicatorPref : MonoBehaviour
     public LayerMask players;
     float size = 1;
     public float attackPower;
-    public float attackRange;
+    public float attackRange; // Player 피격 범위
     public float attackCoolTime;
     public float maxScale; // 콜라이더에 비해 빈공간이 있어서 attackRange +1;
+    public bool isDestroy = false;
 
+    public EnemyStone enemyStone;
 
-    private void Awake()
+    private void OnEnable()
     {
-        
         indicator.transform.localScale = Vector3.one;
         size = 1;
-        
-        print("Enable");
     }
 
-    
     void Update()
     {
         indicatorsBG.transform.localScale = Vector3.one * (attackRange + 1);
@@ -49,7 +47,9 @@ public class IndicatorPref : MonoBehaviour
                     print("indicator로 Y 플레이어 맞음");
                 }
             }
-            Destroy(gameObject);
+            if(isDestroy) Destroy(gameObject);
+            gameObject.SetActive(false);
+            if (enemyStone != null) return;
         }
     }
 }
