@@ -215,6 +215,5 @@ public class H_PlayerManager : MonoBehaviour
     //public void ChangeAlpha(float alpha)
     //{
     //    e_UI.color = new Color(1, 0, 0, alpha);
-        
     //}
 }
