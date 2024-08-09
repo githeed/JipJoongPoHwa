@@ -159,15 +159,11 @@ public class Y_PlayerAttack : MonoBehaviour
 
         
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             StartCoroutine(EvolveCrt());
         }
 
-        if(Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            StartCoroutine(RSkill());
-        }
 
 
 
