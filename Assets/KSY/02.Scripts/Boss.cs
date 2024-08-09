@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour, IAnimatorInterface
 {
@@ -21,10 +22,12 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     public float attackRange;
     [Tooltip("이동 속도")]
     public float moveSpeed;
-    public GameObject stonePrf;
-    GameObject stone;
 
     [Header("터치 금지")]
+    public GameObject stonePrf;
+    GameObject stone;
+    public Transform stoneSpawnPos;
+
     public GameObject target;
     EnemyHp enemyHp;
     FindPlayers findPlayers;
@@ -43,24 +46,39 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 
     IndicatorLongLine longIndicator;
     bool workingPattern01;
-    
 
-    void Start()
+    private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
+        agent = GetComponent<NavMeshAgent>();
+        myAnim = GetComponent<Animator>();
+        longIndicator = GetComponentInChildren<IndicatorLongLine>();
+    }
+    void Start()
+    {
+        
         enemyHp.onDie = OnDie;
         findPlayers = GetComponent<FindPlayers>();
-        agent = GetComponent<NavMeshAgent>();
+        
         agent.speed = moveSpeed;
-        myAnim = GetComponent<Animator>();
+        
         ChangeState(BossState.MOVE);
         agent.updateRotation = false;
-        longIndicator = GetComponentInChildren<IndicatorLongLine>();
+        
         longIndicator.attackPower = attackPower;
         longIndicator.attackDelay = 2.1f;
         if (stone == null)
         {
             stone = Instantiate(stonePrf);
+            stone.SetActive(false);
+        }
+        if(indicator == null)
+        {
+            indicator = Instantiate(indicatorPref);
+            indicatorCS = indicator.GetComponent<IndicatorPref>();
+            indicatorCS.attackRange = attackRange;
+            indicatorCS.attackPower = attackPower;
+            indicator.SetActive(false);
         }
     }
 
@@ -213,12 +231,14 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 
     void AttackPattern_3() // 패턴 3 : 기둥 패턴
     {
-
+        stone.SetActive(true);
+        stone.transform.position = stoneSpawnPos.position;
     }
 
     void OnDie()
     {
-
+        GameManager.instance.bISWin = true;
+        SceneManager.LoadScene("EndUIScene");
     }
 
 
@@ -227,31 +247,22 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         if (stateInfo.IsName("Attack_Ground"))
         {
             attackPos = target.transform.position;
-            indicator = Instantiate(indicatorPref);
+            indicator.SetActive(true);
             indicator.transform.position = attackPos;
-            indicatorCS = indicator.GetComponent<IndicatorPref>();
-            indicatorCS.attackRange = attackRange;
-            indicatorCS.attackPower = attackPower;
             indicatorCS.attackCoolTime = 1f; // 애니메이션에서 공격타이밍에 맞춤
         }
         if (stateInfo.IsName("Attack_Dash"))
         {
             attackPos = target.transform.position;
-            indicator = Instantiate(indicatorPref);
+            indicator.SetActive(true);
             indicator.transform.position = attackPos;
-            indicatorCS = indicator.GetComponent<IndicatorPref>();
-            indicatorCS.attackRange = attackRange;
-            indicatorCS.attackPower = attackPower;
             indicatorCS.attackCoolTime = 1.5f; // 애니메이션에서 공격타이밍에 맞춤
         }
         if (stateInfo.IsName("Attack_Jump02"))
         {
             attackPos = target.transform.position;
-            indicator = Instantiate(indicatorPref);
+            indicator.SetActive(true);
             indicator.transform.position = attackPos;
-            indicatorCS = indicator.GetComponent<IndicatorPref>();
-            indicatorCS.attackRange = attackRange;
-            indicatorCS.attackPower = attackPower;
             indicatorCS.attackCoolTime = 2.5f; // 애니메이션에서 공격타이밍에 맞춤
         }
 

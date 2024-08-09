@@ -15,15 +15,15 @@ public class IndicatorPref : MonoBehaviour
     public float attackRange;
     public float attackCoolTime;
     public float maxScale; // 콜라이더에 비해 빈공간이 있어서 attackRange +1;
+    public bool isDestroy = false;
 
 
-    private void Awake()
+    private void OnEnable()
     {
         indicator.transform.localScale = Vector3.one;
         size = 1;
     }
 
-    
     void Update()
     {
         indicatorsBG.transform.localScale = Vector3.one * (attackRange + 1);
@@ -46,7 +46,8 @@ public class IndicatorPref : MonoBehaviour
                     print("indicator로 Y 플레이어 맞음");
                 }
             }
-            Destroy(gameObject);
+            if(isDestroy) Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

@@ -498,6 +498,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 122917393}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &123746696
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 123746697}
+  m_Layer: 0
+  m_Name: StoneSpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &123746697
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123746696}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 162.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &131771095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6697,6 +6728,7 @@ MonoBehaviour:
   timeText: {fileID: 443968462}
   gameTime: 0
   player: {fileID: 1341595197}
+  bISWin: 0
 --- !u!1 &1217495135
 GameObject:
   m_ObjectHideFlags: 0
@@ -12916,16 +12948,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 108914142148593840, guid: 0a3851991f425d04ba8bc2da82023ae4,
         type: 3}
-      propertyPath: stone
+      propertyPath: stoneSpawnPos
       value: 
-      objectReference: {fileID: 7667283773137937456, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-    - target: {fileID: 108914142148593840, guid: 0a3851991f425d04ba8bc2da82023ae4,
-        type: 3}
-      propertyPath: stonePrf
-      value: 
-      objectReference: {fileID: 7667283773137937456, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
+      objectReference: {fileID: 123746697}
     - target: {fileID: 1151405840507370767, guid: 0a3851991f425d04ba8bc2da82023ae4,
         type: 3}
       propertyPath: m_Name
@@ -12980,11 +13005,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5748018269796608661, guid: 0a3851991f425d04ba8bc2da82023ae4,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13125,3 +13145,4 @@ SceneRoots:
   - {fileID: 1927765113}
   - {fileID: 8289135646713692364}
   - {fileID: 4120213537837016197}
+  - {fileID: 123746697}

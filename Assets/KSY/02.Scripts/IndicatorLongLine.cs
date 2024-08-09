@@ -15,15 +15,14 @@ public class IndicatorLongLine : MonoBehaviour
     public float attackPower;
     public float attackDelay;
     float currTime;
-    Image myImage;
-    Color orgColor;
+    public GameObject BG;
+    public GameObject attackIndi;
+
+
 
     private void OnEnable()
     {
-        if (orgColor.a != 0)
-        {
-            myImage.color = orgColor;
-        }
+        attackIndi.transform.localScale = Vector3.one - Vector3.right * 0.9f;
     }
 
     void Start()
@@ -35,8 +34,7 @@ public class IndicatorLongLine : MonoBehaviour
         collider1 = player1.GetComponent<Collider>();
         H_Player = player0.GetComponent<H_PlayerAttack>();
         Y_Player = player1.GetComponent<Y_PlayerAttack>();
-        myImage = GetComponentInChildren<Image>();
-        orgColor = myImage.color;
+
         gameObject.SetActive(false);
     }
 
@@ -65,7 +63,7 @@ public class IndicatorLongLine : MonoBehaviour
     public void AttackPlayer()
     {
         currTime += Time.deltaTime;
-        myImage.color = new Color(orgColor.r, orgColor.g, orgColor.b, orgColor.a + ((1 - orgColor.a) * Time.deltaTime) / 2.1f);
+        attackIndi.transform.localScale += Vector3.right * (0.9f * Time.deltaTime / attackDelay);
         if (currTime > attackDelay)
         {
             currTime = 0;
