@@ -30,6 +30,5 @@ public class H_EndUI : MonoBehaviour
     public void OnClickEndUI()
     {
         SceneManager.LoadScene("StartUIScene");
-
     }
 }
