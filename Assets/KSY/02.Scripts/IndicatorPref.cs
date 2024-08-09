@@ -19,11 +19,8 @@ public class IndicatorPref : MonoBehaviour
 
     private void Awake()
     {
-        
         indicator.transform.localScale = Vector3.one;
         size = 1;
-        
-        print("Enable");
     }
 
     

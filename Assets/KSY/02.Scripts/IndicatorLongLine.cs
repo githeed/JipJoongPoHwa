@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IndicatorLongLine : MonoBehaviour
 {
@@ -12,7 +13,19 @@ public class IndicatorLongLine : MonoBehaviour
     H_PlayerAttack H_Player;
     Y_PlayerAttack Y_Player;
     public float attackPower;
-    // Start is called before the first frame update
+    public float attackDelay;
+    float currTime;
+    Image myImage;
+    Color orgColor;
+
+    private void OnEnable()
+    {
+        if (orgColor.a != 0)
+        {
+            myImage.color = orgColor;
+        }
+    }
+
     void Start()
     {
         myCollider = GetComponent<BoxCollider>();
@@ -22,12 +35,16 @@ public class IndicatorLongLine : MonoBehaviour
         collider1 = player1.GetComponent<Collider>();
         H_Player = player0.GetComponent<H_PlayerAttack>();
         Y_Player = player1.GetComponent<Y_PlayerAttack>();
+        myImage = GetComponentInChildren<Image>();
+        orgColor = myImage.color;
+        gameObject.SetActive(false);
     }
 
+    
     // Update is called once per frame
     void Update()
     {
-        
+        AttackPlayer();
     }
 
     public void CheckOverlap()
@@ -35,15 +52,24 @@ public class IndicatorLongLine : MonoBehaviour
         if (myCollider.bounds.Intersects(collider0.bounds))
         {
             H_Player.UpdateHp(attackPower);
+            print("H플레이어 때림");
         }
         if (myCollider.bounds.Intersects(collider1.bounds))
         {
-
+            Y_Player.UpdateHp(attackPower);
+            print("Y플레이어 때림");
         }
+        gameObject.SetActive(false);
     }
 
     public void AttackPlayer()
     {
-
+        currTime += Time.deltaTime;
+        myImage.color = new Color(orgColor.r, orgColor.g, orgColor.b, orgColor.a + ((1 - orgColor.a) * Time.deltaTime) / 2.1f);
+        if (currTime > attackDelay)
+        {
+            currTime = 0;
+            CheckOverlap();
+        }
     }
 }

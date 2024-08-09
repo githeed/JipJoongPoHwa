@@ -88,7 +88,6 @@ public class EnemyMove : MonoBehaviour
             {
                 playerCsH = other.GetComponent<H_PlayerAttack>();
                 playerCsY = other.GetComponent<Y_PlayerAttack>();
-                if (playerCsY != null) print("닿음");
             }
             attackCoroutine = StartCoroutine(Attack()); // Coroutine형으로 받아서 참조하여 관리.
         }
