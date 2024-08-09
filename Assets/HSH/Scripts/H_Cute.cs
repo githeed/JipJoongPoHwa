@@ -32,7 +32,7 @@ public class H_Cute : MonoBehaviour
         {
             EnemyHp eh = target.GetComponent<EnemyHp>();
             eh.UpdateHp(cuteDmg);
-            print(cuteDmg);
+            //print(cuteDmg);
             gameObject.SetActive(false);
             pa.cutes.Add(gameObject);
         }

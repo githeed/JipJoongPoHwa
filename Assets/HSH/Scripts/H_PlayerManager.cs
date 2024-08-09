@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,6 +65,11 @@ public class H_PlayerManager : MonoBehaviour
     public float maxHP = 1000;
     public float curHP = 0;
 
+    // 경험치 오브젝트풀
+    public List<GameObject> exps = new List<GameObject>();
+    public GameObject expFac;
+
+
     private void Awake()
     {
         if (instance == null)
@@ -94,6 +100,13 @@ public class H_PlayerManager : MonoBehaviour
         //ChangeAlpha(0);
 
         curAttDelay = attTime;
+
+        for (int i = 0; i < 20; i++)
+        {
+            GameObject ef = Instantiate(expFac);
+            ef.SetActive(false);
+            exps.Add(ef);
+        }
     }
 
     void Update()
@@ -216,4 +229,27 @@ public class H_PlayerManager : MonoBehaviour
     //{
     //    e_UI.color = new Color(1, 0, 0, alpha);
     //}
+
+    GameObject GetExp()
+    {
+        GameObject exp = null;
+        if (exps.Count > 0)
+        {
+            exp = exps[0];
+            exp.SetActive(true);
+            exps.RemoveAt(0);
+        }
+        else
+        {
+            exp = Instantiate(expFac);
+        }
+
+        return exp;
+    }
+
+    public void SpawnExp(Vector3 loc)
+    {
+        GameObject ge = GetExp();
+        ge.transform.position = loc;
+    }
 }
