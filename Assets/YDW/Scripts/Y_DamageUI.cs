@@ -11,10 +11,10 @@ public class Y_DamageUI : MonoBehaviour
     public Color hitColor = new Color(1f, 0f, 0f, 0.5f);
     public float colorChangeDuration = 0.5f;
 
-    // 화면 가장자리에 적색 비네팅
-    public Image VigImage;
-    float currTime;
-    public float vigDuration = 0.5f;
+    //// 화면 가장자리에 적색 비네팅
+    //public Image VigImage;
+    //float currTime;
+    //public float vigDuration = 0.5f;
 
 
     // Start is called before the first frame update
@@ -59,50 +59,50 @@ public class Y_DamageUI : MonoBehaviour
         }
     }
 
-    public IEnumerator RedVignette()
-    {
-        VigImage.gameObject.SetActive(true);
-        while (currTime < colorChangeDuration / 2)
-        {
-            currTime += Time.deltaTime;
+    //public IEnumerator RedVignette()
+    //{
+    //    VigImage.gameObject.SetActive(true);
+    //    while (currTime < colorChangeDuration / 2)
+    //    {
+    //        currTime += Time.deltaTime;
 
-            float p = currTime / colorChangeDuration;
-            p = easeOutExpo(p);
-            float alpha = Mathf.Lerp(0f, 1f, p);
-            SetAlpha(alpha);
+    //        float p = currTime / colorChangeDuration;
+    //        p = easeOutExpo(p);
+    //        float alpha = Mathf.Lerp(0f, 1f, p);
+    //        SetAlpha(alpha);
 
-            yield return null;
-        }
-        SetAlpha(1f);
+    //        yield return null;
+    //    }
+    //    SetAlpha(1f);
 
-        while (currTime < colorChangeDuration / 2)
-        {
-            currTime += Time.deltaTime;
+    //    while (currTime < colorChangeDuration / 2)
+    //    {
+    //        currTime += Time.deltaTime;
 
-            float p = currTime / colorChangeDuration;
-            p = easeOutExpo(p);
-            float alpha = Mathf.Lerp(1f, 0f, p);
-            SetAlpha(alpha);
+    //        float p = currTime / colorChangeDuration;
+    //        p = easeOutExpo(p);
+    //        float alpha = Mathf.Lerp(1f, 0f, p);
+    //        SetAlpha(alpha);
 
-            yield return null;
-        }
-        SetAlpha(0f);
-        currTime = 0;
-        VigImage.gameObject.SetActive(false);
+    //        yield return null;
+    //    }
+    //    SetAlpha(0f);
+    //    currTime = 0;
+    //    VigImage.gameObject.SetActive(false);
 
-    }
+    //}
 
-    public void SetAlpha(float alpha)
-    {
-        Color vigColor = VigImage.color;
+    //public void SetAlpha(float alpha)
+    //{
+    //    Color vigColor = VigImage.color;
 
-        vigColor.a = alpha;
+    //    vigColor.a = alpha;
 
-        VigImage.color = vigColor;
-    }
+    //    VigImage.color = vigColor;
+    //}
 
-    public float easeOutExpo(float x)
-    {
-        return x == 1 ? 1 : 1 - (float)Mathf.Pow(2, -10 * x);
-    }
+//    public float easeOutExpo(float x)
+//    {
+//        return x == 1 ? 1 : 1 - (float)Mathf.Pow(2, -10 * x);
+//    }
 }

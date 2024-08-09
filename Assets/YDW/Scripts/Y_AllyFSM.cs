@@ -128,13 +128,18 @@ public class Y_AllyFSM : MonoBehaviour
         
 
         // Player 에게 이동
-        if(Vector3.Distance(transform.position, player.transform.position) > returnDistance)
-        {
-            a_State = AllyState.ReturnToPlayer;
+        //if(Vector3.Distance(transform.position, player.transform.position) > returnDistance)
+        //{
+        //    a_State = AllyState.ReturnToPlayer;
 
-        }
+        //}
 
         //hasDamaged = false;
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            a_State = AllyState.ReturnToPlayer;
+        }
 
     }
 
