@@ -14,11 +14,16 @@ public class EnemyStone : MonoBehaviour
     public float indiSpawnCoolTime;
 
 
-    List<GameObject> indiList = new List<GameObject>();
+    public List<GameObject> indiList = new List<GameObject>();
 
     [Header("터치 금지")]
+    GameObject player0;
+    float distToPlayer;
+
+    public GameObject rangeCanvasGo;
     public GameObject indicatorPrf;
     GameObject indicator;
+    IndicatorPref indicatorCs;
     int minIndiCnt = 10;
     float currTime;
     EnemyHp myHp;
@@ -33,13 +38,18 @@ public class EnemyStone : MonoBehaviour
         myMaterial = GetComponentInChildren<MeshRenderer>().material;
         effTimeSec = new WaitForSeconds(effTime);
         orgColor = myMaterial.color;
-
+        rangeCanvasGo.transform.localScale = Vector3.one * myMaxRange * 2.5f;
         for(int i = 0; i < minIndiCnt; i++)
         {
             indicator = Instantiate(indicatorPrf);
             indiList.Add(indicator);
             indicator.SetActive(false);
+            indicatorCs = indicator.GetComponent<IndicatorPref>();
+            indicatorCs.attackPower = attackPower;
+            indicatorCs.attackCoolTime = attackCoolTime;
+            indicatorCs.attackRange = attackRange;
         }
+        player0 = GameObject.FindWithTag("Player");
     }
 
     void Update()
@@ -47,20 +57,32 @@ public class EnemyStone : MonoBehaviour
         currTime += Time.deltaTime;
         if(currTime > indiSpawnCoolTime)
         {
+            currTime = 0;
             Vector2 rand = Random.insideUnitCircle * myMaxRange;
             if(indiList.Count == 0)
             {
                 indicator = Instantiate(indicatorPrf);
-
+                indicatorCs = indicator.GetComponent<IndicatorPref>();
+                indicatorCs.attackPower = attackPower;
+                indicatorCs.attackCoolTime = attackCoolTime;
+                indicatorCs.attackRange = attackRange;
             }
             else
             {
                 indicator = indiList[0];
                 indiList.RemoveAt(0);
             }
-            indicator.SetActive(true);
+            
+            if(!indicator.activeSelf) indicator.SetActive(true);
             indicator.transform.position = transform.position + Vector3.right * rand.x + Vector3.forward * rand.y;
         }
+
+        distToPlayer = Vector3.Distance(transform.position, player0.transform.position);
+        if(distToPlayer > myMaxRange)
+        {
+            player0.transform.position = transform.position + (player0.transform.position - transform.position).normalized * myMaxRange;
+        }
+
     }
 
     void DamageEff()
@@ -72,7 +94,7 @@ public class EnemyStone : MonoBehaviour
     {
         // 사라지고 Boss 다시 활동
     }
-
+    
     IEnumerator C_DamageEff()
     {
         myMaterial.color = Color.red;

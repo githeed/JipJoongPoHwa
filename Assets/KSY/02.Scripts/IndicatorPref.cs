@@ -48,8 +48,8 @@ public class IndicatorPref : MonoBehaviour
                 }
             }
             if(isDestroy) Destroy(gameObject);
+            if (enemyStone != null) enemyStone.indiList.Add(gameObject);
             gameObject.SetActive(false);
-            if (enemyStone != null) return;
         }
     }
 }
