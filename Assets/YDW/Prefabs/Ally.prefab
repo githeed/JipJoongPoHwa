@@ -461,7 +461,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   returnDistance: 20
   moveDir: {x: 0, y: 0, z: 0}
+  currTime: 0
+  moveTime: 5
   hasDamaged: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 1073741824
+  targets: []
+  quadrant1: 0
+  quadrant2: 0
+  quadrant3: 0
+  quadrant4: 0
 --- !u!114 &5138367024975127787
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class Y_AllyFSM : MonoBehaviour
 
     // Move
     public Vector3 moveDir = new Vector3(0, 0, 0);
-    public float currTime = 0;
+    public float currTime = 5;
     public float moveTime = 5;
 
     // Return
@@ -66,7 +66,7 @@ public class Y_AllyFSM : MonoBehaviour
 
         hasDamaged = false;
 
-        StartCoroutine(ChooseDir());
+        //StartCoroutine(ChooseDir());
         a_State = AllyState.Move;
 
 
@@ -111,10 +111,10 @@ public class Y_AllyFSM : MonoBehaviour
 
     //}
 
-    int quadrant1 = 0;
-    int quadrant2 = 0;
-    int quadrant3 = 0;
-    int quadrant4 = 0;
+    public int quadrant1 = 0;
+    public int quadrant2 = 0;
+    public int quadrant3 = 0;
+    public int quadrant4 = 0;
 
     float forwardDot = 0;
     float rightDot = 0;
@@ -148,62 +148,69 @@ public class Y_AllyFSM : MonoBehaviour
         //}
 
         //hasDamaged = false;
-
-        targets = Physics.OverlapSphere(transform.position, 50f, enemyLayer);
-
-        foreach (Collider target in targets)
-        {
-            forwardDot = Vector3.Dot(Vector3.forward, target.transform.position);
-            rightDot = Vector3.Dot(Vector3.right, target.transform.position);
-
-            if(forwardDot > 0 && rightDot > 0)
-            {
-                quadrant1++;
-            }
-            else if(forwardDot > 0 && rightDot < 0)
-            {
-                quadrant2++;
-            }
-            else if (forwardDot < 0 && rightDot < 0)
-            {
-                quadrant3++;
-            }
-            else if (forwardDot < 0 && rightDot > 0)
-            {
-                quadrant4++;
-            }
-        }
-
-        int[] quadrants = new int[4]{quadrant1, quadrant2, quadrant3, quadrant4};
-
-
-        // a, b 양수인지 음수인지에 따라 방향 결정
-        // 방향은 사분면 고르고 그 다음에 가장 가까운 적에게
-        // 3초마다 한 번씩 방향 바꾼다
-
-        
-
         currTime += Time.deltaTime;
-        if(currTime > moveTime)
+        if(currTime > 5)
         {
+            print("MoveStart");
+            targets = Physics.OverlapSphere(transform.position, 100000f, enemyLayer);
+            quadrant1 = 0;
+            quadrant2 = 0;
+            quadrant3 = 0;
+            quadrant4 = 0;
+            foreach (Collider target in targets)
+            {
+                forwardDot = Vector3.Dot(Vector3.forward, target.transform.position);
+                rightDot = Vector3.Dot(Vector3.right, target.transform.position);
+
+                if(forwardDot > 0 && rightDot > 0)
+                {
+                    quadrant1++;
+                }
+                else if(forwardDot > 0 && rightDot < 0)
+                {
+                    quadrant2++;
+                }
+                else if (forwardDot < 0 && rightDot < 0)
+                {
+                    quadrant3++;
+                }
+                else if (forwardDot < 0 && rightDot > 0)
+                {
+                    quadrant4++;
+                }
+            }
+
+            int[] quadrants = new int[4]{quadrant1, quadrant2, quadrant3, quadrant4};
+
+
+            // a, b 양수인지 음수인지에 따라 방향 결정
+            // 방향은 사분면 고르고 그 다음에 가장 가까운 적에게
+            // 5초마다 한 번씩 방향 바꾼다
+
+
             if(Mathf.Max(quadrants) == quadrant1)
             {
-                moveDir = new Vector3(1, 0, 1).normalized;
+                moveDir = transform.position + new Vector3(1, 0, 1).normalized;
             }
             else if(Mathf.Max(quadrants) == quadrant2)
             {
-                moveDir = new Vector3(-1, 0, 1).normalized;
+                moveDir = transform.position + new Vector3(-1, 0, 1).normalized;
             }
             else if (Mathf.Max(quadrants) == quadrant3)
             {
-                moveDir = new Vector3(-1, 0, -1).normalized;
+                moveDir = transform.position + new Vector3(-1, 0, -1).normalized;
             }
             else if (Mathf.Max(quadrants) == quadrant4)
             {
-                moveDir = new Vector3(1, 0, -1).normalized;
+                moveDir = transform.position + new Vector3(1, 0, -1).normalized;
             }
 
+            currTime = 0;
         }
+
+
+
+
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
