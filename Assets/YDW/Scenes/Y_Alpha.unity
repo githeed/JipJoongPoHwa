@@ -943,7 +943,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardButton: {fileID: 940780886}
   bg: {fileID: 0}
-  e_UI: {fileID: 0}
   maxExperiences:
   - 0
   - 0

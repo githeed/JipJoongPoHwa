@@ -235,6 +235,9 @@ public class Y_PlayerAttack : MonoBehaviour
         // 오버랩 스피어
         // targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
         nearestTarget = GetNearest();
+        dir = nearestTarget.transform.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
+        transform.rotation = rotation;
 
         if (nearestTarget == null) return;
         // 공격하기
