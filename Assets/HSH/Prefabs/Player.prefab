@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &629133633398578289
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f4e7c43d83d9e3643b961a718c9f9ac3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6dad1b5865ec2ec4e940ee0d2b00fa6b, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f70c4f65dd2dee84dbcb33a5884497cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 24077f249836601489f2f6226d28311a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -459,7 +459,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -953.58, y: -535.38}
+  m_AnchoredPosition: {x: 0, y: 5.2}
   m_SizeDelta: {x: 3, y: 0.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2931653610492011861
@@ -951,7 +951,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6283869848994492293}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3850558003122810903, guid: f024b0fcb043ff04bba5d60189438169,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4586046023990781183}
   m_SourcePrefab: {fileID: 100100000, guid: f024b0fcb043ff04bba5d60189438169, type: 3}
 --- !u!4 &414966900336885169 stripped
 Transform:
@@ -965,6 +969,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4316274200626304796}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4586046023990781183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047529596090558219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fdabfb54f0b21d45bc7e8e750596f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitColor: {r: 1, g: 0, b: 0, a: 0.5}
+  colorChangeDuration: 0.5
 --- !u!1001 &5408811434314609841
 PrefabInstance:
   m_ObjectHideFlags: 0
