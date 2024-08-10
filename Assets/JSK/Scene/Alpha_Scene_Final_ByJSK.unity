@@ -7538,8 +7538,8 @@ MonoBehaviour:
   cuteCurAttDelay: 0
   maxExperiences:
   - 0
-  - 0
-  - 0
+  - 5
+  - 20
   - 0
   - 0
   - 0

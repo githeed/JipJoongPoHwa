@@ -16,7 +16,7 @@ public class H_StartUIClick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+         
     }
 
     public void OnClickButton()
@@ -29,6 +29,6 @@ public class H_StartUIClick : MonoBehaviour
     {
         yield return new WaitForSeconds(0.8f);
 
-        SceneManager.LoadScene("AlphaScene_HSH");
+        SceneManager.LoadScene("Alpha_Scene_Final_ByJSK");
     }
 }
