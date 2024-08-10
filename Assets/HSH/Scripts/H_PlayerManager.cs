@@ -133,7 +133,7 @@ public class H_PlayerManager : MonoBehaviour
             {
                 GameManager.instance.rCoolText.enabled = false;
                 curRCoolTime = 0;
-                eCool = false;
+                rCool = false;
             }
         }
 
