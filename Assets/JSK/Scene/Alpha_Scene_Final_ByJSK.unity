@@ -7540,12 +7540,12 @@ MonoBehaviour:
   - 0
   - 5
   - 20
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  - 40
+  - 80
+  - 100
+  - 100
+  - 100
+  - 100
   indexLev: 0
   expMultiplier: 20
   exp: 0
@@ -12468,7 +12468,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 47b3e614f30a4cc42afaf202f1b0ad56, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: a173f8b68bc0e7241a23754dea4e85b3, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1373910263
 GameObject:
@@ -50402,6 +50402,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151405840507370767, guid: 0a3851991f425d04ba8bc2da82023ae4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5123821975879529343, guid: 0a3851991f425d04ba8bc2da82023ae4,
         type: 3}
