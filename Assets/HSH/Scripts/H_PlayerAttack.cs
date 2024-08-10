@@ -70,6 +70,10 @@ public class H_PlayerAttack : MonoBehaviour
 
     public Material mat;
 
+    public float drainPower = 1;
+
+    public float healPower = 10;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -129,6 +133,7 @@ public class H_PlayerAttack : MonoBehaviour
             H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
             eBuff.GetComponent<ParticleSystem>().Stop();
+            UpdateHp(-1 * healPower);
         }
     }
 
@@ -209,6 +214,7 @@ public class H_PlayerAttack : MonoBehaviour
                     if (em != null)
                     {
                         em.UpdateHp(attackDmg);
+                        UpdateHp(-1 * drainPower);
                     }
                     //print(enemy.gameObject + ": " + attackDmg);
                 }
@@ -239,7 +245,7 @@ public class H_PlayerAttack : MonoBehaviour
             H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
             eBuff.GetComponent<ParticleSystem>().Stop();
-
+            UpdateHp(-1 * healPower);
         }
     }
     void BrierRSkill()
@@ -303,6 +309,11 @@ public class H_PlayerAttack : MonoBehaviour
     {
         H_PlayerManager.instance.curHP -= dmg;
         Y_DamageUI yd = GetComponentInChildren<Y_DamageUI>();
+
+        if (H_PlayerManager.instance.curHP >= H_PlayerManager.instance.maxHP)
+        {
+            H_PlayerManager.instance.curHP = H_PlayerManager.instance.maxHP;
+        }
 
         StartCoroutine(yd.ChangeColorTemporarily());
         if (H_PlayerManager.instance.curHP <= 0)
