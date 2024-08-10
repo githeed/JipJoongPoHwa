@@ -12023,12 +12023,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &2126535616 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4259548514787753977, guid: c0ff4544352d69d48a1458821e5b224a,
-    type: 3}
-  m_PrefabInstance: {fileID: 4120213537837016197}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2147450114
 GameObject:
   m_ObjectHideFlags: 0
@@ -12570,36 +12564,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 515591758112527957, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 515591758112527957, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 515591758112527957, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1253094812850284403, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: myMaxRange
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1253094812850284403, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: rangeCanvasGo
-      value: 
-      objectReference: {fileID: 2126535616}
-    - target: {fileID: 1414097441364230224, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 3204511186177875764, guid: c0ff4544352d69d48a1458821e5b224a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12649,21 +12613,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4067581252110713596, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.037220426
-      objectReference: {fileID: 0}
-    - target: {fileID: 4067581252110713596, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4067581252110713596, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.2830189
       objectReference: {fileID: 0}
     - target: {fileID: 7667283773137937456, guid: c0ff4544352d69d48a1458821e5b224a,
         type: 3}

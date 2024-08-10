@@ -85,10 +85,6 @@ public class H_PlayerManager : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < maxExperiences.Length; i++)
-        {
-            maxExperiences[i] = i * expMultiplier;
-        }
         indexLev = 1;
         //print("Manager");
 
@@ -164,8 +160,8 @@ public class H_PlayerManager : MonoBehaviour
             bg.enabled = true;
             bIsPicking = true;
             indexLev++;
+            exp = 0;
             pc = StartCoroutine(PickCard(10));
-            print("start pick");
         }
     }
 

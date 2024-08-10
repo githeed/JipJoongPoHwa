@@ -7,18 +7,29 @@ public class EnemyStone : MonoBehaviour
     [Header("조절 가능")]
     [Tooltip("피격시 빨개지는 이펙트 지속 시간")]
     public float effTime;
+    [Tooltip("스톤의 공격력")]
     public float attackPower;
+    [Tooltip("각 공격들의 범위")]
     public float attackRange;
+    [Tooltip("각 공격들이 표시된 후 데미지가 들어갈 때 까지의 시간")]
     public float attackCoolTime;
+    [Tooltip("스톤의 공격 범위")]
     public float myMaxRange;
+    [Tooltip("공격 소환 쿨타임")]
     public float indiSpawnCoolTime;
+    [Tooltip("나타났을 때 플레이어 땡겨오는 속도")]
+    public float drawSpeed;
 
 
-    public List<GameObject> indiList = new List<GameObject>();
 
     [Header("터치 금지")]
+    public List<GameObject> indiList = new List<GameObject>();
+    public Boss boss;
+    
     GameObject player0;
-    float distToPlayer;
+    GameObject player1;
+    float distToPlayer0;
+    float distToPlayer1;
 
     public GameObject rangeCanvasGo;
     public GameObject indicatorPrf;
@@ -30,6 +41,9 @@ public class EnemyStone : MonoBehaviour
     WaitForSeconds effTimeSec;
     Material myMaterial;
     Color orgColor;
+
+    bool isStart;
+
     void Start()
     {
         myHp = GetComponent<EnemyHp>();
@@ -50,10 +64,20 @@ public class EnemyStone : MonoBehaviour
             indicatorCs.attackRange = attackRange;
         }
         player0 = GameObject.FindWithTag("Player");
+        player1 = GameObject.FindWithTag("Player1");
+        isStart = true;
     }
 
     void Update()
     {
+        distToPlayer0 = Vector3.Distance(transform.position, player0.transform.position);
+        distToPlayer1 = Vector3.Distance(transform.position, player1.transform.position);
+
+        IsStart();
+
+
+        if (isStart) return;
+
         currTime += Time.deltaTime;
         if(currTime > indiSpawnCoolTime)
         {
@@ -77,12 +101,30 @@ public class EnemyStone : MonoBehaviour
             indicator.transform.position = transform.position + Vector3.right * rand.x + Vector3.forward * rand.y;
         }
 
-        distToPlayer = Vector3.Distance(transform.position, player0.transform.position);
-        if(distToPlayer > myMaxRange)
+        
+        if(distToPlayer0 > myMaxRange)
         {
             player0.transform.position = transform.position + (player0.transform.position - transform.position).normalized * myMaxRange;
         }
+        if(distToPlayer1 > myMaxRange)
+        {
+            player1.transform.position = transform.position + (player1.transform.position - transform.position).normalized * myMaxRange;
+        }
 
+    }
+
+    void IsStart()
+    {
+        if (distToPlayer0 < myMaxRange)
+        {
+            isStart = false;
+            return;
+        }
+        if (distToPlayer0 > myMaxRange)
+        {
+            player0.transform.Translate((transform.position - player0.transform.position).normalized * drawSpeed * Time.deltaTime, Space.World);
+        }
+        
     }
 
     void DamageEff()
@@ -93,6 +135,10 @@ public class EnemyStone : MonoBehaviour
     void OnDie()
     {
         // 사라지고 Boss 다시 활동
+        transform.GetChild(0).gameObject.SetActive(false);
+        boss.ChangeState(Boss.BossState.MOVE);
+        boss.transform.position = transform.position + Vector3.up;
+        gameObject.SetActive(false);
     }
     
     IEnumerator C_DamageEff()

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -8,6 +10,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 {
     public enum BossState
     {
+        START,
         IDLE,
         MOVE,
         ATTACK,
@@ -26,6 +29,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     [Header("터치 금지")]
     public GameObject stonePrf;
     GameObject stone;
+    EnemyStone enemyStone;
     public Transform stoneSpawnPos;
 
     public GameObject target;
@@ -39,6 +43,12 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     GameObject indicator;
     IndicatorPref indicatorCS;
 
+    GameObject mainCam;
+    Transform mainCamOrgParent;
+    public Transform mainCamTargetPos;
+    public float camMoveSpeed = 40;
+    Vector3 startDir;
+
     public BossState currState;
     Animator myAnim;
     float toTargetDist;
@@ -47,12 +57,17 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     IndicatorLongLine longIndicator;
     bool workingPattern01;
 
+    public Transform bossMoveTarget;
+
     private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
         agent = GetComponent<NavMeshAgent>();
         myAnim = GetComponent<Animator>();
         longIndicator = GetComponentInChildren<IndicatorLongLine>();
+        mainCam = Camera.main.gameObject;
+        mainCamOrgParent = mainCam.transform.parent;
+        agent.enabled = false;
     }
     void Start()
     {
@@ -62,7 +77,6 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         
         agent.speed = moveSpeed;
         
-        ChangeState(BossState.MOVE);
         agent.updateRotation = false;
         
         longIndicator.attackPower = attackPower;
@@ -80,6 +94,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicatorCS.attackPower = attackPower;
             indicator.SetActive(false);
         }
+        ChangeState(BossState.START);
     }
 
     void Update()
@@ -89,10 +104,13 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         //toTargetDir = target.transform.position - transform.position;
         toTargetDir = new Vector3(target.transform.position.x - transform.position.x, 0, target.transform.position.z - transform.position.z);
         toTargetDist = toTargetDir.magnitude;
-
+        print(mainCam.name);
 
         switch (currState)
         {
+            case BossState.START:
+                UpdateStart();
+                break;
             case BossState.IDLE:
                 break;
             case BossState.MOVE:
@@ -111,7 +129,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 
     }
 
-    void ChangeState(BossState state)
+    public void ChangeState(BossState state)
     {
         print(currState + " ----> " + state);
         currState = state;
@@ -121,7 +139,11 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 
         switch (currState)
         {
+            case BossState.START:
+                mainCam.transform.SetParent(null);
+                break;
             case BossState.IDLE:
+                OnIdle();
                 break;
             case BossState.MOVE:
                 agent.enabled = true;
@@ -137,6 +159,28 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             default:
                 break;
         }
+    }
+    void UpdateStart()
+    {
+        startDir = (bossMoveTarget.position - transform.position).normalized;
+        if (Vector3.Distance(bossMoveTarget.position, transform.position)< 0.5f)
+        {
+            ChangeState(BossState.IDLE);
+            return;
+        }
+        transform.forward = (startDir - Vector3.up * startDir.y).normalized;
+        transform.Translate(startDir * moveSpeed * Time.deltaTime, Space.World);
+        if (Vector3.Distance(mainCam.transform.position, mainCamTargetPos.position) < 0.5f) 
+        {
+            mainCam.transform.position = mainCamTargetPos.position;
+            return;
+        }
+        mainCam.transform.Translate((mainCamTargetPos.position - mainCam.transform.position).normalized * camMoveSpeed * Time.deltaTime, Space.World);
+    }
+
+    void OnIdle()
+    {
+        myAnim.SetTrigger("Roar");
     }
 
     void UpdateMove()
@@ -207,9 +251,15 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     }
 
     int myAttackPattern = -1;
-    int totalPatternCnt = 3;
+    int totalPatternCnt = 2;
     void OnDecideAttackPattern()
     {
+        //if(myAttackPattern == -1)
+        //{
+        //    myAttackPattern++;
+        //    AttackPattern_3();
+        //    return;
+        //}
         // 1번부터 번갈아 가면서 시행
         myAttackPattern++;
         myAttackPattern %= totalPatternCnt; // 패턴 개수로 나머지 구하기.
@@ -221,9 +271,9 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             case 1:
                 AttackPattern_2();
                 break;
-            case 2:
-                AttackPattern_3();
-                break;
+            //case 2:
+            //    AttackPattern_3();
+            //    break;
             default:
                 break;
         }
@@ -232,7 +282,11 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     void AttackPattern_3() // 패턴 3 : 기둥 패턴
     {
         stone.SetActive(true);
+        if (stoneSpawnPos == null) stoneSpawnPos = GameObject.Find("StoneSpawnPos").transform;
         stone.transform.position = stoneSpawnPos.position;
+        enemyStone = stone.GetComponent<EnemyStone>();
+        enemyStone.boss = this;
+        transform.position = Vector3.up * 1000;
     }
 
     void OnDie()
@@ -295,6 +349,13 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         if (stateInfo.IsName("Attack_Jump01"))
         {
             ChangeState(BossState.MOVE);
+        }
+
+        if (stateInfo.IsName("Roar"))
+        {
+            AttackPattern_3();
+            mainCam.transform.SetParent(mainCamOrgParent);
+            mainCam.transform.localPosition = Vector3.zero;
         }
     }
 
