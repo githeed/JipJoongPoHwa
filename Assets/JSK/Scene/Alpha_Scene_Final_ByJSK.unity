@@ -12407,6 +12407,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1358567934}
   - component: {fileID: 1358567935}
+  - component: {fileID: 1358567936}
   m_Layer: 0
   m_Name: NewMap
   m_TagString: Untagged
@@ -12468,8 +12469,24 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 47b3e614f30a4cc42afaf202f1b0ad56, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 87762c7ba292da544a505149e551bea7, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &1358567936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358567933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 1000, y: 101.74661, z: 1000}
+  m_Center: {x: 0, y: 52.373306, z: 0}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1373910263
 GameObject:
   m_ObjectHideFlags: 0
@@ -15178,7 +15195,7 @@ Transform:
   m_GameObject: {fileID: 1707259617}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -46.1, y: 4.313583, z: 45.1}
+  m_LocalPosition: {x: -80.9, y: 4.313583, z: 70.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16930,7 +16947,7 @@ Transform:
   m_GameObject: {fileID: 1927765112}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.33, y: 4.313583, z: -48.02}
+  m_LocalPosition: {x: 127.6, y: 4.313583, z: -61.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30434,7 +30451,7 @@ Transform:
   m_GameObject: {fileID: 6763917837870438219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.555884, y: 0.009959247, z: -0.40614066}
+  m_LocalPosition: {x: 0.555884, y: 0.0099, z: -0.40614066}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
