@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/HSH/Scenes/StartUIScene.unity
+    path: Assets/Scenes/StartUIScene.unity
     guid: f600f79a5512d1d4dadc8db35406b237
   - enabled: 1
-    path: Assets/HSH/Scenes/AlphaScene_HSH.unity
-    guid: f068816c960503142b8ec35551627880
+    path: Assets/JSK/Scene/Alpha_Scene_Final_ByJSK.unity
+    guid: 338d9196f2e3cda49a2cf593d97d2545
   - enabled: 1
-    path: Assets/HSH/Scenes/EndUIScene.unity
+    path: Assets/Scenes/EndUIScene.unity
     guid: c52105446ad06164f81034a3c85570cc
   m_configObjects: {}
