@@ -58,10 +58,20 @@ public class Nokturne : MonoBehaviour
 
     Animator myAnim;
 
+    float effTime = 0.1f;
+    WaitForSeconds effTimeSec;
+    Material myMaterial;
+    Color orgColor;
+
     private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
         enemyHp.onDie = OnDie;
+        enemyHp.damageEff = DamageEff;
+        myMaterial = GetComponentInChildren<MeshRenderer>().material;
+        effTimeSec = new WaitForSeconds(effTime);
+        orgColor = myMaterial.color;
+
         currState = NokturneState.IDLE;
         attackIndicatorPos.SetActive(false);
         findPlayers = GetComponent<FindPlayers>();
@@ -177,10 +187,22 @@ public class Nokturne : MonoBehaviour
 
     public void OnDie()
     {
+        H_PlayerManager.instance.SpawnExp(transform.position);
         Destroy(attackIndicatorPos);
         Destroy(gameObject);
     }
 
+    void DamageEff()
+    {
+        StartCoroutine(C_DamageEff());
+    }
+
+    IEnumerator C_DamageEff()
+    {
+        myMaterial.color = Color.red;
+        yield return effTimeSec;
+        myMaterial.color = orgColor;
+    }
 
     IEnumerator NocturneAttack()
     {
