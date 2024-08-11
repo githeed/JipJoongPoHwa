@@ -18549,6 +18549,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2079218161}
   m_Mesh: {fileID: 630814245010541544, guid: 6642d04b9523c67459dd8fa173b56e79, type: 3}
+--- !u!1 &2088312649 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3904714552585844357, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 378312211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2093807288
 GameObject:
   m_ObjectHideFlags: 0
@@ -26195,6 +26201,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3116014020008234532, guid: f95589c96f700cf4da40457085011b51,
+        type: 3}
+      propertyPath: ally
+      value: 
+      objectReference: {fileID: 2088312649}
     - target: {fileID: 8070851433425353638, guid: f95589c96f700cf4da40457085011b51,
         type: 3}
       propertyPath: m_LocalPosition.x
