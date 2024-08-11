@@ -50,3 +50,5 @@ MonoBehaviour:
     type: 3}
   damageUIPrefab: {fileID: 8953976781715269536, guid: a074b2180a048bf4491ca104e8b63e03,
     type: 3}
+  featherPrefab: {fileID: 1560146333889575406, guid: 0fca7898fcdca6f48baf1ea78291eab5,
+    type: 3}

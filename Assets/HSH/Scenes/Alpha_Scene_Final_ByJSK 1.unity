@@ -1556,6 +1556,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 152925924}
   m_Mesh: {fileID: -5451849839690123725, guid: 6642d04b9523c67459dd8fa173b56e79, type: 3}
+--- !u!1 &175727292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3638052305529657198, guid: 08b89f6259071f64f8b7efd12593ff13,
+    type: 3}
+  m_PrefabInstance: {fileID: 665120288}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &175727297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175727292}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc653de473af2874bb17b4fc3c1cef27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &176097044
 GameObject:
   m_ObjectHideFlags: 0
@@ -6610,6 +6628,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
+      propertyPath: aim
+      value: 
+      objectReference: {fileID: 175727292}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
       propertyPath: scanRange
       value: 30
       objectReference: {fileID: 0}
@@ -6684,15 +6707,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2333035777070659612, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2915857297165151907, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.574
+      value: 0.69
       objectReference: {fileID: 0}
     - target: {fileID: 2915857297165151907, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.07
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2915857297165151907, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
@@ -6767,7 +6795,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3638052305529657198, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 175727297}
   m_SourcePrefab: {fileID: 100100000, guid: 08b89f6259071f64f8b7efd12593ff13, type: 3}
 --- !u!1 &665215659
 GameObject:
@@ -10403,9 +10435,18 @@ MonoBehaviour:
   eCoolText: {fileID: 938951746}
   rCoolText: {fileID: 1576272622}
   timeText: {fileID: 46026598}
+  bossHPUI: {fileID: 0}
   gameTime: 0
   player: {fileID: 742859355}
   bISWin: 0
+  bossSpawnPos: {fileID: 0}
+  bossMoveTarget: {fileID: 0}
+  cameraMoveTarget: {fileID: 0}
+  bossprf: {fileID: 0}
+  midBossPrf: {fileID: 0}
+  nocturnePrf: {fileID: 0}
+  bossSpawnMin: 0
+  midBossSpawnPeriod: 0
 --- !u!1001 &1153162869
 PrefabInstance:
   m_ObjectHideFlags: 0
