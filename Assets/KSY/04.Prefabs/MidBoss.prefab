@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4f460300b8cbb4e96aaff03e4a1174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 10
+  attackPower: 50
   attackRange: 10
   attackDelay: 3.37
   currState: 0

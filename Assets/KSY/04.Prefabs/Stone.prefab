@@ -458,7 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26aad83e6139747469481333dd00d728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 1000
+  maxHp: 100
   curHp: 0
 --- !u!114 &1253094812850284403
 MonoBehaviour:
@@ -480,6 +480,7 @@ MonoBehaviour:
   indiSpawnCoolTime: 0.3
   drawSpeed: 50
   indiList: []
+  boss: {fileID: 0}
   rangeCanvasGo: {fileID: 4259548514787753977}
   indicatorPrf: {fileID: 3482020800740940013, guid: 58774e9aab8bf4543825707db10b79b1,
     type: 3}
