@@ -27,14 +27,14 @@ public class Y_PlayerAttack : MonoBehaviour
     public float skillTimeRate = 1;
 
     // Scan and Target
-    public float scanRange = 10f;
+    public float scanRange = 50f;
     public LayerMask targetLayer;
     public LayerMask featherLayer;
     public Collider[] targets;
     public Collider[] feathers;
     public GameObject[] feathersE;
     public GameObject[] feathersR;
-    public Transform nearestTarget;
+    //public Transform nearestTarget;
 
     // AttackDmg and HP
     public float attackDmg;
@@ -80,6 +80,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public GameObject allyBody;
 
+    public GameObject nearestTargetB;
+
     void Start()
     {
         hp = GetComponent<Y_HPSystem>();
@@ -107,6 +109,10 @@ public class Y_PlayerAttack : MonoBehaviour
         manager = GameObject.Find("H_PlayerManager");
         pm = manager.GetComponent<H_PlayerManager>();
         allyBody = GameObject.Find("AllyBody");
+
+        nearestTargetB = GameObject.Find("Enemy");
+        print("!!!!!!!!!!" + nearestTargetB);
+
     }
 
 
@@ -164,6 +170,10 @@ public class Y_PlayerAttack : MonoBehaviour
             StartCoroutine(EvolveCrt());
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            StartCoroutine(RSkill());
+        }
 
 
 
@@ -171,7 +181,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
 
         // 레벨별로 속도나 개수 변경하기
-        if(pm.indexLev == 1)
+        if (pm.indexLev == 1)
         {
             basicAttTime = 2;
             ESkillTime = 9;
@@ -229,17 +239,18 @@ public class Y_PlayerAttack : MonoBehaviour
         return result;
     }
 
+    public Vector3 dirB;
     void BasicAttack()
     {
         isBAttack = true;
         // 오버랩 스피어
         // targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
-        nearestTarget = GetNearest();
-        dir = nearestTarget.transform.position - transform.position;
-        //Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
-        //transform.rotation = rotation;
+        nearestTargetB = GetNearest().gameObject;
+        dirB = nearestTargetB.transform.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(dirB, Vector3.up);
+        allyBody.transform.rotation = rotation;
 
-        if (nearestTarget == null) return;
+        if (nearestTargetB == null) return;
         // 공격하기
         else
         {
@@ -378,9 +389,11 @@ public class Y_PlayerAttack : MonoBehaviour
     private IEnumerator FeatherAttack()
     {
 
-        Vector3 dirFrAllyToEnm = nearestTarget.transform.position - transform.position; // 처음 깃털 한 번만 해야 한다
-        dirFrAllyToEnm.y = 0;
-        Vector3 dirFrAllyToEnmNor = dirFrAllyToEnm.normalized;
+
+        //// dir 으로 바꾸기??????
+        //Vector3 dirFrAllyToEnm = nearestTargetB.transform.position - transform.position; // 처음 깃털 한 번만 해야 한다
+        //dirFrAllyToEnm.y = 0;
+        //Vector3 dirFrAllyToEnmNor = dirFrAllyToEnm.normalized;
 
         int i = 0;
         anim.SetTrigger("BASIC_ATTACK");
@@ -388,7 +401,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
         //Quaternion rotation = Quaternion.LookRotation(dirFrAllyToEnm, Vector3.up);
         //transform.rotation = rotation;
-        allyBody.transform.forward = dirFrAllyToEnm;
+        //allyBody.transform.forward = dirFrAllyToEnm;
+        allyBody.transform.forward = dirB;
 
         yield return new WaitForSecondsRealtime(0.4f);
 
@@ -399,7 +413,7 @@ public class Y_PlayerAttack : MonoBehaviour
             feather.transform.position = transform.position;
 
             // 레이캐스트로 적 감지 후 데미지 주기
-            RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, dirFrAllyToEnm, featherDist, targetLayer);
+            RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, dirB, featherDist, targetLayer); //dirFrAllyToEnm
             int nth = 0;
             foreach (RaycastHit hitinfo in hitInfos)
             {
@@ -426,9 +440,9 @@ public class Y_PlayerAttack : MonoBehaviour
             Vector3 destinationB;
             while (dist > nextDist)
             {
-                destinationB = (transform.position + featherDist * dirFrAllyToEnmNor);
+                destinationB = (transform.position + featherDist * dirB.normalized); // dirFrAllyToEnmNor
                 dist = Vector3.Distance(feather.transform.position, destinationB);
-                feather.transform.position += dirFrAllyToEnmNor * featherSpeedB * Time.deltaTime;
+                feather.transform.position += dirB.normalized * featherSpeedB * Time.deltaTime; // dirFrAllyToEnmNor
                 nextDist = Vector3.Distance(feather.transform.position, destinationB);
                 yield return null;
             }
@@ -539,7 +553,7 @@ public class Y_PlayerAttack : MonoBehaviour
     Vector3 p6;
     Vector3 p7;
     Vector3 p8;
-    Vector3 dir;
+    Vector3 dirP;
 
     private IEnumerator PassiveAttack()
     {
@@ -577,12 +591,12 @@ public class Y_PlayerAttack : MonoBehaviour
                 feather2.transform.position = transform.position;
                 feather2.layer = LayerMask.NameToLayer("PassiveFeather");
 
-                dir = p4 - transform.position;
+                dirP = p4 - transform.position;
 
                 if(i == 0)
                 {
                     // 몸통 회전시키기
-                    allyBody.transform.forward = dir;
+                    allyBody.transform.forward = dirP;
                     //Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
                     ///////////////////////////////////////////
                     //transform.rotation = rotation;
@@ -591,9 +605,9 @@ public class Y_PlayerAttack : MonoBehaviour
                 while (true)
                 {
 
-                    dir = p4 - transform.position;
+                    dirP = p4 - transform.position;
 
-                    time += Time.deltaTime * 4;
+                    time += Time.deltaTime * 3;
 
                     time = Mathf.Clamp(time, 0, 1);
 

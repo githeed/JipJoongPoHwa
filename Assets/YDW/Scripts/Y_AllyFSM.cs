@@ -48,7 +48,6 @@ public class Y_AllyFSM : MonoBehaviour
     public LayerMask enemyLayer;
     public Collider[] targets;
 
-    // Start is called before the first frame update
     void Start()
     {
 
@@ -65,22 +64,20 @@ public class Y_AllyFSM : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
 
         hasDamaged = false;
+        
+        moveDir = new Vector3(1, 0, 0);
 
-        //StartCoroutine(ChooseDir());
         a_State = AllyState.Move;
 
 
 
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         switch(a_State)
         {
-            //case AllyState.Idle:
-            //    Idle();
-            //    break;
             case AllyState.Move:
                 Move();
                 break;
@@ -101,16 +98,6 @@ public class Y_AllyFSM : MonoBehaviour
         anim.SetFloat("MOVE", moveDir.magnitude);
     }
 
-    //void Idle()
-    //{
-    //    if(Vector3.Distance(transform.position, enemy.transform.position) < findDistance)
-    //    {
-    //        a_State = AllyState.Move;
-    //        print("상태 전환: Idle -> Move");
-    //    }
-
-    //}
-
     public int quadrant1 = 0;
     public int quadrant2 = 0;
     public int quadrant3 = 0;
@@ -128,86 +115,110 @@ public class Y_AllyFSM : MonoBehaviour
 
         // 일단은 3초마다 한번씩 랜덤한 방향으로 움직이게 해놓고 기본공격/스킬 하나 구현한 이후에 생각해보자
 
-
-        //if(!hp.isDead)
-        //{
-        //    cc.Move(moveDir * moveSpeed * Time.deltaTime);
-
-        //    if (moveDir != Vector3.zero)
-        //    {
-        //        allyBody.transform.forward = moveDir;
-        //    }
-        //}
-
-
-        // Player 에게 이동
-        //if(Vector3.Distance(transform.position, player.transform.position) > returnDistance)
-        //{
-        //    a_State = AllyState.ReturnToPlayer;
-
-        //}
-
-        //hasDamaged = false;
         currTime += Time.deltaTime;
-        if(currTime > 5)
+        if (currTime > 3)
         {
-            print("MoveStart");
-            targets = Physics.OverlapSphere(transform.position, 100000f, enemyLayer);
-            quadrant1 = 0;
-            quadrant2 = 0;
-            quadrant3 = 0;
-            quadrant4 = 0;
-            foreach (Collider target in targets)
+            if (hp.isDead == false)
             {
-                forwardDot = Vector3.Dot(Vector3.forward, target.transform.position);
-                rightDot = Vector3.Dot(Vector3.right, target.transform.position);
+                int randInt = Random.Range(1, 9);
 
-                if(forwardDot > 0 && rightDot > 0)
+                switch (randInt)
                 {
-                    quadrant1++;
+                    case 1:
+                        moveDir = new Vector3(1, 0, 0);
+                        break;
+                    case 2:
+                        moveDir = new Vector3(1, 0, 1).normalized;
+                        break;
+                    case 3:
+                        moveDir = new Vector3(0, 0, 1);
+                        break;
+                    case 4:
+                        moveDir = new Vector3(-1, 0, 1).normalized;
+                        break;
+                    case 5:
+                        moveDir = new Vector3(-1, 0, 0);
+                        break;
+                    case 6:
+                        moveDir = new Vector3(-1, 0, -1).normalized;
+                        break;
+                    case 7:
+                        moveDir = new Vector3(0, 0, -1);
+                        break;
+                    case 8:
+                        moveDir = new Vector3(1, 0, -1).normalized;
+                        break;
+
                 }
-                else if(forwardDot > 0 && rightDot < 0)
-                {
-                    quadrant2++;
-                }
-                else if (forwardDot < 0 && rightDot < 0)
-                {
-                    quadrant3++;
-                }
-                else if (forwardDot < 0 && rightDot > 0)
-                {
-                    quadrant4++;
-                }
+
             }
-
-            int[] quadrants = new int[4]{quadrant1, quadrant2, quadrant3, quadrant4};
-
-
-            // a, b 양수인지 음수인지에 따라 방향 결정
-            // 방향은 사분면 고르고 그 다음에 가장 가까운 적에게
-            // 5초마다 한 번씩 방향 바꾼다
-
-
-            if(Mathf.Max(quadrants) == quadrant1)
-            {
-                moveDir = transform.position + new Vector3(1, 0, 1).normalized;
-            }
-            else if(Mathf.Max(quadrants) == quadrant2)
-            {
-                moveDir = transform.position + new Vector3(-1, 0, 1).normalized;
-            }
-            else if (Mathf.Max(quadrants) == quadrant3)
-            {
-                moveDir = transform.position + new Vector3(-1, 0, -1).normalized;
-            }
-            else if (Mathf.Max(quadrants) == quadrant4)
-            {
-                moveDir = transform.position + new Vector3(1, 0, -1).normalized;
-            }
-
+            
             currTime = 0;
-        }
 
+        }
+        /////////////////////////////////////////////////////////////////////
+        //currTime += Time.deltaTime;
+        //if(currTime > 5)
+        //{
+        //    print("MoveStart");
+        //    targets = Physics.OverlapSphere(transform.position, 100000f, enemyLayer);
+        //    quadrant1 = 0;
+        //    quadrant2 = 0;
+        //    quadrant3 = 0;
+        //    quadrant4 = 0;
+        //    foreach (Collider target in targets)
+        //    {
+        //        forwardDot = Vector3.Dot(Vector3.forward, target.transform.position);
+        //        rightDot = Vector3.Dot(Vector3.right, target.transform.position);
+
+        //        if(forwardDot > 0 && rightDot > 0)
+        //        {
+        //            quadrant1++;
+        //        }
+        //        else if(forwardDot > 0 && rightDot < 0)
+        //        {
+        //            quadrant2++;
+        //        }
+        //        else if (forwardDot < 0 && rightDot < 0)
+        //        {
+        //            quadrant3++;
+        //        }
+        //        else if (forwardDot < 0 && rightDot > 0)
+        //        {
+        //            quadrant4++;
+        //        }
+        //    }
+
+        //    int[] quadrants = new int[4]{quadrant1, quadrant2, quadrant3, quadrant4};
+
+
+        //    // a, b 양수인지 음수인지에 따라 방향 결정
+        //    // 방향은 사분면 고르고 그 다음에 가장 가까운 적에게
+        //    // 5초마다 한 번씩 방향 바꾼다
+
+
+        //    if(Mathf.Max(quadrants) == quadrant1)
+        //    {
+        //        moveDir = transform.position + new Vector3(1, 0, 1).normalized;
+        //    }
+        //    else if(Mathf.Max(quadrants) == quadrant2)
+        //    {
+        //        moveDir = transform.position + new Vector3(-1, 0, 1).normalized;
+        //    }
+        //    else if (Mathf.Max(quadrants) == quadrant3)
+        //    {
+        //        moveDir = transform.position + new Vector3(-1, 0, -1).normalized;
+        //    }
+        //    else if (Mathf.Max(quadrants) == quadrant4)
+        //    {
+        //        moveDir = transform.position + new Vector3(1, 0, -1).normalized;
+        //    }
+
+        //    currTime = 0;
+        //}
+
+
+        ////////////////////////////////////////////////////////////////
 
 
 
