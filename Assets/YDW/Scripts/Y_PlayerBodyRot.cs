@@ -6,17 +6,20 @@ public class Y_PlayerBodyRot : MonoBehaviour
 {
     Y_AllyFSM allyFSM;
     GameObject allyBody;
+    Y_PlayerAttack pa;
 
     // Start is called before the first frame update
     void Start()
     {
         allyFSM = GetComponent<Y_AllyFSM>();
         allyBody = GameObject.Find("AllyBody");
+        pa = GetComponent<Y_PlayerAttack>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        allyBody.transform.forward = allyFSM.moveDir;
+        if(!pa.isBAttack && !pa.isESkill && !pa.isRSkill)
+            allyBody.transform.forward = allyFSM.moveDir;
     }
 }

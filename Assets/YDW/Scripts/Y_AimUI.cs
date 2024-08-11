@@ -4,22 +4,26 @@ using UnityEngine;
 
 public class Y_AimUI : MonoBehaviour
 {
-    Y_PlayerAttack yp;
+    Y_PlayerAttack pa;
 
-    Transform nearestTarget;
+    GameObject nearestTarget;
     Vector3 dirToTarget;
 
     // Start is called before the first frame update
     void Start()
     {
-        yp = GetComponentInParent<Y_PlayerAttack>();
+        pa = GetComponentInParent<Y_PlayerAttack>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        nearestTarget = yp.GetNearest();
-        dirToTarget = nearestTarget.transform.position - transform.position;
-        transform.rotation = Quaternion.LookRotation(-transform.forward, dirToTarget);
+        nearestTarget = pa.nearestTargetB;
+        if (pa.nearestTargetB != null && !pa.isBAttack && !pa.isESkill && !pa.isRSkill)
+        {
+            dirToTarget = nearestTarget.transform.position - transform.position;
+            transform.rotation = Quaternion.LookRotation(-transform.forward, dirToTarget);
+
+        }
     }
 }

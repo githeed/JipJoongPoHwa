@@ -13,6 +13,7 @@ public class Y_NavMesh : MonoBehaviour
 
     float defaultDist = 20f;
     public float moveSpeed = 10f;
+    Y_PlayerAttack playerAttack;
 
 
     private void Awake()
@@ -23,6 +24,7 @@ public class Y_NavMesh : MonoBehaviour
         ally = GameObject.Find("Ally");
         allyFSM = ally.GetComponent<Y_AllyFSM>();
         yp = ally.GetComponent<Y_PlayerAttack>();
+        playerAttack = GetComponent<Y_PlayerAttack>();
     }
     void Start()
     {
@@ -32,16 +34,17 @@ public class Y_NavMesh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distToTarget = Vector3.Distance(player.transform.position, transform.position);
+        //float distToTarget = Vector3.Distance(player.transform.position, transform.position);
 
-        if(distToTarget > defaultDist)
-        {
-            agent.destination = (player.transform.position);
-        }
-        else
-        {
+        //if(distToTarget > defaultDist)
+        //{
+        //    agent.destination = (player.transform.position);
+        //}
+        //else
+        //{
+        if(!playerAttack.isESkill && !playerAttack.isBAttack && !playerAttack.isRSkill)
             agent.destination = (transform.position + allyFSM.moveDir);
-        }
+        //}
 
     }
 }

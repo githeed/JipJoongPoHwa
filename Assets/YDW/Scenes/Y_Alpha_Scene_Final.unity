@@ -3950,11 +3950,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ally
       objectReference: {fileID: 0}
-    - target: {fileID: 7289404567038040675, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8101318993530173819, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6534,11 +6529,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2079578892011593656, guid: 08b89f6259071f64f8b7efd12593ff13,
-        type: 3}
-      propertyPath: allyCamera
-      value: 
-      objectReference: {fileID: 1846920384}
     - target: {fileID: 7623563075463257369, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_Name
@@ -10612,7 +10602,7 @@ PrefabInstance:
     - target: {fileID: 8375517255134490996, guid: bc7be00cb80b851498a76a65cdf371c0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.641277
+      value: 10.161
       objectReference: {fileID: 0}
     - target: {fileID: 8375517255134490996, guid: bc7be00cb80b851498a76a65cdf371c0,
         type: 3}
@@ -11868,7 +11858,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 3c0a953ff5e1aa54dac5cf4604715cd6, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: aa3bd6bdd913fd1459535ee46c87f8b0, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1373910263
 GameObject:
@@ -15359,12 +15349,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4787136918717088048, guid: 7e57cc674427cfa42b25777801afa698, type: 3}
---- !u!20 &1846920384 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 8958262706023633913, guid: 08b89f6259071f64f8b7efd12593ff13,
-    type: 3}
-  m_PrefabInstance: {fileID: 665120288}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1866580480
 GameObject:
   m_ObjectHideFlags: 0
@@ -49331,11 +49315,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 1151405840507370767, guid: 0a3851991f425d04ba8bc2da82023ae4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5123821975879529343, guid: 0a3851991f425d04ba8bc2da82023ae4,
         type: 3}
