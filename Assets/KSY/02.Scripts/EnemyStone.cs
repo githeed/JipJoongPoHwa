@@ -98,7 +98,7 @@ public class EnemyStone : MonoBehaviour
             }
             
             if(!indicator.activeSelf) indicator.SetActive(true);
-            indicator.transform.position = transform.position + Vector3.right * rand.x + Vector3.forward * rand.y;
+            indicator.transform.position = transform.position + Vector3.up + Vector3.right * rand.x + Vector3.forward * rand.y;
         }
 
         
