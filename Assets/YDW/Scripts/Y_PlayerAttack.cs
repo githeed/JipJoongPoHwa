@@ -27,7 +27,7 @@ public class Y_PlayerAttack : MonoBehaviour
     public float skillTimeRate = 1;
 
     // Scan and Target
-    public float scanRange = 10f;
+    public float scanRange = 50f;
     public LayerMask targetLayer;
     public LayerMask featherLayer;
     public Collider[] targets;
@@ -79,6 +79,8 @@ public class Y_PlayerAttack : MonoBehaviour
     public GameObject damageParticle;
 
     public GameObject allyBody;
+
+    public GameObject nearestTargetB;
 
     void Start()
     {
@@ -164,6 +166,10 @@ public class Y_PlayerAttack : MonoBehaviour
             StartCoroutine(EvolveCrt());
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            StartCoroutine(RSkill());
+        }
 
 
 
@@ -171,7 +177,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
 
         // 레벨별로 속도나 개수 변경하기
-        if(pm.indexLev == 1)
+        if (pm.indexLev == 1)
         {
             basicAttTime = 2;
             ESkillTime = 9;
@@ -234,12 +240,12 @@ public class Y_PlayerAttack : MonoBehaviour
         isBAttack = true;
         // 오버랩 스피어
         // targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
-        nearestTarget = GetNearest();
-        dir = nearestTarget.transform.position - transform.position;
+        nearestTargetB = GetNearest().gameObject;
+        dir = nearestTargetB.transform.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
-        transform.rotation = rotation;
+        allyBody.transform.rotation = rotation;
 
-        if (nearestTarget == null) return;
+        if (nearestTargetB == null) return;
         // 공격하기
         else
         {
@@ -378,7 +384,7 @@ public class Y_PlayerAttack : MonoBehaviour
     private IEnumerator FeatherAttack()
     {
 
-        Vector3 dirFrAllyToEnm = nearestTarget.transform.position - transform.position; // 처음 깃털 한 번만 해야 한다
+        Vector3 dirFrAllyToEnm = nearestTargetB.transform.position - transform.position; // 처음 깃털 한 번만 해야 한다
         dirFrAllyToEnm.y = 0;
         Vector3 dirFrAllyToEnmNor = dirFrAllyToEnm.normalized;
 
@@ -593,7 +599,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
                     dir = p4 - transform.position;
 
-                    time += Time.deltaTime * 4;
+                    time += Time.deltaTime * 3;
 
                     time = Mathf.Clamp(time, 0, 1);
 
