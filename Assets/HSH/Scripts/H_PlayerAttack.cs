@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
+using Unity.Burst.Intrinsics;
 using Unity.Entities.Hybrid.Baking;
 using Unity.Transforms;
 using UnityEngine;
@@ -73,6 +74,8 @@ public class H_PlayerAttack : MonoBehaviour
     public float drainPower = 1;
 
     public float healPower = 10;
+
+    public GameObject aim;
 
     // Start is called before the first frame update
     void Start()
@@ -178,6 +181,8 @@ public class H_PlayerAttack : MonoBehaviour
                 dirToTarget = (nearestTarget.position - transform.position);
                 dirToTarget.y = 0;
                 dirToTarget.Normalize();
+
+                aim.transform.rotation = Quaternion.LookRotation(-aim.transform.forward, dirToTarget);
 
                 // 공격범위를 정하자
                 Vector3 boxPos = transform.position + dirToTarget * H_PlayerManager.instance.boxDist;
