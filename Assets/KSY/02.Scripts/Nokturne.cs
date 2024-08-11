@@ -22,6 +22,8 @@ public class Nokturne : MonoBehaviour
     public float attackSpeed;
     [Tooltip("공격력")]
     public float attackPower;
+    [Tooltip("돌진 가능 거리")]
+    public float attackRange = 20;
 
 
     [Header ("터치 금지")]
@@ -49,7 +51,6 @@ public class Nokturne : MonoBehaviour
     Vector3 indicatorOrgPos;
     Coroutine attackCoroutine;
 
-    float attackRange = 10;
     float moveDist;
     float toTargetDist;
 
@@ -68,7 +69,7 @@ public class Nokturne : MonoBehaviour
         enemyHp = GetComponent<EnemyHp>();
         enemyHp.onDie = OnDie;
         enemyHp.damageEff = DamageEff;
-        myMaterial = GetComponentInChildren<MeshRenderer>().material;
+        myMaterial = GetComponentInChildren<SkinnedMeshRenderer>().material;
         effTimeSec = new WaitForSeconds(effTime);
         orgColor = myMaterial.color;
 
@@ -79,6 +80,7 @@ public class Nokturne : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         indicatorOrgPos = attackIndicatorPos.transform.localPosition;
         myAnim = GetComponentInChildren<Animator>();
+        
     }
 
     // Update is called once per frame

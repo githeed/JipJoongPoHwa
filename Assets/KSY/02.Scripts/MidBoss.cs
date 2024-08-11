@@ -51,7 +51,7 @@ public class MidBoss : MonoBehaviour
         enemyHp = GetComponent<EnemyHp>();
         enemyHp.onDie = OnDie;
         enemyHp.damageEff = DamageEff;
-        myMaterial = GetComponentInChildren<MeshRenderer>().material;
+        myMaterial = GetComponentInChildren<SkinnedMeshRenderer>().material;
         effTimeSec = new WaitForSeconds(effTime);
         orgColor = myMaterial.color;
 

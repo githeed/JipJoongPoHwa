@@ -128,6 +128,7 @@ MonoBehaviour:
   attackDelay: 1
   attackSpeed: 10
   attackPower: 10
+  attackRange: 20
   attackIndicatorPos: {fileID: 7330783480233791455}
   target: {fileID: 0}
 --- !u!54 &3838691090410663450
@@ -235,7 +236,7 @@ PrefabInstance:
     - target: {fileID: 4403842239555037009, guid: b20848db65aec5942bc5c3a357b90ee7,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4403842239555037009, guid: b20848db65aec5942bc5c3a357b90ee7,
         type: 3}
@@ -250,7 +251,7 @@ PrefabInstance:
     - target: {fileID: 4403842239555037009, guid: b20848db65aec5942bc5c3a357b90ee7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4403842239555037009, guid: b20848db65aec5942bc5c3a357b90ee7,
         type: 3}
