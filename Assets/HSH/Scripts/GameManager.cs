@@ -26,6 +26,24 @@ public class GameManager : MonoBehaviour
 
     public bool bISWin = false;
 
+    public Transform bossSpawnPos;
+    public Transform bossMoveTarget;
+    public Transform cameraMoveTarget;
+    public GameObject bossprf;
+    public GameObject midBossPrf;
+    public GameObject nocturnePrf;
+    GameObject midBoss;
+    GameObject spawner;
+
+    [Header("조절 가능")]
+    [Tooltip("게임 시작 후 보스 스폰 시간(분 단위로 입력)")]
+    public float bossSpawnMin;
+    [Tooltip("게임 시작 후 중간 보스 스폰 시간(초 단위로 입력)")]
+    public float midBossSpawnPeriod;
+    float midBossSpawnTimer;
+    int midBossNum;
+    bool bossSpawn;
+
     private void Awake()
     {
         if (instance == null)
@@ -44,19 +62,45 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        if (player == null) player = GameObject.FindWithTag("Player");
+        if (spawner == null) spawner = GameObject.FindWithTag("Spawner");
     }
 
     void Update()
     {
         gameTime += Time.deltaTime;
-
         if (H_PlayerManager.instance.curHP <= 0)
         {
             bISWin = false;
             SceneManager.LoadScene("EndUIScene");
         }
 
+        if(gameTime >= 60*bossSpawnMin & !bossSpawn)
+        {
+            bossSpawn = true;
+            GameObject boss = Instantiate(bossprf);
+            boss.transform.position = bossSpawnPos.position;
+            Boss bossCs = boss.GetComponent<Boss>();
+            bossCs.bossMoveTarget = bossMoveTarget;
+            bossCs.mainCamTargetPos = cameraMoveTarget;
+
+        }
+        midBossSpawnTimer += Time.deltaTime;
+        if(midBossSpawnTimer > midBossSpawnPeriod)
+        {
+            midBossSpawnTimer -= midBossSpawnPeriod;
+            if(midBossNum % 2 == 0)
+            {
+                midBoss = Instantiate(midBossPrf);
+            }
+            else if(midBossNum % 2 == 1)
+            {
+                midBoss = Instantiate(nocturnePrf);
+            }
+            //midBoss.transform.position = player.transform.position;
+            spawner.GetComponent<Spawner>().SetPos(midBoss);
+            midBossNum++;
+        }
         //if (gameTime > 15)
         //{
         //    bISWin = true;

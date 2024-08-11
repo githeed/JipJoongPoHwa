@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1495167059717150524}
   m_Layer: 0
   m_Name: Spawner
-  m_TagString: Untagged
+  m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12cf0b1c6d48ac744a49580db8d82d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolTime: 1
+  coolTime: 0.5
   distanceMin: 20
   distanceMax: 30
+  StopSpawn: 0
   leftTopTr: {fileID: 0}
   rightBottomTr: {fileID: 0}

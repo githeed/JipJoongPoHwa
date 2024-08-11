@@ -81,4 +81,34 @@ public class Spawner : MonoBehaviour
 
         }
     }
+
+    public void SetPos(GameObject go)
+    {
+        rand = Random.Range(distanceMin, distanceMax);
+        randDirX = Random.Range(-1f, 1f);
+        randDirZ = Random.Range(-1f, 1f);
+        while (randDirX == 0 && randDirZ == 0)
+        {
+            randDirX = Random.Range(-1f, 1f);
+            randDirZ = Random.Range(-1f, 1f);
+        }
+        dir = new Vector3(randDirX, 0, randDirZ);
+        go.transform.position = player.position + (dir.normalized * rand) + Vector3.up * 0.1f;
+        if (go.transform.position.x < leftTop.x)
+        {
+            go.transform.position = new Vector3(leftTop.x, go.transform.position.y, go.transform.position.z);
+        }
+        if (go.transform.position.z > leftTop.z)
+        {
+            go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, leftTop.z);
+        }
+        if (go.transform.position.x > rightBottom.x)
+        {
+            go.transform.position = new Vector3(rightBottom.x, go.transform.position.y, go.transform.position.z);
+        }
+        if (go.transform.position.z < rightBottom.z)
+        {
+            go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, rightBottom.z);
+        }
+    }
 }
