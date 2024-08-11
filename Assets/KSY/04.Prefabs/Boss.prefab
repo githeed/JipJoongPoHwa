@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d61a4036cc9801f49b16560f880a3706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 10
+  attackPower: 50
   attackRange: 15
   moveSpeed: 5
   stonePrf: {fileID: 7667283773137937456, guid: c0ff4544352d69d48a1458821e5b224a,
@@ -125,6 +125,7 @@ MonoBehaviour:
   camMoveSpeed: 40
   currState: 0
   bossMoveTarget: {fileID: 0}
+  myBossHPUI: {fileID: 0}
 --- !u!95 &2074159423471335069
 Animator:
   serializedVersion: 5

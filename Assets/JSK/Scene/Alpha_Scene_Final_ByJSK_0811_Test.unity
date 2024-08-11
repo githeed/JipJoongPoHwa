@@ -4238,7 +4238,7 @@ PrefabInstance:
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: attackDmg
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -4263,7 +4263,7 @@ PrefabInstance:
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: basicAttackNo
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -4283,7 +4283,7 @@ PrefabInstance:
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: PSkillDuration
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3904714552585844357, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -6925,6 +6925,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
+      propertyPath: healPower
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
       propertyPath: scanRange
       value: 30
       objectReference: {fileID: 0}
@@ -6934,6 +6939,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7663411774965494754, guid: d63aaa1b06288804aa0470e7b433f81f,
         type: 3}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      propertyPath: drainPower
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 788302660717785358, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -6952,7 +6962,7 @@ PrefabInstance:
     - target: {fileID: 788302660717785358, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -36.97
+      value: 25.6
       objectReference: {fileID: 0}
     - target: {fileID: 788302660717785358, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
@@ -6962,7 +6972,7 @@ PrefabInstance:
     - target: {fileID: 788302660717785358, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -40.3
+      value: -70.1
       objectReference: {fileID: 0}
     - target: {fileID: 788302660717785358, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
@@ -7027,22 +7037,22 @@ PrefabInstance:
     - target: {fileID: 8847779311411820427, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.830001
+      value: 11.36
       objectReference: {fileID: 0}
     - target: {fileID: 8847779311411820427, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.69
+      value: -6.21
       objectReference: {fileID: 0}
     - target: {fileID: 8847779311411820427, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9563837
+      value: 0.9707995
       objectReference: {fileID: 0}
     - target: {fileID: 8847779311411820427, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.2921135
+      value: -0.23989244
       objectReference: {fileID: 0}
     - target: {fileID: 8847779311411820427, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
@@ -7057,7 +7067,7 @@ PrefabInstance:
     - target: {fileID: 8847779311411820427, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -33.969
+      value: -27.76
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7951,7 +7961,7 @@ MonoBehaviour:
   boxDist: 2
   distMultiplier: 0.3
   effScale: 1.5
-  effMultiplier: 0.07
+  effMultiplier: 0.1
   eCool: 0
   rCool: 0
   curECoolTime: 0
@@ -12949,7 +12959,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: a173f8b68bc0e7241a23754dea4e85b3, type: 2}
+  m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
 --- !u!1 &1373910263
 GameObject:

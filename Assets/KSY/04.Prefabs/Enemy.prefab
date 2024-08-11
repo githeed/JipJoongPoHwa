@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26aad83e6139747469481333dd00d728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10
+  maxHp: 15
   curHp: 0
 --- !u!114 &8537762631974780768
 MonoBehaviour:
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44bd133b343cd1143a99c2739dd707a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 2
+  attackPower: 5
   giveEXP: 1
   distanceMin: 0
   distanceMax: 0
