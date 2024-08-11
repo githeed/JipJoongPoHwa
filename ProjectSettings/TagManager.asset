@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Player1
   - Spawner
+  - EnemyUI
   layers:
   - Default
   - TransparentFX

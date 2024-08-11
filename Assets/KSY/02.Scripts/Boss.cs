@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Boss : MonoBehaviour, IAnimatorInterface
 {
@@ -64,6 +66,10 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     Material myMaterial;
     Color orgColor;
 
+    public GameObject myBossHPUI;
+    TextMeshProUGUI bossHPUItext;
+    Image hPImage;
+
     private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
@@ -105,10 +111,18 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicator.SetActive(false);
         }
         ChangeState(BossState.START);
+
+        if(myBossHPUI != null)
+        {
+            hPImage = myBossHPUI.transform.GetChild(1).GetComponent<Image>();
+            bossHPUItext = myBossHPUI.GetComponentInChildren<TextMeshProUGUI>();
+        }
     }
 
     void Update()
     {
+        hPImage.fillAmount = enemyHp.curHp / enemyHp.maxHp;
+        bossHPUItext.text = $"{(int)enemyHp.curHp} / {(int)enemyHp.maxHp}";
         target = findPlayers.target;
         if (agent.enabled) MyRotate();
         //toTargetDir = target.transform.position - transform.position;
@@ -138,6 +152,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         }
 
     }
+
+    
 
     public void ChangeState(BossState state)
     {

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Text eCoolText;
     public Text rCoolText;
     public Text timeText;
+    public GameObject bossHPUI;
 
     public float gameTime = 0;
 
@@ -64,6 +65,13 @@ public class GameManager : MonoBehaviour
     {
         if (player == null) player = GameObject.FindWithTag("Player");
         if (spawner == null) spawner = GameObject.FindWithTag("Spawner");
+        if (bossHPUI == null)
+        {
+            bossHPUI = GameObject.FindWithTag("EnemyUI");
+            if (bossHPUI.name != "BossHPUI") bossHPUI = null;
+            bossHPUI.SetActive(false);
+        }
+        
     }
 
     void Update()
@@ -78,9 +86,12 @@ public class GameManager : MonoBehaviour
         if(gameTime >= 60*bossSpawnMin & !bossSpawn)
         {
             bossSpawn = true;
+            bossHPUI.SetActive(true);
+            timeText.gameObject.transform.parent.gameObject.SetActive(false);
             GameObject boss = Instantiate(bossprf);
             boss.transform.position = bossSpawnPos.position;
             Boss bossCs = boss.GetComponent<Boss>();
+            bossCs.myBossHPUI = bossHPUI;
             bossCs.bossMoveTarget = bossMoveTarget;
             bossCs.mainCamTargetPos = cameraMoveTarget;
 
