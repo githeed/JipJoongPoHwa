@@ -7,7 +7,7 @@ public class Y_AimUI : MonoBehaviour
     Y_PlayerAttack pa;
 
     GameObject nearestTarget;
-    Vector3 dirToTarget;
+    //Vector3 dirToTarget;
 
     // Start is called before the first frame update
     void Start()
@@ -19,10 +19,11 @@ public class Y_AimUI : MonoBehaviour
     void Update()
     {
         nearestTarget = pa.nearestTargetB;
-        if (pa.nearestTargetB != null && !pa.isBAttack && !pa.isESkill && !pa.isRSkill)
+        if (pa.nearestTargetB != null) // && !pa.isBAttack && !pa.isESkill && !pa.isRSkill
         {
-            dirToTarget = nearestTarget.transform.position - transform.position;
-            transform.rotation = Quaternion.LookRotation(-transform.forward, dirToTarget);
+            // dirToTarget = nearestTarget.transform.position - transform.position;
+            //dirToTarget = pa.dirB;
+            transform.rotation = Quaternion.LookRotation(-transform.forward, pa.dirB);
 
         }
     }
