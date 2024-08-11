@@ -31,7 +31,7 @@ public class Y_PlayerAttack : MonoBehaviour
     public LayerMask targetLayer;
     public LayerMask featherLayer;
     public Collider[] targets;
-    public Collider[] feathers;
+    //public Collider[] feathers;
     public GameObject[] feathersE;
     public GameObject[] feathersR;
     //public Transform nearestTarget;
@@ -83,6 +83,8 @@ public class Y_PlayerAttack : MonoBehaviour
     public GameObject nearestTargetB;
 
     public IObjectPool<GameObject> pool { get; set; }
+
+    private bool isFeatherReleased = false;
 
     void Start()
     {
@@ -189,7 +191,6 @@ public class Y_PlayerAttack : MonoBehaviour
         }
         else if(pm.indexLev == 2)
         {
-            print("Lv 2");
             basicAttTime = 1.7f;
             ESkillTime = 8;
         }
@@ -269,7 +270,7 @@ public class Y_PlayerAttack : MonoBehaviour
         anim.SetTrigger("ESKILL");
         yield return new WaitForSecondsRealtime(0.6f);
 
-        feathers = Physics.OverlapSphere(transform.position, 99999f, featherLayer);
+        Collider[] feathers = Physics.OverlapSphere(transform.position, 99999f, featherLayer);
         
         foreach (Collider feather in feathers)
         {
@@ -325,6 +326,7 @@ public class Y_PlayerAttack : MonoBehaviour
         for (int i = 1; i <= featherRNo; i++)
         {
             // 깃털 360도로 퍼지게
+            isFeatherReleased = false;
             GameObject feather = ObjectPoolManager.instance.featherPool.Get();
             feather.transform.position = transform.position;
             feather.transform.Rotate(0, (360 / featherRNo) * i, 0);
@@ -372,7 +374,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public void RemoveFeather()
     {
-        feathers = Physics.OverlapSphere(transform.position, 99999f, featherLayer);
+        Collider[] feathers = Physics.OverlapSphere(transform.position, 99999f, featherLayer);
 
         foreach (Collider feather in feathers)
         {
@@ -412,8 +414,9 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             // 깃털 생성 후 Ally 위치에 놓음
             //GameObject feather = Instantiate(featherFactory);
-            GameObject feather = ObjectPoolManager.instance.featherPool.Get();
-            feather.transform.position = transform.position;
+            isFeatherReleased = false;
+            GameObject featherB = ObjectPoolManager.instance.featherPool.Get();
+            featherB.transform.position = transform.position;
 
             // 레이캐스트로 적 감지 후 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, dirB, featherDist, targetLayer); //dirFrAllyToEnm
@@ -444,13 +447,13 @@ public class Y_PlayerAttack : MonoBehaviour
             while (dist > nextDist)
             {
                 destinationB = (transform.position + featherDist * dirB.normalized); // dirFrAllyToEnmNor
-                dist = Vector3.Distance(feather.transform.position, destinationB);
-                feather.transform.position += dirB.normalized * featherSpeedB * Time.deltaTime; // dirFrAllyToEnmNor
-                nextDist = Vector3.Distance(feather.transform.position, destinationB);
+                dist = Vector3.Distance(featherB.transform.position, destinationB);
+                featherB.transform.position += dirB.normalized * featherSpeedB * Time.deltaTime; // dirFrAllyToEnmNor
+                nextDist = Vector3.Distance(featherB.transform.position, destinationB);
                 yield return null;
             }
 
-            if (feather != null) StartCoroutine(ReleaseFeather(feather, featherTime));
+            if (featherB != null) StartCoroutine(ReleaseFeather(featherB, featherTime));
 
 
             i++;
@@ -467,6 +470,7 @@ public class Y_PlayerAttack : MonoBehaviour
     // 기본무기 강화 (연인의 도탄)
     private IEnumerator EvolveCrt()
     {
+        isFeatherReleased = false;
         GameObject feather = ObjectPoolManager.instance.featherPool.Get();
         feather.transform.position = transform.position;
 
@@ -585,9 +589,11 @@ public class Y_PlayerAttack : MonoBehaviour
             {
                 float time = 0f;
 
+                isFeatherReleased = false;
                 GameObject feather = ObjectPoolManager.instance.featherPool.Get();
                 feather.transform.position = transform.position;
                 feather.layer = LayerMask.NameToLayer("PassiveFeather");
+                isFeatherReleased = false;
                 GameObject feather2 = ObjectPoolManager.instance.featherPool.Get();
                 feather2.transform.position = transform.position;
                 feather2.layer = LayerMask.NameToLayer("PassiveFeather");
@@ -706,8 +712,12 @@ public class Y_PlayerAttack : MonoBehaviour
 
     private IEnumerator ReleaseFeather(GameObject feather, float featherTime)
     {
-        yield return new WaitForSecondsRealtime(featherTime); 
-        if(feather != null) pool.Release(feather);
+        yield return new WaitForSecondsRealtime(featherTime);
+        if (!isFeatherReleased && feather != null)
+        {
+            pool.Release(feather);
+            isFeatherReleased = true;
+        }
     }
     
 
