@@ -58,10 +58,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 1.5
+  m_Height: 13
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 6.5, z: 0}
 --- !u!195 &8994482235806518375
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -230,7 +230,7 @@ PrefabInstance:
     - target: {fileID: 4403842239555037009, guid: b20848db65aec5942bc5c3a357b90ee7,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4403842239555037009, guid: b20848db65aec5942bc5c3a357b90ee7,
         type: 3}
@@ -329,17 +329,17 @@ PrefabInstance:
     - target: {fileID: 2925074079615928740, guid: 84ed81875b28ac941adc82d507bfd66b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 4
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 2925074079615928740, guid: 84ed81875b28ac941adc82d507bfd66b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 4
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 2925074079615928740, guid: 84ed81875b28ac941adc82d507bfd66b,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 4
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 2925074079615928740, guid: 84ed81875b28ac941adc82d507bfd66b,
         type: 3}

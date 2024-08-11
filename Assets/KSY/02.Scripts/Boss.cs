@@ -59,6 +59,11 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 
     public Transform bossMoveTarget;
 
+    float effTime = 0.1f;
+    WaitForSeconds effTimeSec;
+    Material myMaterial;
+    Color orgColor;
+
     private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
@@ -73,6 +78,11 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     {
         
         enemyHp.onDie = OnDie;
+        enemyHp.damageEff = DamageEff;
+        myMaterial = GetComponentInChildren<MeshRenderer>().material;
+        effTimeSec = new WaitForSeconds(effTime);
+        orgColor = myMaterial.color;
+
         findPlayers = GetComponent<FindPlayers>();
         
         agent.speed = moveSpeed;
@@ -288,6 +298,20 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         enemyStone.boss = this;
         transform.position = Vector3.up * 1000;
     }
+
+
+    void DamageEff()
+    {
+        StartCoroutine(C_DamageEff());
+    }
+
+    IEnumerator C_DamageEff()
+    {
+        myMaterial.color = Color.red;
+        yield return effTimeSec;
+        myMaterial.color = orgColor;
+    }
+
 
     void OnDie()
     {

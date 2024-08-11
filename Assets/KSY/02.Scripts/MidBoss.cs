@@ -41,10 +41,19 @@ public class MidBoss : MonoBehaviour
 
     private float currTime;
 
+    float effTime = 0.1f;
+    WaitForSeconds effTimeSec;
+    Material myMaterial;
+    Color orgColor;
+
     void Start()
     {
         enemyHp = GetComponent<EnemyHp>();
         enemyHp.onDie = OnDie;
+        enemyHp.damageEff = DamageEff;
+        myMaterial = GetComponentInChildren<MeshRenderer>().material;
+        effTimeSec = new WaitForSeconds(effTime);
+        orgColor = myMaterial.color;
 
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = attackRange;
@@ -188,8 +197,21 @@ public class MidBoss : MonoBehaviour
         }
     }
 
+    void DamageEff()
+    {
+        StartCoroutine(C_DamageEff());
+    }
+
+    IEnumerator C_DamageEff()
+    {
+        myMaterial.color = Color.red;
+        yield return effTimeSec;
+        myMaterial.color = orgColor;
+    }
+
     void OnDie()
     {
+        H_PlayerManager.instance.SpawnExp(transform.position);
         Destroy(gameObject);
     }
 }
