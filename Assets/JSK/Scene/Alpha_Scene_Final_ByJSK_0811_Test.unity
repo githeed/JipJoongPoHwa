@@ -6925,6 +6925,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
+      propertyPath: aim
+      value: 
+      objectReference: {fileID: 1455006256}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
       propertyPath: healPower
       value: 25
       objectReference: {fileID: 0}
@@ -10795,7 +10800,7 @@ MonoBehaviour:
     type: 3}
   nocturnePrf: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
     type: 3}
-  bossSpawnMin: 1
+  bossSpawnMin: 0
   midBossSpawnPeriod: 20
 --- !u!1001 &1153162869
 PrefabInstance:
@@ -12959,7 +12964,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 0c87458c24d239a4ab12c1b8331cfecd, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1373910263
 GameObject:
@@ -13624,6 +13629,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449207716}
   m_Mesh: {fileID: -8302102485596996044, guid: ce13a230aed4e504fa541f1b9d248df5, type: 3}
+--- !u!1 &1455006256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3638052305529657198, guid: 08b89f6259071f64f8b7efd12593ff13,
+    type: 3}
+  m_PrefabInstance: {fileID: 665120288}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1496634777
 GameObject:
   m_ObjectHideFlags: 0
