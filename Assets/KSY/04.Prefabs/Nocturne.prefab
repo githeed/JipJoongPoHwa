@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDelay: 1
-  attackSpeed: 10
+  attackSpeed: 25
   attackPower: 10
   attackRange: 20
   attackIndicatorPos: {fileID: 7330783480233791455}
