@@ -34,7 +34,7 @@ public class Y_PlayerAttack : MonoBehaviour
     public Collider[] feathers;
     public GameObject[] feathersE;
     public GameObject[] feathersR;
-    public Transform nearestTarget;
+    //public Transform nearestTarget;
 
     // AttackDmg and HP
     public float attackDmg;
@@ -109,6 +109,10 @@ public class Y_PlayerAttack : MonoBehaviour
         manager = GameObject.Find("H_PlayerManager");
         pm = manager.GetComponent<H_PlayerManager>();
         allyBody = GameObject.Find("AllyBody");
+
+        nearestTargetB = GameObject.Find("Enemy");
+        print("!!!!!!!!!!" + nearestTargetB);
+
     }
 
 

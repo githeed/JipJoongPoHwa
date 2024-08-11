@@ -14,6 +14,7 @@ public class Y_NavMesh : MonoBehaviour
     float defaultDist = 20f;
     public float moveSpeed = 10f;
     Y_PlayerAttack playerAttack;
+    GameObject boss;
 
 
     private void Awake()
@@ -25,6 +26,7 @@ public class Y_NavMesh : MonoBehaviour
         allyFSM = ally.GetComponent<Y_AllyFSM>();
         yp = ally.GetComponent<Y_PlayerAttack>();
         playerAttack = GetComponent<Y_PlayerAttack>();
+        boss = GameObject.Find("Boss");
     }
     void Start()
     {
@@ -42,6 +44,7 @@ public class Y_NavMesh : MonoBehaviour
         //}
         //else
         //{
+        if (boss != null) agent.destination = boss.transform.position + (playerAttack.featherDist - 1) *  Vector3.forward;
         if(!playerAttack.isESkill && !playerAttack.isBAttack && !playerAttack.isRSkill)
             agent.destination = (transform.position + allyFSM.moveDir);
         //}
