@@ -233,7 +233,7 @@ public class Y_AllyFSM : MonoBehaviour
     void Damaged()
     {
         // 화면 가장자리 빨간색으로 되는 함수
-        print("Damaged"); // 일단은 프린트
+        //print("Damaged"); // 일단은 프린트
         a_State = AllyState.Move;
 
 

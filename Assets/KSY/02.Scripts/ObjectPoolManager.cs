@@ -8,9 +8,12 @@ public class ObjectPoolManager : MonoBehaviour
     public static ObjectPoolManager instance;
 
     public int defaultCapacity = 40;
+    public int defaultFeatherCap = 100;
     public int maxPoolSize = 100000;
     public GameObject enemyPrefab;
     public GameObject damageUIPrefab;
+    public GameObject featherPrefab;
+    public GameObject ally;
 
     public enum ObjectPoolName
     {
@@ -20,6 +23,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     public IObjectPool<GameObject> pool { get; private set; }
     public IObjectPool<GameObject> damageUIPool { get; private set; }
+    public IObjectPool<GameObject> featherPool { get; private set; }
 
     private void Awake()
     {
@@ -32,18 +36,31 @@ public class ObjectPoolManager : MonoBehaviour
             Destroy(this.gameObject);
         }
         Init();
+
     }
+
+    //private void Start()
+    //{
+    //    ally = GameObject.Find("Ally");
+    //}
 
     private void Init()
     {
         pool = new ObjectPool<GameObject>(CreatePooledEnemy, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject,true,defaultCapacity, maxPoolSize);
         damageUIPool = new ObjectPool<GameObject>(CreateDamagePool, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject,true,defaultCapacity, maxPoolSize);
+        featherPool = new ObjectPool<GameObject>(CreateFeatherPool, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, defaultCapacity, maxPoolSize);
 
         // 미리 오브젝트 생성 해놓기
-        for(int i = 0; i<defaultCapacity; i++)
+        for (int i = 0; i<defaultCapacity; i++)
         {
             EnemyMove enemy = CreatePooledEnemy().GetComponent<EnemyMove>();
             enemy.pool.Release(enemy.gameObject);
+        }
+
+        for (int i = 0; i < defaultFeatherCap; i++)
+        {
+            var feather = CreateFeatherPool();
+            ally.GetComponent<Y_PlayerAttack>().pool.Release(feather.gameObject);
         }
 
     }
@@ -59,6 +76,13 @@ public class ObjectPoolManager : MonoBehaviour
         GameObject poolGo = Instantiate(enemyPrefab);
         poolGo.GetComponent<EnemyMove>().pool = this.pool;
         return poolGo;
+    }
+
+    private GameObject CreateFeatherPool()
+    {
+        GameObject feather = Instantiate(featherPrefab);
+        ally.GetComponent<Y_PlayerAttack>().pool = this.featherPool;
+        return feather;
     }
 
     private void OnTakeFromPool(GameObject poolGo)
