@@ -321,7 +321,7 @@ public class Y_AllyFSM : MonoBehaviour
                     break;
 
             }
-            yield return new WaitForSecondsRealtime(3f);
+            yield return new WaitForSeconds(3f);
         }
         
    
