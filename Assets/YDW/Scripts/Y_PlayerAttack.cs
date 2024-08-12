@@ -187,7 +187,6 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             basicAttTime = 2;
             ESkillTime = 9;
-            RSkillTime = 5;
         }
         else if(pm.indexLev == 2)
         {
@@ -198,7 +197,8 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             basicAttTime = 1.5f;
             ESkillTime = 7;
-            
+            RSkillTime = 20;
+
         }
         else if (pm.indexLev == 4)
         {
@@ -211,10 +211,6 @@ public class Y_PlayerAttack : MonoBehaviour
             ESkillTime = 5;
         }
 
-        if (pm.indexLev > 5)
-        {
-            RSkillTime = 30;
-        }
 
         batRate = 1.05f + 0.01f * pm.indexLev;
 
