@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   cuteSpeed: 30
-  cuteDmg: 1
+  cuteDmg: 10
 --- !u!1001 &4963195133252147913
 PrefabInstance:
   m_ObjectHideFlags: 0

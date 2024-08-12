@@ -40,7 +40,7 @@ public class Y_PlayerAttack : MonoBehaviour
     //public Transform nearestTarget;
 
     // AttackDmg and HP
-    public float attackDmg;
+    public float attackDmg = 5f;
     Y_HPSystem hp;
 
     // Feather Attack
@@ -100,7 +100,6 @@ public class Y_PlayerAttack : MonoBehaviour
         PSkillDuration = 15;
 
         featherDist = 14;
-        attackDmg = 5f;
         eAttRate = 1.2f;
         enmStopTime = 1.5f;
 
