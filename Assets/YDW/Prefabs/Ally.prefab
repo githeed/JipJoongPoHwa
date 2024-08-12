@@ -484,7 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1606fb89e510da843be0848112b56e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 25
 --- !u!114 &134947103529716514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,15 +497,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928104106d2a7a64c9f8b0b3d2336396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicAttTime: 0
-  ESkillTime: 0
-  RSkillTime: 0
-  PSkillDuration: 0
+  basicAttTime: 2
+  ESkillTime: 3
+  RSkillTime: 50
+  PSkillDuration: 10
   curBAttTime: 0
   curEAttTime: 0
   curRAttTime: 0
   curPAttTime: 0
-  skillTimeRate: 1
+  skillTimeRate: 1.3
   scanRange: 100
   targetLayer:
     serializedVersion: 2
@@ -514,11 +514,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   targets: []
-  feathers: []
   feathersE: []
   feathersR: []
-  nearestTarget: {fileID: 0}
-  attackDmg: 5
+  attackDmg: 2
   featherFactory: {fileID: 1560146333889575406, guid: 0fca7898fcdca6f48baf1ea78291eab5,
     type: 3}
   featherEFactory: {fileID: 1560146333889575406, guid: 7844c1f9bd6fe4c4e8074cf1ae50a1e5,
@@ -535,9 +533,9 @@ MonoBehaviour:
   featherRNo: 0
   unbeatable: 0
   pAttacking: 0
-  batRate: 1.05
-  featherSpeedB: 10
-  featherSpeedE: 0
+  batRate: 2
+  featherSpeedB: 20
+  featherSpeedE: 20
   featherSpeed: 10
   isBAttack: 0
   isESkill: 0
@@ -987,14 +985,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7347681197450411019}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.38029563, y: 0, z: 0, w: 0.924865}
-  m_LocalPosition: {x: 0, y: 15.5, z: -13.69}
+  m_LocalRotation: {x: -0.2655561, y: 0, z: 0, w: 0.9640955}
+  m_LocalPosition: {x: 0, y: 22.2, z: -12.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7549239383408383860}
   m_Father: {fileID: 8101318993530173819}
-  m_LocalEulerAnglesHint: {x: -44.704, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -30.8, y: 0, z: 0}
 --- !u!1 &8928079326719136417
 GameObject:
   m_ObjectHideFlags: 0
