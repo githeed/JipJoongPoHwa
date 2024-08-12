@@ -4248,7 +4248,7 @@ PrefabInstance:
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: RSkillTime
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -7986,7 +7986,7 @@ MonoBehaviour:
   e_UI: {fileID: 0}
   attTime: 2
   curAttDelay: 0
-  cuteAttTime: 5
+  cuteAttTime: 2
   cuteCurAttDelay: 0
   maxExperiences:
   - 0
@@ -8015,12 +8015,12 @@ MonoBehaviour:
   curRCoolTime: 0
   skillRCooltime: 15
   skillECooltime: 5
-  maxHP: 1000
+  maxHP: 300
   curHP: 0
   exps: []
   expFac: {fileID: 9144319922721178804, guid: 4fff541acbd56ca4fadea792064c1c32, type: 3}
   playerHPBar: {fileID: 477761649}
-  cuteCool: 1
+  cuteCool: 0.2
 --- !u!4 &774939436
 Transform:
   m_ObjectHideFlags: 0
@@ -24378,7 +24378,7 @@ PrefabInstance:
     - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
       propertyPath: coolTime
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
