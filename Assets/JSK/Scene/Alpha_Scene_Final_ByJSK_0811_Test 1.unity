@@ -7881,7 +7881,7 @@ MonoBehaviour:
   e_UI: {fileID: 0}
   attTime: 2
   curAttDelay: 0
-  cuteAttTime: 5
+  cuteAttTime: 2
   cuteCurAttDelay: 0
   maxExperiences:
   - 0
@@ -7915,7 +7915,7 @@ MonoBehaviour:
   exps: []
   expFac: {fileID: 9144319922721178804, guid: 4fff541acbd56ca4fadea792064c1c32, type: 3}
   playerHPBar: {fileID: 477761649}
-  cuteCool: 1
+  cuteCool: 0.4
 --- !u!4 &774939436
 Transform:
   m_ObjectHideFlags: 0
