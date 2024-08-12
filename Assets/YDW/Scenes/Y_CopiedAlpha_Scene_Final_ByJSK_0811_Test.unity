@@ -6715,6 +6715,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
+      propertyPath: attackDmg
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
       propertyPath: scanRange
       value: 30
       objectReference: {fileID: 0}
@@ -6724,6 +6729,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7663411774965494754, guid: d63aaa1b06288804aa0470e7b433f81f,
         type: 3}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      propertyPath: drainPower
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 788302660717785358, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -10488,6 +10498,7 @@ MonoBehaviour:
   eCoolText: {fileID: 938951746}
   rCoolText: {fileID: 1576272622}
   timeText: {fileID: 46026598}
+  bossHPUI: {fileID: 0}
   gameTime: 0
   player: {fileID: 742859355}
   bISWin: 0
