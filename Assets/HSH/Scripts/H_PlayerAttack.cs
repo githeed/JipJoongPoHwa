@@ -121,23 +121,23 @@ public class H_PlayerAttack : MonoBehaviour
                 //H_PlayerManager.instance.ChangeAlpha(0.8f);
                 curA = 0;
             }
+
+            currETime += Time.deltaTime;
+            //|| dirToTarget == Vector3.zero
+            if (currETime > ESkillTime)
+            {
+                canE = false;
+                H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
+                currETime = 0;
+                eBuff.GetComponent<ParticleSystem>().Stop();
+                UpdateHp(-1 * healPower);
+            }
         }
         else
         {
             //H_PlayerManager.instance.ChangeAlpha(0);
         }
 
-
-        currETime += Time.deltaTime;
-        //|| dirToTarget == Vector3.zero
-        if (currETime > ESkillTime)
-        {
-            canE = false;
-            H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
-            currETime = 0;
-            eBuff.GetComponent<ParticleSystem>().Stop();
-            UpdateHp(-1 * healPower);
-        }
     }
 
     public Transform GetNearest()
@@ -219,7 +219,10 @@ public class H_PlayerAttack : MonoBehaviour
                     if (em != null)
                     {
                         em.UpdateHp(attackDmg);
-                        UpdateHp(-1 * drainPower);
+                        if(canE)
+                        {
+                            UpdateHp(-1 * drainPower);
+                        }
                     }
                     //print(enemy.gameObject + ": " + attackDmg);
                 }
