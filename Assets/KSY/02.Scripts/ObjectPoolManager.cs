@@ -35,8 +35,8 @@ public class ObjectPoolManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        
         Init();
-
     }
 
     //private void Start()
@@ -46,6 +46,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     private void Init()
     {
+        if (ally == null) ally = GameObject.FindWithTag("Player1");
         pool = new ObjectPool<GameObject>(CreatePooledEnemy, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject,true,defaultCapacity, maxPoolSize);
         damageUIPool = new ObjectPool<GameObject>(CreateDamagePool, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject,true,defaultCapacity, maxPoolSize);
         featherPool = new ObjectPool<GameObject>(CreateFeatherPool, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, defaultCapacity, maxPoolSize);
