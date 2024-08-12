@@ -7985,6 +7985,7 @@ MonoBehaviour:
   exps: []
   expFac: {fileID: 9144319922721178804, guid: 4fff541acbd56ca4fadea792064c1c32, type: 3}
   playerHPBar: {fileID: 477761649}
+  cuteCool: 1
 --- !u!4 &774939436
 Transform:
   m_ObjectHideFlags: 0
