@@ -69,6 +69,8 @@ public class H_PlayerAttack : MonoBehaviour
 
     public int rDamage = 10;
 
+    public float rRange = 20;
+
     public Material mat;
 
     public float drainPower = 1;
@@ -291,7 +293,7 @@ public class H_PlayerAttack : MonoBehaviour
         re.transform.position = transform.position;
         Destroy(re, 2);
 
-        Collider[] cols = Physics.OverlapSphere(transform.position, 10, targetLayer);
+        Collider[] cols = Physics.OverlapSphere(transform.position, rRange, targetLayer);
         foreach (Collider col in cols)
         {
             //print(col + " " + rDamage);
