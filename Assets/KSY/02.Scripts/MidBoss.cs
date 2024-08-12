@@ -122,8 +122,8 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
                 agent.isStopped = false;
                 break;
             case MidBossState.ATTACK:
-                myAnim.SetTrigger("ATTACK");
                 OnAttack();
+                myAnim.SetTrigger("ATTACK");
                 break;
             case MidBossState.ATTACK_DELAY:
                 myAnim.SetTrigger(currState.ToString());
@@ -156,7 +156,8 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
 
     void OnAttack()
     {
-        
+        Vector3 dir = target.transform.position - transform.position;
+        transform.forward = (dir - Vector3.up * dir.y).normalized;
         ChangeState(MidBossState.ATTACK_DELAY);
     }
     void UpdateAttack_Delay()
