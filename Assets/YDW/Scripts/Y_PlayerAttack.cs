@@ -265,21 +265,29 @@ public class Y_PlayerAttack : MonoBehaviour
     }
 
 
+
+
     private IEnumerator ESkill()
     {
         isESkill = true;
         anim.SetTrigger("ESKILL");
-        yield return new WaitForSecondsRealtime(0.6f);
+        yield return new WaitForSeconds(0.6f);
 
         Collider[] feathers = Physics.OverlapSphere(transform.position, 99999f, featherLayer);
-        
+
+
+       // StopAllCoroutines();
+
         foreach (Collider feather in feathers)
         {
+            feather.gameObject.name = "feather";
+
             Vector3 dirFrFthToAlly = transform.position - feather.gameObject.transform.position;
             dirFrFthToAlly.y = 0;
             Vector3 dirFrFthToAllyNor = dirFrFthToAlly.normalized;
 
             Vector3 destinationE = transform.position;
+
             StartCoroutine(MoveFeather(feather, dirFrFthToAllyNor, destinationE, 0.1f));
 
             
@@ -304,6 +312,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
         if (feathers.Length >= 30 && !pAttacking)
         {
+            print("!!!!!!!!!!!!!!!!!!!! Passive 한다");
             StartCoroutine(PassiveAttack());
             StartCoroutine(SkillTimeFast());
 
@@ -322,14 +331,15 @@ public class Y_PlayerAttack : MonoBehaviour
         // 무적 상태 만들기
         StartCoroutine(Unbeatable());
 
-        yield return new WaitForSecondsRealtime(0.8f);
+        yield return new WaitForSeconds(0.8f);
 
         for (int i = 1; i <= featherRNo; i++)
         {
             // 깃털 360도로 퍼지게
             GameObject feather = ObjectPoolManager.instance.featherPool.Get();
+            feather.layer = LayerMask.NameToLayer("Feather");
             feather.transform.position = transform.position;
-            feather.transform.Rotate(0, (360 / featherRNo) * i, 0);
+            feather.transform.localEulerAngles = new Vector3(0, (360 / featherRNo) * i, 0);
 
             // Enemy 에게 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, feather.transform.forward, featherDist, targetLayer);
@@ -348,7 +358,6 @@ public class Y_PlayerAttack : MonoBehaviour
             if (feather != null)
             {
                 StartCoroutine(ReleaseFeather(feather, featherTime));
-                print("Released!!!!!!!!!!!!");
             }
             //Destroy(feather, featherTime);
 
@@ -405,20 +414,22 @@ public class Y_PlayerAttack : MonoBehaviour
 
         int i = 0;
         anim.SetTrigger("BASIC_ATTACK");
-        yield return new WaitForSecondsRealtime(0.3f);
+        yield return new WaitForSeconds(0.3f);
 
         //Quaternion rotation = Quaternion.LookRotation(dirFrAllyToEnm, Vector3.up);
         //transform.rotation = rotation;
         //allyBody.transform.forward = dirFrAllyToEnm;
         allyBody.transform.forward = dirB;
 
-        yield return new WaitForSecondsRealtime(0.4f);
+        yield return new WaitForSeconds(0.4f);
 
         while (i < basicAttackNo)
         {
             // 깃털 생성 후 Ally 위치에 놓음
             //GameObject feather = Instantiate(featherFactory);
             GameObject featherB = ObjectPoolManager.instance.featherPool.Get();
+            featherB.transform.localEulerAngles = new Vector3(0, 0, 0);
+            featherB.layer = LayerMask.NameToLayer("Feather");
             featherB.transform.position = transform.position;
 
             // 레이캐스트로 적 감지 후 데미지 주기
@@ -474,7 +485,9 @@ public class Y_PlayerAttack : MonoBehaviour
     private IEnumerator EvolveCrt()
     {
         GameObject feather = ObjectPoolManager.instance.featherPool.Get();
+        feather.layer = LayerMask.NameToLayer("Feather");
         feather.transform.position = transform.position;
+        feather.transform.localEulerAngles = new Vector3(0, 0, 0);
 
         List<(Vector3 dir, Collider collider)> targets = new List<(Vector3 dir, Collider collider)>();
 
@@ -571,7 +584,7 @@ public class Y_PlayerAttack : MonoBehaviour
         while (curPAttTime < PSkillDuration)
         {
 
-           // curPAttTime += Time.deltaTime;
+            //curPAttTime += Time.deltaTime;
 
             p1 = transform.position;
             p2 = transform.position + 3f * transform.right;// + transform.forward * -10f;
@@ -591,12 +604,14 @@ public class Y_PlayerAttack : MonoBehaviour
             {
                 float time = 0f;
 
-                GameObject feather = ObjectPoolManager.instance.featherPool.Get();
-                feather.transform.position = transform.position;
-                feather.layer = LayerMask.NameToLayer("PassiveFeather");
-                GameObject feather2 = ObjectPoolManager.instance.featherPool.Get();
+                GameObject feather1 = Instantiate(featherAFactory);
+                feather1.transform.position = transform.position;
+                feather1.layer = LayerMask.NameToLayer("PassiveFeather");
+                feather1.name = "feather111111111";
+                GameObject feather2 = Instantiate(featherAFactory);
                 feather2.transform.position = transform.position;
                 feather2.layer = LayerMask.NameToLayer("PassiveFeather");
+                feather2.name = "feather222222";
 
                 dirP = p4 - transform.position;
 
@@ -624,17 +639,13 @@ public class Y_PlayerAttack : MonoBehaviour
                     p7 = Vector3.Lerp(p1, p3, time);
                     p8 = Vector3.Lerp(p3, p4, time);
 
-                    if(feather== null)
-                    {
-                        print("111");
-                    }
-                    feather.transform.position = Vector3.Lerp(p5, p6, time);
+                    feather1.transform.position = Vector3.Lerp(p5, p6, time);
                     feather2.transform.position = Vector3.Lerp(p7, p8, time);
 
                     if (time >= 1)
                     {
-                        if (feather != null && feather.activeSelf) pool.Release(feather.gameObject);
-                        if (feather != null && feather.activeSelf) pool.Release(feather2.gameObject);
+                        Destroy(feather1);
+                        Destroy(feather2);
                         break;
                     }
                     yield return null;
@@ -651,7 +662,7 @@ public class Y_PlayerAttack : MonoBehaviour
                 targetP.GetComponent<EnemyHp>().UpdateHp(attackDmg * batRate * basicAttackNo);
                 DamageParticle(targetP.transform.position + Vector3.up);
             }
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSeconds(1f);
             curPAttTime += 1;
         }
 
@@ -661,7 +672,7 @@ public class Y_PlayerAttack : MonoBehaviour
     private IEnumerator SkillTimeFast()
     {
         skillTimeRate = 1.5f;
-        yield return new WaitForSecondsRealtime(15f);
+        yield return new WaitForSeconds(15f);
         skillTimeRate = 1f;
     }
 
@@ -670,7 +681,7 @@ public class Y_PlayerAttack : MonoBehaviour
     private IEnumerator StopEnemy(RaycastHit hitinfo)
     {
         hitinfo.transform.GetComponent<NavMeshAgent>().enabled = false;
-        yield return new WaitForSecondsRealtime(enmStopTime);
+        yield return new WaitForSeconds(enmStopTime);
         if(hitinfo.transform != null) hitinfo.transform.GetComponent<NavMeshAgent>().enabled = true;
     }
 
@@ -703,7 +714,7 @@ public class Y_PlayerAttack : MonoBehaviour
     {
         unbeatable = true;
         allyNavMesh.moveSpeed *= 2;
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSeconds(2f);
         unbeatable = false;
         allyNavMesh.moveSpeed /= 2;
     }
@@ -712,7 +723,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     private IEnumerator ReleaseFeather(GameObject feather, float featherTime)
     {
-        yield return new WaitForSecondsRealtime(featherTime);
+        yield return new WaitForSeconds(featherTime);
         if (feather != null && feather.activeSelf)
         {
             pool.Release(feather);

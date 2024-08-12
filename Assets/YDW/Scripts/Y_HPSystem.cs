@@ -109,7 +109,7 @@ public class Y_HPSystem : MonoBehaviour
     private IEnumerator RebornCrt()
     {
         
-        yield return new WaitForSecondsRealtime(timeTillReborn);
+        yield return new WaitForSeconds(timeTillReborn);
         
 
         if(this.name == "Ally")
