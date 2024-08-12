@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        gameTime = 0;
+
         if (player == null) player = GameObject.FindWithTag("Player");
         if (spawner == null) spawner = GameObject.FindWithTag("Spawner");
         if (bossHPUI == null)

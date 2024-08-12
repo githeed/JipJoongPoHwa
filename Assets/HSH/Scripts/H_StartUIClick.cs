@@ -27,8 +27,8 @@ public class H_StartUIClick : MonoBehaviour
 
     IEnumerator SceneLoader()
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
 
-        SceneManager.LoadScene("Alpha_Scene_Final_ByJSK");
+        SceneManager.LoadScene("Alpha_Scene_Final_ByJSK_0811_Test 1");
     }
 }

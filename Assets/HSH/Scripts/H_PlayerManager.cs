@@ -69,8 +69,9 @@ public class H_PlayerManager : MonoBehaviour
     public List<GameObject> exps = new List<GameObject>();
     public GameObject expFac;
 
+    public Image playerHPBar;
 
-    private void Awake()
+private void Awake()
     {
         if (instance == null)
         {
@@ -136,7 +137,7 @@ public class H_PlayerManager : MonoBehaviour
                 rCool = false;
             }
         }
-
+        PlayerHPBar();
     }
 
     public void UpdateExp(float value)
@@ -206,9 +207,10 @@ public class H_PlayerManager : MonoBehaviour
         briarNum++;
     }
 
+    public float cuteCool = 1;
     void CuteCardPick()
     {
-        cuteAttTime--;
+        cuteAttTime -= cuteCool;
     }
 
     void ImgShow()
@@ -247,5 +249,10 @@ public class H_PlayerManager : MonoBehaviour
     {
         GameObject ge = GetExp();
         ge.transform.position = loc;
+    }
+
+    void PlayerHPBar()
+    {
+        playerHPBar.fillAmount = curHP / maxHP;
     }
 }
