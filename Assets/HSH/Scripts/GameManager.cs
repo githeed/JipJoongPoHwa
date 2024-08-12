@@ -50,8 +50,6 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            // 씬 전환이 되도 게임오브젝트를 파괴하고 싶지않다.
-            DontDestroyOnLoad(gameObject);
         }
         // 그렇지 않다면
         else
