@@ -4233,7 +4233,7 @@ PrefabInstance:
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: batRate
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -4262,18 +4262,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
+      propertyPath: featherSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
       propertyPath: basicAttackNo
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: featherSpeedB
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: featherSpeedE
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -4283,7 +4288,7 @@ PrefabInstance:
     - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: PSkillDuration
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 176045145813752165, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -4329,6 +4334,16 @@ PrefabInstance:
         type: 3}
       propertyPath: moveSpeed
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: maxHealth
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: timeTillReborn
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8101318993530173819, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
