@@ -20,10 +20,13 @@ public class Y_PlayerAttack : MonoBehaviour
     public float ESkillTime;
     public float RSkillTime;
     public float PSkillDuration;
+    public float EvSkillTime;
+    public float EvSkillDuration;
     public float curBAttTime = 0;
     public float curEAttTime = 0;
     public float curRAttTime = 0;
     public float curPAttTime = 0;
+    public float curEvAttTime = 0;
     public float skillTimeRate = 1;
 
     // Scan and Target
@@ -92,7 +95,8 @@ public class Y_PlayerAttack : MonoBehaviour
         featherTime = 10;
         basicAttTime = 2;
         ESkillTime = 9; 
-        RSkillTime = 9999; 
+        RSkillTime = 9999;
+        EvSkillTime = 3;
         PSkillDuration = 15;
 
         featherDist = 14;
@@ -209,6 +213,16 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             basicAttTime = 1f;
             ESkillTime = 5;
+        }
+
+        if(pm.indexLev >= 5)
+        {
+            curEvAttTime += Time.deltaTime;
+            if(curEvAttTime > EvSkillTime)
+            {
+                StartCoroutine(EvolveCrt());
+                curEvAttTime = 0;
+            }
         }
 
 
@@ -480,7 +494,7 @@ public class Y_PlayerAttack : MonoBehaviour
     // 기본무기 강화 (연인의 도탄)
     private IEnumerator EvolveCrt()
     {
-        GameObject feather = ObjectPoolManager.instance.featherPool.Get();
+        GameObject feather = Instantiate(featherEFactory);
         feather.layer = LayerMask.NameToLayer("Feather");
         feather.transform.position = transform.position;
         feather.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -502,7 +516,7 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             if (i >= enemies.Count || enemies[i].collider == null)
             {
-                if (feather != null && feather.activeSelf) pool.Release(feather.gameObject);
+                Destroy(feather);
                 yield break;
             }
             else
