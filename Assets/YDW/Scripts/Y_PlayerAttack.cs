@@ -84,7 +84,6 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public IObjectPool<GameObject> pool { get; set; }
 
-    private bool isFeatherReleased = false;
 
     void Start()
     {
@@ -96,7 +95,7 @@ public class Y_PlayerAttack : MonoBehaviour
         RSkillTime = 9999; 
         PSkillDuration = 15;
 
-        featherDist = 7;
+        featherDist = 14;
         attackDmg = 5f;
         eAttRate = 1.2f;
         enmStopTime = 1.5f;
@@ -188,6 +187,7 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             basicAttTime = 2;
             ESkillTime = 9;
+            RSkillTime = 5;
         }
         else if(pm.indexLev == 2)
         {
@@ -198,6 +198,7 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             basicAttTime = 1.5f;
             ESkillTime = 7;
+            
         }
         else if (pm.indexLev == 4)
         {
@@ -326,7 +327,6 @@ public class Y_PlayerAttack : MonoBehaviour
         for (int i = 1; i <= featherRNo; i++)
         {
             // 깃털 360도로 퍼지게
-            isFeatherReleased = false;
             GameObject feather = ObjectPoolManager.instance.featherPool.Get();
             feather.transform.position = transform.position;
             feather.transform.Rotate(0, (360 / featherRNo) * i, 0);
@@ -345,7 +345,11 @@ public class Y_PlayerAttack : MonoBehaviour
             //FeatherParticle(gameObject, feather.transform.forward);
 
             // 시간 지나면 깃털 파괴
-            if (feather != null) StartCoroutine(ReleaseFeather(feather, featherTime));
+            if (feather != null)
+            {
+                StartCoroutine(ReleaseFeather(feather, featherTime));
+                print("Released!!!!!!!!!!!!");
+            }
             //Destroy(feather, featherTime);
 
                 
@@ -378,7 +382,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
         foreach (Collider feather in feathers)
         {
-            if (feather != null) StartCoroutine(ReleaseFeather(feather.gameObject, featherTime));
+            StartCoroutine(ReleaseFeather(feather.gameObject, featherTime));
         }
     }
 
@@ -414,7 +418,6 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             // 깃털 생성 후 Ally 위치에 놓음
             //GameObject feather = Instantiate(featherFactory);
-            isFeatherReleased = false;
             GameObject featherB = ObjectPoolManager.instance.featherPool.Get();
             featherB.transform.position = transform.position;
 
@@ -470,7 +473,6 @@ public class Y_PlayerAttack : MonoBehaviour
     // 기본무기 강화 (연인의 도탄)
     private IEnumerator EvolveCrt()
     {
-        isFeatherReleased = false;
         GameObject feather = ObjectPoolManager.instance.featherPool.Get();
         feather.transform.position = transform.position;
 
@@ -491,7 +493,7 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             if (i >= enemies.Count || enemies[i].collider == null)
             {
-                if (feather != null) pool.Release(feather.gameObject);
+                if (feather != null && feather.activeSelf) pool.Release(feather.gameObject);
                 yield break;
             }
             else
@@ -523,7 +525,7 @@ public class Y_PlayerAttack : MonoBehaviour
                     ////// 나중에 break
                     if (enemies[i].collider == null)
                     {
-                        if (feather != null) pool.Release(feather.gameObject);
+                        if (feather != null && feather.activeSelf) pool.Release(feather.gameObject);
                         yield break;
                     }
 
@@ -540,7 +542,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
             if (i == 3)
             {
-                if (feather != null) pool.Release(feather.gameObject);
+                if (feather != null && feather.activeSelf) pool.Release(feather.gameObject);
                 hp.Heal(hp.maxHealth * 0.1f * i);
             }
         }
@@ -589,11 +591,9 @@ public class Y_PlayerAttack : MonoBehaviour
             {
                 float time = 0f;
 
-                isFeatherReleased = false;
                 GameObject feather = ObjectPoolManager.instance.featherPool.Get();
                 feather.transform.position = transform.position;
                 feather.layer = LayerMask.NameToLayer("PassiveFeather");
-                isFeatherReleased = false;
                 GameObject feather2 = ObjectPoolManager.instance.featherPool.Get();
                 feather2.transform.position = transform.position;
                 feather2.layer = LayerMask.NameToLayer("PassiveFeather");
@@ -633,8 +633,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
                     if (time >= 1)
                     {
-                        if (feather != null) pool.Release(feather.gameObject);
-                        if (feather != null) pool.Release(feather2.gameObject);
+                        if (feather != null && feather.activeSelf) pool.Release(feather.gameObject);
+                        if (feather != null && feather.activeSelf) pool.Release(feather2.gameObject);
                         break;
                     }
                     yield return null;
@@ -713,10 +713,9 @@ public class Y_PlayerAttack : MonoBehaviour
     private IEnumerator ReleaseFeather(GameObject feather, float featherTime)
     {
         yield return new WaitForSecondsRealtime(featherTime);
-        if (!isFeatherReleased && feather != null)
+        if (feather != null && feather.activeSelf)
         {
             pool.Release(feather);
-            isFeatherReleased = true;
         }
     }
     
