@@ -12414,6 +12414,16 @@ PrefabInstance:
     - target: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003504883933686610, guid: bf693366c5dd20347a59b16b5be63877,
+        type: 3}
+      propertyPath: attackDelay
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003504883933686610, guid: bf693366c5dd20347a59b16b5be63877,
+        type: 3}
+      propertyPath: motionDelay
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

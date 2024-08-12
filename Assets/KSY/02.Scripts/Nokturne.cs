@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Nokturne : MonoBehaviour
+public class Nokturne : MonoBehaviour, IAnimatorInterface
 {
     public enum NokturneState
     {
@@ -24,7 +24,7 @@ public class Nokturne : MonoBehaviour
     public float attackPower;
     [Tooltip("돌진 가능 거리")]
     public float attackRange = 20;
-
+    public float motionDelay;
 
     [Header ("터치 금지")]
     public GameObject attackIndicatorPos;
@@ -32,20 +32,20 @@ public class Nokturne : MonoBehaviour
     NavMeshAgent agent;
     EnemyHp enemyHp;
     FindPlayers findPlayers;
-    NokturneState currState;
+    public NokturneState currState;
 
     Vector3 rayDir;
     Vector3 attackDir;
     Vector3 targetPos;
 
-    WaitForSeconds attackDelays;
+    WaitForSeconds motionDelays;
 
     Ray toTarget;
     RaycastHit hitInfo;
 
     bool canAttack;
     bool attacking;
-    
+    bool canReAttack;
 
     Vector3 destination;
     Vector3 indicatorOrgPos;
@@ -76,11 +76,11 @@ public class Nokturne : MonoBehaviour
         currState = NokturneState.IDLE;
         attackIndicatorPos.SetActive(false);
         findPlayers = GetComponent<FindPlayers>();
-        attackDelays = new WaitForSeconds(attackDelay);
+        motionDelays = new WaitForSeconds(motionDelay);
         agent = GetComponent<NavMeshAgent>();
         indicatorOrgPos = attackIndicatorPos.transform.localPosition;
         myAnim = GetComponentInChildren<Animator>();
-        
+        canReAttack = true;
     }
 
     // Update is called once per frame
@@ -126,9 +126,11 @@ public class Nokturne : MonoBehaviour
 
     }
 
+    bool onAttack;
 
     public void ChangeState(NokturneState state)
     {
+        currTime = 0;
         currState = state;
         agent.enabled = true;
 
@@ -153,14 +155,7 @@ public class Nokturne : MonoBehaviour
 
     private void OnATTACK_DELAY()
     {
-        if (toTargetDist < attackRange && canAttack)
-        {
-            ChangeState(NokturneState.ATTACK);
-        }
-        else
-        {
-            ChangeState(NokturneState.MOVE);
-        }
+        ChangeState(NokturneState.MOVE);
     }
 
     void UpdateIdle()
@@ -169,23 +164,73 @@ public class Nokturne : MonoBehaviour
     }
     void UpdateMove()
     {
-        agent.destination = target.transform.position;
-        if (toTargetDist < attackRange && canAttack)
+        currTime += Time.deltaTime;
+        if(attackDelay < currTime)
         {
+            canReAttack = true;
+        }
+        agent.destination = target.transform.position;
+        if (toTargetDist < attackRange && canAttack && canReAttack)
+        {
+            currTime = 0;
             ChangeState(NokturneState.ATTACK);
         }
     }
     void OnAttack()
     {
-        myAnim.SetTrigger("Attack");
-        StartCoroutine(NocturneAttack());
+        onAttack = true;
+        // 타겟의 위치를 저장하고
+        targetPos = target.transform.position;
+        // 방향을 타겟쪽으로 정하고
+        attackDir = targetPos - transform.position;
+        attackDir -= Vector3.up * attackDir.y; // y값 없애기
+        transform.forward = attackDir.normalized;
+        // 이동을 멈추자 (agent를 끄고)
+        agent.enabled = false;
+        attackIndicatorPos.SetActive(true);
+        attackIndicatorPos.transform.forward = new Vector3(attackDir.x, 0, attackDir.z);
+        attackIndicatorPos.transform.SetParent(null);
     }
 
+
+    float currTime = 0;
     void UpdateAttack()
     {
-        //print("공격중 목표와의 거리 : " + (targetPos - transform.position).magnitude);
+        currTime += Time.deltaTime;
+        if(currTime > motionDelay && onAttack)
+        {
+            myAnim.SetTrigger("Attack");
+            canReAttack = false;
+            onAttack = false;
+            currTime = 0;
+        }
+        if (attacking)
+        {
+            AttackMove();
+        }
+
     }
 
+    void AttackMove()
+    {
+        // 돌진
+        if (moveDist < attackRange)
+        {
+            moveDist += attackSpeed * Time.deltaTime;
+            // 방향쪽으로 정해진 거리만큼 움직이자.
+            transform.Translate(attackDir.normalized * attackSpeed * Time.deltaTime, Space.World);
+            // 벽이 나오면 움직임을 멈추자.
+            if (Physics.Raycast(transform.position + Vector3.up * 2, transform.forward, agent.radius, 1 << LayerMask.NameToLayer("Walls")))
+            {
+                attackDir = Vector3.zero;
+            }
+        }
+        else
+        {
+            attacking = false;
+            moveDist = 0;
+        }
+    }
 
     public void OnDie()
     {
@@ -219,8 +264,8 @@ public class Nokturne : MonoBehaviour
         attackIndicatorPos.SetActive(true);
         attackIndicatorPos.transform.forward = new Vector3(attackDir.x, 0, attackDir.z);
         attackIndicatorPos.transform.SetParent(null);
-        // attackDelays만큼 대기했다가
-        yield return attackDelays;
+        // motionDelays만큼 대기했다가
+        yield return motionDelays;
         // 돌진
         while (moveDist < attackRange)
         {
@@ -258,5 +303,28 @@ public class Nokturne : MonoBehaviour
                 playerCsY = null;
             }
         }
+    }
+
+    public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (stateInfo.IsName("Attack"))
+        {
+            attacking = true;
+            
+            
+        }
+    }
+
+    public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (stateInfo.IsName("Attack"))
+        {
+            attackIndicatorPos.SetActive(false);
+            attackIndicatorPos.transform.SetParent(transform);
+            attackIndicatorPos.transform.localPosition = indicatorOrgPos;
+            attacking = false;
+            ChangeState(NokturneState.MOVE);
+        }
+        
     }
 }
