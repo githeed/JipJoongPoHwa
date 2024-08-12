@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MidBoss : MonoBehaviour
+public class MidBoss : MonoBehaviour, IAnimatorInterface
 {
 
     public enum MidBossState
@@ -45,6 +45,8 @@ public class MidBoss : MonoBehaviour
     WaitForSeconds effTimeSec;
     Material myMaterial;
     Color orgColor;
+
+    
 
     void Start()
     {
@@ -154,7 +156,7 @@ public class MidBoss : MonoBehaviour
 
     void OnAttack()
     {
-        myIndicator.SetActive(true);
+        
         ChangeState(MidBossState.ATTACK_DELAY);
     }
     void UpdateAttack_Delay()
@@ -213,5 +215,18 @@ public class MidBoss : MonoBehaviour
     {
         H_PlayerManager.instance.SpawnExp(transform.position);
         Destroy(gameObject);
+    }
+
+    public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (stateInfo.IsName("Attack"))
+        {
+            myIndicator.SetActive(true);
+        }
+    }
+
+    public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        
     }
 }
