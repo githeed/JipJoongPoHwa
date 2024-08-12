@@ -8080,12 +8080,12 @@ MonoBehaviour:
   exp: 0
   maxExp: 0
   bIsPicking: 0
-  xBox: 3
-  boxMultiplier: 1
-  boxDist: 2
-  distMultiplier: 0.3
+  xBox: 5
+  boxMultiplier: 2
+  boxDist: 3
+  distMultiplier: 0.5
   effScale: 1.5
-  effMultiplier: 0.2
+  effMultiplier: 0.5
   eCool: 0
   rCool: 0
   curECoolTime: 0
