@@ -25,7 +25,9 @@ public class H_PlayerAttack : MonoBehaviour
     public Transform nearestTarget;
 
     // 이펙트 공장
-    public GameObject scratchFac;
+    public GameObject basicAttackEffFac;
+    // 잘가요..내사랑..
+    //public GameObject scratchFac;
     public GameObject eBuff;
     public GameObject rEffectFac;
     public GameObject rReady;
@@ -192,24 +194,32 @@ public class H_PlayerAttack : MonoBehaviour
                 // 공격범위를 기준으로 적만 맞는 박스콜라이더를 생성하자
                 Collider[] enemies = Physics.OverlapBox(boxPos, boxSize * 0.5f, Quaternion.LookRotation(dirToTarget, transform.up), targetLayer);
 
-                Vector3 crossVec = Vector3.Cross(dirToTarget, transform.up);
+                //Vector3 crossVec = Vector3.Cross(dirToTarget, transform.up);
 
-                // 이펙트 생성
-                GameObject ef = Instantiate(scratchFac);
-                GameObject ef1 = Instantiate(scratchFac);
-                crossVec.Normalize();
-                // 앞방향의 양옆으로 이펙트의 위치를 정해주자
+                GameObject ef = Instantiate(basicAttackEffFac);
+                ef.transform.forward = dirToTarget;
+                ef.transform.eulerAngles += new Vector3(0, -80, 0);
+                ef.transform.position = transform.position + dirToTarget * H_PlayerManager.instance.boxDist + transform.right * 0.5f;
                 ef.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
-                ef1.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
-                ef.transform.position = boxPos + -1 * crossVec;
-                ef.transform.rotation = Quaternion.LookRotation(-Vector3.up, dirToTarget);
-                ef1.transform.position = boxPos + 1 * crossVec;
-                ef1.transform.rotation = Quaternion.LookRotation(Vector3.up, dirToTarget);
 
-
-                // 0.4 초후에 이펙트를 없애자
                 Destroy(ef, 0.4f);
-                Destroy(ef1, 0.4f);
+                // 잘가..요 내사랑..
+                // 이펙트 생성
+                //GameObject ef = Instantiate(scratchFac);
+                //GameObject ef1 = Instantiate(scratchFac);
+                //crossVec.Normalize();
+                //// 앞방향의 양옆으로 이펙트의 위치를 정해주자
+                //ef.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
+                //ef1.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
+                //ef.transform.position = boxPos + -1 * crossVec;
+                //ef.transform.rotation = Quaternion.LookRotation(-Vector3.up, dirToTarget);
+                //ef1.transform.position = boxPos + 1 * crossVec;
+                //ef1.transform.rotation = Quaternion.LookRotation(Vector3.up, dirToTarget);
+
+
+                //// 0.4 초후에 이펙트를 없애자
+                //Destroy(ef, 0.4f);
+                //Destroy(ef1, 0.4f);
 
                 curAttTime = 0;
 
