@@ -35,7 +35,7 @@ public class Y_HPSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeTillReborn = 2f;
+        timeTillReborn = 7f;
         allyBody = GameObject.Find("AllyBody");
         ally = GameObject.Find("Ally");
         playerBody = GameObject.Find("Player");

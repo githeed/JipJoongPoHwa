@@ -17,7 +17,7 @@ public class Y_PlayerAttack : MonoBehaviour
 {
     // Time
     public float basicAttTime = 4;
-    public float ESkillTime = 9;
+    public float ESkillTime;
     public float RSkillTime;
     public float PSkillDuration = 15;
     public float EvSkillTime = 3;
@@ -40,7 +40,7 @@ public class Y_PlayerAttack : MonoBehaviour
     //public Transform nearestTarget;
 
     // AttackDmg and HP
-    public float attackDmg;
+    public float attackDmg = 50;
     Y_HPSystem hp;
 
     // Feather Attack
@@ -93,8 +93,8 @@ public class Y_PlayerAttack : MonoBehaviour
         hp = GetComponent<Y_HPSystem>();
 
         RSkillTime = 9999;
+        ESkillTime = 9999;
        
-        attackDmg = 5f;
 
         AllyFSM = GetComponent<Y_AllyFSM>();
         allyNavMesh = GetComponent<Y_NavMesh>();
@@ -177,8 +177,8 @@ public class Y_PlayerAttack : MonoBehaviour
         if (pm.indexLev == 1)
         {
             basicAttTime = 4;
-            ESkillTime = 9;
             basicAttackNo = 3;
+
         }
         else if(pm.indexLev == 2)
         {
