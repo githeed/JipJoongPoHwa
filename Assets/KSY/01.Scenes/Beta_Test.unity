@@ -4030,7 +4030,7 @@ Transform:
   m_GameObject: {fileID: 380173191}
   serializedVersion: 2
   m_LocalRotation: {x: -0.38029563, y: 0, z: 0, w: 0.924865}
-  m_LocalPosition: {x: 0, y: 22.71, z: -20.82}
+  m_LocalPosition: {x: 0, y: 31.31, z: -12.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10153,7 +10153,7 @@ MonoBehaviour:
     type: 3}
   nocturnePrf: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
     type: 3}
-  bossSpawnMin: 500
+  bossSpawnMin: 0
   midBossSpawnPeriod: 500
 --- !u!1 &1166786338
 GameObject:

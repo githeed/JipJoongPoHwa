@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -70,6 +71,9 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     TextMeshProUGUI bossHPUItext;
     Image hPImage;
 
+    public GameObject attackGroundEff;
+    public GameObject attackGroundEff_1;
+    public GameObject attackHorizontalEff;
     private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
@@ -344,6 +348,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicator.SetActive(true);
             indicator.transform.position = attackPos;
             indicatorCS.attackCoolTime = 1f; // 애니메이션에서 공격타이밍에 맞춤
+            StartCoroutine(DelayAndStart(0.9f, () => attackGroundEff_1.SetActive(true))); // 이펙트 키기.
+            StartCoroutine(DelayAndStart(2f, () => attackGroundEff_1.SetActive(false))); // 이펙트 끄기.
         }
         if (stateInfo.IsName("Attack_Dash"))
         {
@@ -351,6 +357,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicator.SetActive(true);
             indicator.transform.position = attackPos;
             indicatorCS.attackCoolTime = 1.5f; // 애니메이션에서 공격타이밍에 맞춤
+            StartCoroutine(DelayAndStart(1.5f, () => attackHorizontalEff.SetActive(true))); // 이펙트 키기.
+            StartCoroutine(DelayAndStart(2.5f, () => attackHorizontalEff.SetActive(false))); // 이펙트 끄기.
         }
         if (stateInfo.IsName("Attack_Jump02"))
         {
@@ -358,6 +366,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicator.SetActive(true);
             indicator.transform.position = attackPos;
             indicatorCS.attackCoolTime = 2.5f; // 애니메이션에서 공격타이밍에 맞춤
+            StartCoroutine(DelayAndStart(2.5f, () => attackHorizontalEff.SetActive(true))); // 이펙트 키기.
+            StartCoroutine(DelayAndStart(3.5f, () => attackHorizontalEff.SetActive(false))); // 이펙트 끄기.
         }
 
         if (stateInfo.IsName("Attack_Jump01"))
@@ -367,6 +377,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             transform.forward = dir;
             
             longIndicator.gameObject.SetActive(true);
+
+            StartCoroutine(DelayAndStart(3.17f, () => attackGroundEff.SetActive(false))); // 이펙트 끄기.
         }
     }
 
@@ -399,7 +411,12 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         }
     }
 
-
+    IEnumerator DelayAndStart(float t, Action action)
+    {
+        print("됨");
+        yield return new WaitForSeconds(t);
+        action();
+    }
 
     void MyRotate()
     {
