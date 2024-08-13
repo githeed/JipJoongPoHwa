@@ -16,11 +16,11 @@ using static UnityEngine.GraphicsBuffer;
 public class Y_PlayerAttack : MonoBehaviour
 {
     // Time
-    public float basicAttTime;
+    public float basicAttTime = 4;
     public float ESkillTime;
     public float RSkillTime;
-    public float PSkillDuration;
-    public float EvSkillTime;
+    public float PSkillDuration = 15;
+    public float EvSkillTime = 3;
     public float EvSkillDuration;
     public float curBAttTime = 0;
     public float curEAttTime = 0;
@@ -40,7 +40,7 @@ public class Y_PlayerAttack : MonoBehaviour
     //public Transform nearestTarget;
 
     // AttackDmg and HP
-    public float attackDmg = 5f;
+    public float attackDmg = 50;
     Y_HPSystem hp;
 
     // Feather Attack
@@ -49,14 +49,14 @@ public class Y_PlayerAttack : MonoBehaviour
     public GameObject featherAFactory;
     public GameObject basicAttEffFactory;
     public float basicAttackNo = 3;
-    public float featherDist;
-    public float featherTime;
+    public float featherDist = 14;
+    public float featherTime = 10;
 
 
-    public float eAttRate;
-    public float enmStopTime;
+    public float eAttRate = 1.2f;
+    public float enmStopTime = 1.5f;
 
-    public float featherRNo;
+    public float featherRNo = 24;
 
     public bool unbeatable = false;
     Y_AllyFSM AllyFSM;
@@ -64,8 +64,8 @@ public class Y_PlayerAttack : MonoBehaviour
     public bool pAttacking = false;
     public float batRate = 1.05f;
 
-    public float featherSpeedB;
-    public float featherSpeedE;
+    public float featherSpeedB = 50;
+    public float featherSpeedE = 100;
     public float featherSpeed = 10;
 
     Y_NavMesh allyNavMesh;
@@ -92,21 +92,9 @@ public class Y_PlayerAttack : MonoBehaviour
     {
         hp = GetComponent<Y_HPSystem>();
 
-        featherTime = 10;
-        basicAttTime = 2;
-        ESkillTime = 9; 
         RSkillTime = 9999;
-        EvSkillTime = 3;
-        PSkillDuration = 15;
-
-        featherDist = 14;
-        eAttRate = 1.2f;
-        enmStopTime = 1.5f;
-
-        featherRNo = 24;
-
-        featherSpeedB = 50;
-        featherSpeedE = 100;
+        ESkillTime = 9999;
+       
 
         AllyFSM = GetComponent<Y_AllyFSM>();
         allyNavMesh = GetComponent<Y_NavMesh>();
@@ -188,30 +176,33 @@ public class Y_PlayerAttack : MonoBehaviour
         // 레벨별로 속도나 개수 변경하기
         if (pm.indexLev == 1)
         {
-            basicAttTime = 2;
-            ESkillTime = 9;
+            basicAttTime = 4;
+            basicAttackNo = 3;
+
         }
         else if(pm.indexLev == 2)
         {
-            basicAttTime = 1.7f;
+            basicAttTime = 3f;
             ESkillTime = 8;
         }
         else if (pm.indexLev == 3)
         {
-            basicAttTime = 1.5f;
+            basicAttTime = 2f;
             ESkillTime = 7;
             RSkillTime = 20;
+            basicAttackNo = 4;
 
         }
         else if (pm.indexLev == 4)
         {
-            basicAttTime = 1.3f;
+            basicAttTime = 1f;
             ESkillTime = 6;
         }
         else
         {
             basicAttTime = 1f;
             ESkillTime = 5;
+            basicAttackNo = 5;
         }
 
         if(pm.indexLev >= 5)
@@ -225,7 +216,7 @@ public class Y_PlayerAttack : MonoBehaviour
         }
 
 
-        batRate = 1.05f + 0.01f * pm.indexLev;
+        batRate = 1.05f + 0.1f * pm.indexLev;
 
 
     }
