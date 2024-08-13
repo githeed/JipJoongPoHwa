@@ -4245,11 +4245,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
-        type: 3}
-      propertyPath: maxHealth
-      value: 500
-      objectReference: {fileID: 0}
     - target: {fileID: 8101318993530173819, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7055,7 +7050,7 @@ PrefabInstance:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: healPower
-      value: 20
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
@@ -7071,7 +7066,7 @@ PrefabInstance:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: drainPower
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 788302660717785358, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
@@ -8085,19 +8080,19 @@ MonoBehaviour:
   exp: 0
   maxExp: 0
   bIsPicking: 0
-  xBox: 3
-  boxMultiplier: 1
-  boxDist: 2
-  distMultiplier: 0.3
-  effScale: 1.3
-  effMultiplier: 0.25
+  xBox: 5
+  boxMultiplier: 2
+  boxDist: 3
+  distMultiplier: 0.5
+  effScale: 1.5
+  effMultiplier: 0.5
   eCool: 0
   rCool: 0
   curECoolTime: 0
   curRCoolTime: 0
   skillRCooltime: 15
   skillECooltime: 5
-  maxHP: 500
+  maxHP: 1000
   curHP: 0
   exps: []
   expFac: {fileID: 9144319922721178804, guid: 4fff541acbd56ca4fadea792064c1c32, type: 3}
@@ -10927,7 +10922,7 @@ MonoBehaviour:
   nocturnePrf: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
     type: 3}
   bossSpawnMin: 1
-  midBossSpawnPeriod: 25
+  midBossSpawnPeriod: 20
 --- !u!1001 &1153162869
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Y_HPSystem : MonoBehaviour
 {
-    public float maxHealth;
+    public float maxHealth = 500;
     public float currHealth;
     public float timeTillReborn;
     public bool isDead;
@@ -17,16 +18,16 @@ public class Y_HPSystem : MonoBehaviour
     Y_AllyFSM allyFSM;
     Y_DamageUI yd;
 
-    public Image hpBar;
+    public UnityEngine.UI.Image hpBar;
+    public GameObject aimUI;
+    public GameObject hpUI;
 
-   
 
-    
+
 
 
     private void Awake()
     {
-        maxHealth = 500;
         currHealth = maxHealth;
         isDead = false;
         rebornable = true;
@@ -35,7 +36,7 @@ public class Y_HPSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeTillReborn = 2f;
+        timeTillReborn = 7f;
         allyBody = GameObject.Find("AllyBody");
         ally = GameObject.Find("Ally");
         playerBody = GameObject.Find("Player");
@@ -84,6 +85,7 @@ public class Y_HPSystem : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
+        hpUI.SetActive(false);
 
         if(this.name == "Ally")
         {
@@ -124,6 +126,8 @@ public class Y_HPSystem : MonoBehaviour
 
         currHealth = maxHealth;
         isDead = false;
+        aimUI.SetActive(true);
+        hpUI.SetActive(true);
         rebornable = true;
         allyFSM.playChooseDir();
 
