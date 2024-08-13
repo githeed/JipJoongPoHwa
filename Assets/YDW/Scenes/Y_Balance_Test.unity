@@ -4300,6 +4300,16 @@ PrefabInstance:
       propertyPath: PSkillDuration
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1858662300989993050, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: aimUI
+      value: 
+      objectReference: {fileID: 2094198273}
+    - target: {fileID: 2082469534306475976, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3904714552585844357, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: m_Name
@@ -4310,6 +4320,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: hpUI
+      value: 
+      objectReference: {fileID: 395531857}
+    - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: aimUI
+      value: 
+      objectReference: {fileID: 2094198273}
     - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: maxHealth
@@ -4484,6 +4504,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380851535}
   m_Mesh: {fileID: 2518485866909239015, guid: 6642d04b9523c67459dd8fa173b56e79, type: 3}
+--- !u!1 &395531857 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3186736913574315114, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 378312211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &401669450
 GameObject:
   m_ObjectHideFlags: 0
@@ -19303,6 +19329,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093807288}
   m_Mesh: {fileID: 3875876478987551675, guid: 6642d04b9523c67459dd8fa173b56e79, type: 3}
+--- !u!1 &2094198273 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 625548757306226011, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 378312211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2094942764
 GameObject:
   m_ObjectHideFlags: 0
