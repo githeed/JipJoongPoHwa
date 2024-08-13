@@ -183,26 +183,25 @@ public class Y_PlayerAttack : MonoBehaviour
         else if(pm.indexLev == 2)
         {
             basicAttTime = 3f;
-            ESkillTime = 8;
         }
         else if (pm.indexLev == 3)
         {
             basicAttTime = 2f;
-            ESkillTime = 7;
-            RSkillTime = 20;
+            ESkillTime = 9;
             basicAttackNo = 4;
 
         }
         else if (pm.indexLev == 4)
         {
             basicAttTime = 1f;
-            ESkillTime = 6;
+            ESkillTime = 7;
         }
         else
         {
             basicAttTime = 1f;
             ESkillTime = 5;
             basicAttackNo = 5;
+            RSkillTime = 20;
         }
 
         if(pm.indexLev >= 5)
@@ -312,10 +311,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
         if (feathers.Length >= 30 && !pAttacking)
         {
-            print("!!!!!!!!!!!!!!!!!!!! Passive 한다");
             StartCoroutine(PassiveAttack());
             StartCoroutine(SkillTimeFast());
-
         }
 
         curEAttTime = 0;
@@ -434,21 +431,21 @@ public class Y_PlayerAttack : MonoBehaviour
 
             // 레이캐스트로 적 감지 후 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, dirB, featherDist, targetLayer); //dirFrAllyToEnm
+            System.Array.Sort(hitInfos, (x, y) => x.distance.CompareTo(y.distance));
             int nth = 0;
             foreach (RaycastHit hitinfo in hitInfos)
             {
                 // 1: 0%, 2: 15%, 3:30%, 4: 45%, 5:60%
                 if (nth < 5)
                 {
-                    attackDmg = attackDmg * (1 - ((i * 15)/ 100));
+                    hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg * (1f - ((nth * 15f) / 100f)));
                 }
                 else
                 {
-                    attackDmg *= 0.4f;
+                    hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg * 0.4f);
                 }
                 nth++;
                 
-                hitinfo.transform.GetComponent<EnemyHp>().UpdateHp(attackDmg);
                 DamageParticle(hitinfo.transform.position + Vector3.up);
 
 
@@ -607,11 +604,11 @@ public class Y_PlayerAttack : MonoBehaviour
                 GameObject feather1 = Instantiate(featherAFactory);
                 feather1.transform.position = transform.position;
                 feather1.layer = LayerMask.NameToLayer("PassiveFeather");
-                feather1.name = "feather111111111";
+                //feather1.name = "feather111111111";
                 GameObject feather2 = Instantiate(featherAFactory);
                 feather2.transform.position = transform.position;
                 feather2.layer = LayerMask.NameToLayer("PassiveFeather");
-                feather2.name = "feather222222";
+                //feather2.name = "feather222222";
 
                 dirP = p4 - transform.position;
 
@@ -671,7 +668,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     private IEnumerator SkillTimeFast()
     {
-        skillTimeRate = 1.5f;
+        skillTimeRate = 1.1f;
         yield return new WaitForSeconds(15f);
         skillTimeRate = 1f;
     }
@@ -704,7 +701,8 @@ public class Y_PlayerAttack : MonoBehaviour
 
             yield return null;
         }
-        if(feather != null) StartCoroutine(ReleaseFeather(feather.gameObject, destroyTime));
+        StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
+        StartCoroutine(ReleaseFeather(feather.gameObject, destroyTime));
     }
 
     

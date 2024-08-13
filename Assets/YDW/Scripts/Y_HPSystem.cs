@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Y_HPSystem : MonoBehaviour
 {
@@ -17,11 +18,12 @@ public class Y_HPSystem : MonoBehaviour
     Y_AllyFSM allyFSM;
     Y_DamageUI yd;
 
-    public Image hpBar;
+    public UnityEngine.UI.Image hpBar;
+    public GameObject aimUI;
+    public GameObject hpUI;
 
-   
 
-    
+
 
 
     private void Awake()
@@ -84,6 +86,7 @@ public class Y_HPSystem : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
+        hpUI.SetActive(false);
 
         if(this.name == "Ally")
         {
@@ -124,6 +127,8 @@ public class Y_HPSystem : MonoBehaviour
 
         currHealth = maxHealth;
         isDead = false;
+        aimUI.SetActive(true);
+        hpUI.SetActive(true);
         rebornable = true;
         allyFSM.playChooseDir();
 
