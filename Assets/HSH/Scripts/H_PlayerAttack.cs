@@ -198,8 +198,8 @@ public class H_PlayerAttack : MonoBehaviour
 
                 GameObject ef = Instantiate(basicAttackEffFac);
                 ef.transform.forward = dirToTarget;
-                ef.transform.eulerAngles += new Vector3(0, -80, 0);
-                ef.transform.position = transform.position + dirToTarget * H_PlayerManager.instance.boxDist + transform.right * -0.5f;
+                ef.transform.eulerAngles += new Vector3(-90, 0, 0);
+                ef.transform.position = transform.position + dirToTarget * H_PlayerManager.instance.boxDist;
                 ef.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
 
                 Destroy(ef, 0.4f);
