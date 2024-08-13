@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Y_HPSystem : MonoBehaviour
 {
-    public float maxHealth;
+    public float maxHealth = 500;
     public float currHealth;
     public float timeTillReborn;
     public bool isDead;
@@ -26,7 +26,6 @@ public class Y_HPSystem : MonoBehaviour
 
     private void Awake()
     {
-        maxHealth = 500;
         currHealth = maxHealth;
         isDead = false;
         rebornable = true;
@@ -35,7 +34,7 @@ public class Y_HPSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeTillReborn = 2f;
+        timeTillReborn = 7f;
         allyBody = GameObject.Find("AllyBody");
         ally = GameObject.Find("Ally");
         playerBody = GameObject.Find("Player");

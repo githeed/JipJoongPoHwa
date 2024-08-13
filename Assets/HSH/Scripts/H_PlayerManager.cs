@@ -25,6 +25,7 @@ public class H_PlayerManager : MonoBehaviour
     public Image e_UI;
 
     public float attTime = 7;
+    public float attDelay = 0.3f;
     public float curAttDelay = 0;
 
     public float cuteAttTime = 5;
@@ -202,7 +203,7 @@ private void Awake()
         boxDist += distMultiplier;
         effScale += effMultiplier;
         attTime = curAttDelay;
-        attTime -= 0.3f;
+        attTime -= attDelay;
         curAttDelay = attTime;
         briarNum++;
     }
