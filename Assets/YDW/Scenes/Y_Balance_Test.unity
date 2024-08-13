@@ -4336,6 +4336,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5138367024975127787, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: boss
+      value: 
+      objectReference: {fileID: 1189860300}
+    - target: {fileID: 5138367024975127787, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: bossStone
+      value: 
+      objectReference: {fileID: 1726204023}
     - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: hpUI
@@ -11547,6 +11557,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1189566409}
   m_Mesh: {fileID: 787853472076020955, guid: 6642d04b9523c67459dd8fa173b56e79, type: 3}
+--- !u!1 &1189860300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1151405840507370767, guid: 0a3851991f425d04ba8bc2da82023ae4,
+    type: 3}
+  m_PrefabInstance: {fileID: 8289135646713692364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1196676736
 GameObject:
   m_ObjectHideFlags: 0
@@ -16061,6 +16077,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715282491}
   m_Mesh: {fileID: -8302102485596996044, guid: ce13a230aed4e504fa541f1b9d248df5, type: 3}
+--- !u!1 &1726204023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7667283773137937456, guid: c0ff4544352d69d48a1458821e5b224a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4120213537837016197}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1732677524
 GameObject:
   m_ObjectHideFlags: 0
