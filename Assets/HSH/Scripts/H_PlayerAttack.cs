@@ -7,6 +7,7 @@ using Unity.Burst.Intrinsics;
 using Unity.Entities.Hybrid.Baking;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
 
 public class H_PlayerAttack : MonoBehaviour
@@ -26,6 +27,8 @@ public class H_PlayerAttack : MonoBehaviour
 
     // 이펙트 공장
     public GameObject basicAttackEffFac;
+    public GameObject hitEffecFac;
+
     // 잘가요..내사랑..
     //public GameObject scratchFac;
     public GameObject eBuff;
@@ -81,6 +84,8 @@ public class H_PlayerAttack : MonoBehaviour
 
     public GameObject aim;
 
+    UnityEngine.Rendering.Universal.UniversalAdditionalCameraData uac;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -96,6 +101,8 @@ public class H_PlayerAttack : MonoBehaviour
             cr.SetActive(false);
             cutes.Add(cr);
         }
+
+        uac = Camera.main.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
     }
 
     public float curA = 0;
@@ -131,6 +138,7 @@ public class H_PlayerAttack : MonoBehaviour
             if (currETime > ESkillTime)
             {
                 canE = false;
+                uac.renderPostProcessing = false;
                 H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
                 currETime = 0;
                 eBuff.GetComponent<ParticleSystem>().Stop();
@@ -198,16 +206,20 @@ public class H_PlayerAttack : MonoBehaviour
 
                 GameObject ef = Instantiate(basicAttackEffFac);
                 ef.transform.forward = dirToTarget;
-                ef.transform.eulerAngles += new Vector3(0, -80, 0);
-                ef.transform.position = transform.position + dirToTarget * H_PlayerManager.instance.boxDist + transform.right * -0.5f;
-                ef.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
+                ef.transform.eulerAngles += new Vector3(-90, 0, 0);
+                ef.transform.position = transform.position + dirToTarget * H_PlayerManager.instance.boxDist;
+                ef.transform.localScale = Vector3.one * H_PlayerManager.instance.effScale;
+
+                //new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
 
                 Destroy(ef, 0.4f);
                 // 잘가..요 내사랑..
+
                 // 이펙트 생성
                 //GameObject ef = Instantiate(scratchFac);
                 //GameObject ef1 = Instantiate(scratchFac);
                 //crossVec.Normalize();
+
                 //// 앞방향의 양옆으로 이펙트의 위치를 정해주자
                 //ef.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
                 //ef1.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
@@ -231,6 +243,12 @@ public class H_PlayerAttack : MonoBehaviour
                     if (em != null)
                     {
                         em.UpdateHp(attackDmg);
+
+                        // 타격 이펙트 자리
+                        GameObject he = Instantiate(hitEffecFac);
+                        he.transform.localScale = Vector3.one * 5;
+                        he.transform.position = enemy.gameObject.transform.position + Vector3.up * 3.0f;
+                        Destroy(he, 0.4f);
                         if(canE)
                         {
                             UpdateHp(-1 * drainPower);
@@ -255,7 +273,8 @@ public class H_PlayerAttack : MonoBehaviour
             // e 를 사용하면 기본공격의 쿨타임을 줄이자
             canE = true;
             H_PlayerManager.instance.attTime = 0.2f;
-
+            
+            uac.renderPostProcessing = true;
             eBuff.GetComponent<ParticleSystem>().Play();
         }
         else

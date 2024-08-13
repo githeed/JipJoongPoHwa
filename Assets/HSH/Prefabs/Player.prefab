@@ -89,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d649a8e3f779044a9bd4862ae2b826f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimUI: {fileID: 0}
 --- !u!114 &8693623997458874922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,6 +399,7 @@ GameObject:
   - component: {fileID: 8958262706023633913}
   - component: {fileID: 2430391447401280405}
   - component: {fileID: 7646230970700246255}
+  - component: {fileID: 5130118593819185324}
   m_Layer: 31
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -414,7 +416,7 @@ Transform:
   m_GameObject: {fileID: 6473565793234698468}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -502,7 +504,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -523,6 +525,18 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &5130118593819185324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6473565793234698468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47f74b683c87584b9204eb2df674ccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7394764337381692302
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,13 +702,15 @@ MonoBehaviour:
     m_Bits: 1073741824
   targets: []
   nearestTarget: {fileID: 0}
-  basicAttackEffFac: {fileID: 5728733443280852745, guid: cfdeb6dd7123a744f80b0e3fcfefe2b0,
+  basicAttackEffFac: {fileID: 1965405707088202566, guid: 865d30ba7b947b54fb55051697898596,
+    type: 3}
+  hitEffecFac: {fileID: 1795992203533318, guid: 3083cc1760b2532489e9761d4852386e,
     type: 3}
   eBuff: {fileID: 6459988607585378690}
   rEffectFac: {fileID: 7986504087968017091, guid: 12a56ee4630040c4eb17ae9707ed4cef,
     type: 3}
   rReady: {fileID: 2391159297120250621}
-  attackDmg: 5
+  attackDmg: 1000
   cuteRocket: {fileID: 7663411774965494754, guid: d63aaa1b06288804aa0470e7b433f81f,
     type: 3}
   dirToTarget: {x: 0, y: 0, z: 0}

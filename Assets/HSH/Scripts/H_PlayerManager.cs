@@ -107,6 +107,10 @@ private void Awake()
         }
     }
 
+    float alphaA = 0;
+    float alphaB = 0;
+
+
     void Update()
     {
         if(bIsPicking) 
@@ -139,6 +143,20 @@ private void Awake()
             }
         }
         PlayerHPBar();
+
+        if (img.enabled)
+        {
+            alphaA = Mathf.Lerp(alphaA, 1, Time.unscaledDeltaTime);
+            //alphaA += Time.unscaledDeltaTime;
+            img.color = new Color(1, 1, 1, alphaA);
+            print(alphaA);
+        }
+        if (cuteImg.enabled)
+        {
+            alphaB = Mathf.Lerp(alphaB, 1, Time.unscaledDeltaTime);
+            //alphaB += Time.unscaledDeltaTime;
+            cuteImg.color = new Color(1, 1, 1, alphaB);
+        }
     }
 
     public void UpdateExp(float value)
@@ -206,12 +224,17 @@ private void Awake()
         attTime -= attDelay;
         curAttDelay = attTime;
         briarNum++;
+
+        alphaA = 0;
+        alphaB = 0;
     }
 
     public float cuteCool = 1;
     void CuteCardPick()
     {
         cuteAttTime -= cuteCool;
+        alphaA = 0;
+        alphaB = 0;
     }
 
     void ImgShow()
