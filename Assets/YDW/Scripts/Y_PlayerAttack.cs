@@ -28,6 +28,8 @@ public class Y_PlayerAttack : MonoBehaviour
     public float curPAttTime = 0;
     public float curEvAttTime = 0;
     public float skillTimeRate = 1;
+    public float featherEftTime = 1f;
+    public float particleEftTime = 1f;
 
     // Scan and Target
     public float scanRange = 50f;
@@ -37,7 +39,7 @@ public class Y_PlayerAttack : MonoBehaviour
     //public Collider[] feathers;
     public GameObject[] feathersE;
     public GameObject[] feathersR;
-    //public Transform nearestTarget;
+    public Transform nearestTarget;
 
     // AttackDmg and HP
     public float attackDmg = 50;
@@ -85,7 +87,9 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public GameObject nearestTargetB;
 
+
     public IObjectPool<GameObject> pool { get; set; }
+
 
 
     void Start()
@@ -173,32 +177,33 @@ public class Y_PlayerAttack : MonoBehaviour
 
 
 
+
+
         // 레벨별로 속도나 개수 변경하기
         if (pm.indexLev == 1)
         {
-            basicAttTime = 4;
+            basicAttTime = 5;
             basicAttackNo = 3;
 
         }
         else if(pm.indexLev == 2)
         {
-            basicAttTime = 3f;
+            basicAttTime = 4f;
         }
         else if (pm.indexLev == 3)
         {
-            basicAttTime = 2f;
+            basicAttTime = 3f;
             ESkillTime = 9;
             basicAttackNo = 4;
 
         }
         else if (pm.indexLev == 4)
         {
-            basicAttTime = 1f;
+            basicAttTime = 2f;
             ESkillTime = 7;
         }
         else
         {
-            basicAttTime = 1f;
             ESkillTime = 5;
             basicAttackNo = 5;
             RSkillTime = 20;
@@ -249,13 +254,13 @@ public class Y_PlayerAttack : MonoBehaviour
         // targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
         nearestTargetB = GetNearest().gameObject;
 
+        dirB = nearestTargetB.transform.position - transform.position;
         if (nearestTargetB == null) return;
         // 공격하기
         else
         {
             StartCoroutine(FeatherAttack());
         }
-        dirB = nearestTargetB.transform.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(dirB, Vector3.up);
         allyBody.transform.rotation = rotation;
 
@@ -285,11 +290,18 @@ public class Y_PlayerAttack : MonoBehaviour
             dirFrFthToAlly.y = 0;
             Vector3 dirFrFthToAllyNor = dirFrFthToAlly.normalized;
 
+            FeatherParticle(feather.gameObject, dirFrFthToAlly);
+
             Vector3 destinationE = transform.position;
 
-            StartCoroutine(MoveFeather(feather, dirFrFthToAllyNor, destinationE, 0.1f));
+            feather.transform.position = transform.position;
 
-            
+            StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
+            StartCoroutine(ReleaseFeather(feather.gameObject, 0.1f)); ///////////////
+
+            //StartCoroutine(MoveFeather(feather, dirFrFthToAllyNor, destinationE, 0.1f));
+
+
 
             // 레이캐스트로 데미지
             RaycastHit[] hitInfos = Physics.RaycastAll(feather.transform.position + Vector3.up * 0.5f, dirFrFthToAlly, dirFrFthToAlly.magnitude, targetLayer);
@@ -332,11 +344,15 @@ public class Y_PlayerAttack : MonoBehaviour
 
         for (int i = 1; i <= featherRNo; i++)
         {
+
             // 깃털 360도로 퍼지게
             GameObject feather = ObjectPoolManager.instance.featherPool.Get();
             feather.layer = LayerMask.NameToLayer("Feather");
-            feather.transform.position = transform.position;
             feather.transform.localEulerAngles = new Vector3(0, (360 / featherRNo) * i, 0);
+            feather.transform.position = transform.position + featherDist * feather.transform.forward;
+
+            // 파티클 재생
+            FeatherParticle(gameObject, feather.transform.forward);
 
             // Enemy 에게 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, feather.transform.forward, featherDist, targetLayer);
@@ -354,6 +370,7 @@ public class Y_PlayerAttack : MonoBehaviour
             // 시간 지나면 깃털 파괴
             if (feather != null)
             {
+                StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
                 StartCoroutine(ReleaseFeather(feather, featherTime));
             }
             //Destroy(feather, featherTime);
@@ -374,13 +391,15 @@ public class Y_PlayerAttack : MonoBehaviour
         hp.Damaged(dmg);
     }
 
-    //void FeatherParticle(GameObject obj, Vector3 dir)
-    //{
-    //    GameObject basicAttEff = Instantiate(basicAttEffFactory);
-    //    basicAttEff.transform.forward = dir;
-    //    basicAttEff.transform.position = obj.transform.position;
-    //    Destroy(basicAttEff, featherEftTime);
-    //}
+
+    void FeatherParticle(GameObject obj, Vector3 dir)
+    {
+        GameObject basicAttEff = Instantiate(basicAttEffFactory);
+        basicAttEff.transform.forward = dir;
+        basicAttEff.transform.localScale = Vector3.one * 8.0f;
+        basicAttEff.transform.position = obj.transform.position;
+        Destroy(basicAttEff, particleEftTime);
+    }
 
     public void RemoveFeather()
     {
@@ -388,6 +407,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
         foreach (Collider feather in feathers)
         {
+            StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
             StartCoroutine(ReleaseFeather(feather.gameObject, featherTime));
         }
     }
@@ -420,14 +440,12 @@ public class Y_PlayerAttack : MonoBehaviour
 
         yield return new WaitForSeconds(0.4f);
 
+
         while (i < basicAttackNo)
         {
-            // 깃털 생성 후 Ally 위치에 놓음
-            //GameObject feather = Instantiate(featherFactory);
-            GameObject featherB = ObjectPoolManager.instance.featherPool.Get();
-            featherB.transform.localEulerAngles = new Vector3(0, 0, 0);
-            featherB.layer = LayerMask.NameToLayer("Feather");
-            featherB.transform.position = transform.position;
+            // 쏘아지는 이펙트 만들고 파괴
+            FeatherParticle(gameObject, dirB);
+            print("!!!!!!!!!!!!!!! " + i);
 
             // 레이캐스트로 적 감지 후 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, dirB, featherDist, targetLayer); //dirFrAllyToEnm
@@ -451,30 +469,45 @@ public class Y_PlayerAttack : MonoBehaviour
 
             }
 
-            // 깃털 목적지로 옮기기
-            float dist = 0;
-            float nextDist = dist - 1;
-            Vector3 destinationB;
-            while (dist > nextDist)
-            {
-                destinationB = (transform.position + featherDist * dirB.normalized); // dirFrAllyToEnmNor
-                dist = Vector3.Distance(featherB.transform.position, destinationB);
-                featherB.transform.position += dirB.normalized * featherSpeedB * Time.deltaTime; // dirFrAllyToEnmNor
-                nextDist = Vector3.Distance(featherB.transform.position, destinationB);
-                yield return null;
-            }
+            // 깃털 목적지에 넣음
+            GameObject featherB = ObjectPoolManager.instance.featherPool.Get();
+            featherB.transform.localEulerAngles = new Vector3(0, 0, 0);
+            featherB.layer = LayerMask.NameToLayer("Feather");
+            featherB.transform.position = transform.position + dirB.normalized * featherDist;
 
-            if (featherB != null) StartCoroutine(ReleaseFeather(featherB, featherTime));
+            //// 깃털 생성 후 Ally 위치에 놓음
+            ////GameObject feather = Instantiate(featherFactory);
+            //GameObject featherB = ObjectPoolManager.instance.featherPool.Get();
+            //featherB.transform.localEulerAngles = new Vector3(0, 0, 0);
+            //featherB.layer = LayerMask.NameToLayer("Feather");
+            //featherB.transform.position = transform.position;
+
+            //// 깃털 목적지로 옮기기
+            //float dist = 0;
+            //float nextDist = dist - 1;
+            //Vector3 destinationB;
+            //while (dist > nextDist)
+            //{
+            //    destinationB = (transform.position + featherDist * dirB.normalized); // dirFrAllyToEnmNor
+            //    dist = Vector3.Distance(featherB.transform.position, destinationB);
+            //    featherB.transform.position += dirB.normalized * featherSpeedB * Time.deltaTime; // dirFrAllyToEnmNor
+            //    nextDist = Vector3.Distance(featherB.transform.position, destinationB);
+            //    yield return null;
+            //}
+
+            StopCoroutine(ReleaseFeather(featherB.gameObject, featherTime));
+            StartCoroutine(ReleaseFeather(featherB, featherTime));
 
 
             i++;
-            //yield return new WaitForSecondsRealtime(featherEftTime);
+            yield return new WaitForSecondsRealtime(featherEftTime);
 
         }
 
         isBAttack = false;
         anim.SetTrigger("BLEND_TREE");
     }
+
 
 
 
@@ -584,8 +617,8 @@ public class Y_PlayerAttack : MonoBehaviour
             //curPAttTime += Time.deltaTime;
 
             p1 = transform.position;
-            p2 = transform.position + 3f * transform.right;// + transform.forward * -10f;
-            p3 = transform.position - 3f * transform.right;
+            p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
+            p3 = transform.position - 5f * transform.right;
 
             Transform targetP = GetNearest();
             p4 = targetP.position;

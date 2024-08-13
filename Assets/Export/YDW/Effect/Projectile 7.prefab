@@ -9978,7 +9978,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 200
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -11907,8 +11907,8 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.14536202
-          value: 0.189797
+          time: 0.107504964
+          value: 0.06824894
           inSlope: 2.6102195
           outSlope: 2.6102195
           tangentMode: 0
@@ -11916,8 +11916,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.79607457
         - serializedVersion: 3
-          time: 0.31296164
-          value: 1
+          time: 0.2688027
+          value: 0.97790146
           inSlope: -2.3469949
           outSlope: -2.3469949
           tangentMode: 0
@@ -13828,7 +13828,7 @@ ParticleSystem:
     lifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.3
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -14888,7 +14888,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 200
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -16817,8 +16817,8 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.14536202
-          value: 0.189797
+          time: 0.107504964
+          value: 0.06824894
           inSlope: 2.6102195
           outSlope: 2.6102195
           tangentMode: 0
@@ -16826,8 +16826,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.79607457
         - serializedVersion: 3
-          time: 0.31296164
-          value: 1
+          time: 0.2688027
+          value: 0.97790146
           inSlope: -2.3469949
           outSlope: -2.3469949
           tangentMode: 0
@@ -19797,7 +19797,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 200
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -21726,8 +21726,8 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.14536202
-          value: 0.189797
+          time: 0.107504964
+          value: 0.06824894
           inSlope: 2.6102195
           outSlope: 2.6102195
           tangentMode: 0
@@ -21735,8 +21735,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.79607457
         - serializedVersion: 3
-          time: 0.31296164
-          value: 1
+          time: 0.2688027
+          value: 0.97790146
           inSlope: -2.3469949
           outSlope: -2.3469949
           tangentMode: 0
@@ -24568,7 +24568,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4399222994734564}
@@ -24715,7 +24715,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 200
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -26644,8 +26644,8 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.14536202
-          value: 0.189797
+          time: 0.107504964
+          value: 0.06824894
           inSlope: 2.6102195
           outSlope: 2.6102195
           tangentMode: 0
@@ -26653,8 +26653,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.79607457
         - serializedVersion: 3
-          time: 0.31296164
-          value: 1
+          time: 0.2688027
+          value: 0.97790146
           inSlope: -2.3469949
           outSlope: -2.3469949
           tangentMode: 0
