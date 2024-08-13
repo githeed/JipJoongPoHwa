@@ -27,6 +27,8 @@ public class H_PlayerAttack : MonoBehaviour
 
     // 이펙트 공장
     public GameObject basicAttackEffFac;
+    public GameObject hitEffecFac;
+
     // 잘가요..내사랑..
     //public GameObject scratchFac;
     public GameObject eBuff;
@@ -206,7 +208,9 @@ public class H_PlayerAttack : MonoBehaviour
                 ef.transform.forward = dirToTarget;
                 ef.transform.eulerAngles += new Vector3(-90, 0, 0);
                 ef.transform.position = transform.position + dirToTarget * H_PlayerManager.instance.boxDist;
-                ef.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
+                ef.transform.localScale = Vector3.one * H_PlayerManager.instance.effScale;
+
+                //new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
 
                 Destroy(ef, 0.4f);
                 // 잘가..요 내사랑..
@@ -241,8 +245,10 @@ public class H_PlayerAttack : MonoBehaviour
                         em.UpdateHp(attackDmg);
 
                         // 타격 이펙트 자리
-
-
+                        GameObject he = Instantiate(hitEffecFac);
+                        he.transform.localScale = Vector3.one * 5;
+                        he.transform.position = enemy.gameObject.transform.position + Vector3.up * 3.0f;
+                        Destroy(he, 0.4f);
                         if(canE)
                         {
                             UpdateHp(-1 * drainPower);

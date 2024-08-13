@@ -224,12 +224,17 @@ private void Awake()
         attTime -= attDelay;
         curAttDelay = attTime;
         briarNum++;
+
+        alphaA = 0;
+        alphaB = 0;
     }
 
     public float cuteCool = 1;
     void CuteCardPick()
     {
         cuteAttTime -= cuteCool;
+        alphaA = 0;
+        alphaB = 0;
     }
 
     void ImgShow()
