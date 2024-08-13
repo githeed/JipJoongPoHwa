@@ -210,10 +210,12 @@ public class H_PlayerAttack : MonoBehaviour
 
                 Destroy(ef, 0.4f);
                 // 잘가..요 내사랑..
+
                 // 이펙트 생성
                 //GameObject ef = Instantiate(scratchFac);
                 //GameObject ef1 = Instantiate(scratchFac);
                 //crossVec.Normalize();
+
                 //// 앞방향의 양옆으로 이펙트의 위치를 정해주자
                 //ef.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
                 //ef1.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
@@ -237,6 +239,10 @@ public class H_PlayerAttack : MonoBehaviour
                     if (em != null)
                     {
                         em.UpdateHp(attackDmg);
+
+                        // 타격 이펙트 자리
+
+
                         if(canE)
                         {
                             UpdateHp(-1 * drainPower);
