@@ -7,6 +7,7 @@ using Unity.Burst.Intrinsics;
 using Unity.Entities.Hybrid.Baking;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
 
 public class H_PlayerAttack : MonoBehaviour
@@ -81,6 +82,8 @@ public class H_PlayerAttack : MonoBehaviour
 
     public GameObject aim;
 
+    UnityEngine.Rendering.Universal.UniversalAdditionalCameraData uac;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -96,6 +99,8 @@ public class H_PlayerAttack : MonoBehaviour
             cr.SetActive(false);
             cutes.Add(cr);
         }
+
+        uac = Camera.main.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
     }
 
     public float curA = 0;
@@ -131,6 +136,7 @@ public class H_PlayerAttack : MonoBehaviour
             if (currETime > ESkillTime)
             {
                 canE = false;
+                uac.renderPostProcessing = false;
                 H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
                 currETime = 0;
                 eBuff.GetComponent<ParticleSystem>().Stop();
@@ -198,8 +204,8 @@ public class H_PlayerAttack : MonoBehaviour
 
                 GameObject ef = Instantiate(basicAttackEffFac);
                 ef.transform.forward = dirToTarget;
-                ef.transform.eulerAngles += new Vector3(0, -80, 0);
-                ef.transform.position = transform.position + dirToTarget * H_PlayerManager.instance.boxDist + transform.right * 0.5f;
+                ef.transform.eulerAngles += new Vector3(-90, 0, 0);
+                ef.transform.position = transform.position + dirToTarget * H_PlayerManager.instance.boxDist;
                 ef.transform.localScale = new Vector3(H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale, H_PlayerManager.instance.effScale);
 
                 Destroy(ef, 0.4f);
@@ -255,7 +261,8 @@ public class H_PlayerAttack : MonoBehaviour
             // e 를 사용하면 기본공격의 쿨타임을 줄이자
             canE = true;
             H_PlayerManager.instance.attTime = 0.2f;
-
+            
+            uac.renderPostProcessing = true;
             eBuff.GetComponent<ParticleSystem>().Play();
         }
         else

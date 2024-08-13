@@ -4096,10 +4096,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: attackDmg
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3904714552585844357, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: m_Name
       value: Ally
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: maxHealth
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 8101318993530173819, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -6791,6 +6801,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
+      propertyPath: rMove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      propertyPath: rDamage
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
       propertyPath: attackDmg
       value: 50
       objectReference: {fileID: 0}
@@ -7759,10 +7779,12 @@ MonoBehaviour:
   curRCoolTime: 0
   skillRCooltime: 15
   skillECooltime: 5
-  maxHP: 300
+  maxHP: 3000
   curHP: 0
   exps: []
   expFac: {fileID: 9144319922721178804, guid: 4fff541acbd56ca4fadea792064c1c32, type: 3}
+  playerHPBar: {fileID: 0}
+  cuteCool: 1
 --- !u!4 &774939436
 Transform:
   m_ObjectHideFlags: 0
