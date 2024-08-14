@@ -63,6 +63,7 @@ public class EnemyMove : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.instance.isStop) return;
         target = findPlayers.target;
         Vector2 forward = new Vector2(transform.position.z, transform.position.x);
         Vector2 steeringTarget = new Vector2(agent.steeringTarget.z, agent.steeringTarget.x);

@@ -43,12 +43,10 @@ public class IndicatorPrefOfStone : MonoBehaviour
                 if (c.gameObject.tag == "Player")
                 {
                     c.GetComponent<H_PlayerAttack>().UpdateHp(attackPower);
-                    print("indicator로 H 플레이어 맞음");
                 }
                 else if (c.gameObject.tag == "Player1")
                 {
                     c.GetComponent<Y_PlayerAttack>().UpdateHp(attackPower);
-                    print("indicator로 Y 플레이어 맞음");
                 }
             }
             if (isDestroy) Destroy(gameObject);

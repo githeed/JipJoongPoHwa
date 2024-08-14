@@ -72,6 +72,7 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
 
     void Update()
     {
+        if (GameManager.instance.isStop) return;
         target = findPlayers.target;
         distToTarget = Vector3.Distance(transform.position, target.transform.position);
         

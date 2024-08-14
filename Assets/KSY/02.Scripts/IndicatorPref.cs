@@ -6,8 +6,9 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class IndicatorPref : MonoBehaviour
 {
-    public GameObject indicatorsBG;
-    public GameObject indicator;
+    public GameObject arrowIndiBG;
+    public GameObject arrowIndi;
+    public GameObject circleIndi;
 
     public LayerMask players;
     float size = 1;
@@ -18,23 +19,49 @@ public class IndicatorPref : MonoBehaviour
     public bool isDestroy = false;
 
     public EnemyStone enemyStone;
-
+    Material attackIndiMat;
+    public bool isArrow;
+    float duration;
     private void OnEnable()
     {
-        indicator.transform.localScale = Vector3.one;
+        circleIndi.SetActive(false);
+        arrowIndi.SetActive(false);
+        arrowIndiBG.SetActive(false);
+        attackIndiMat = circleIndi.GetComponent<MeshRenderer>().material;
+        arrowIndi.transform.localScale = Vector3.one;
         size = 1;
     }
 
     void Update()
     {
-        indicatorsBG.transform.localScale = Vector3.one * (attackRange + 1);
-        maxScale = attackRange + 1;
-        size += maxScale / attackCoolTime * Time.deltaTime;
-        indicator.transform.localScale = size * Vector3.one;
-        if (size >= maxScale)
+        if (isArrow)
         {
-            AttackCheck();
+            if (!arrowIndi.activeSelf) arrowIndi.SetActive(true);
+            if (!arrowIndiBG.activeSelf) arrowIndiBG.SetActive(true);
+            if (circleIndi.activeSelf) circleIndi.SetActive(false);
+            arrowIndiBG.transform.localScale = Vector3.one * (attackRange);
+            maxScale = attackRange + 1;
+            size += maxScale / attackCoolTime * Time.deltaTime;
+            arrowIndi.transform.localScale = size * Vector3.one;
+            if (size >= maxScale)
+            {
+                AttackCheck();
+            }
         }
+        else if(!isArrow)
+        {
+            if (arrowIndi.activeSelf) arrowIndi.SetActive(false);
+            if (arrowIndiBG.activeSelf) arrowIndiBG.SetActive(false);
+            if (!circleIndi.activeSelf) circleIndi.SetActive(true);
+            circleIndi.transform.localScale = Vector3.one * (attackRange);
+            duration += Time.deltaTime / attackCoolTime;
+            attackIndiMat.SetFloat("_Duration", duration);
+            if (duration >= 1)
+            {
+                AttackCheck();
+            }
+        }
+        
     }
 
 
@@ -46,12 +73,10 @@ public class IndicatorPref : MonoBehaviour
             if (c.gameObject.tag == "Player")
             {
                 c.GetComponent<H_PlayerAttack>().UpdateHp(attackPower);
-                print("indicator로 H 플레이어 맞음");
             }
             else if (c.gameObject.tag == "Player1")
             {
                 c.GetComponent<Y_PlayerAttack>().UpdateHp(attackPower);
-                print("indicator로 Y 플레이어 맞음");
             }
         }
         if (isDestroy) Destroy(gameObject);
