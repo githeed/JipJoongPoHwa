@@ -7,6 +7,7 @@ using Unity.Burst.Intrinsics;
 using Unity.Entities.Hybrid.Baking;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
 
@@ -86,6 +87,14 @@ public class H_PlayerAttack : MonoBehaviour
 
     UnityEngine.Rendering.Universal.UniversalAdditionalCameraData uac;
 
+    public GameObject globalVolume;
+
+    Volume postVolume;
+
+    Vignette myVignette;
+
+    public float intensity = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,13 +111,28 @@ public class H_PlayerAttack : MonoBehaviour
             cutes.Add(cr);
         }
 
+        postVolume = globalVolume.GetComponent<Volume>();
+        Vignette vv;
+        if (postVolume.profile.TryGet<Vignette>(out vv))
+        {
+            myVignette = vv;
+        }
+
         uac = Camera.main.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
+
+        
     }
 
     public float curA = 0;
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            blackOut();
+            print("BlakOut");
+        }
         BasicAttack();
         if (Input.GetKeyDown(KeyCode.E) && !H_PlayerManager.instance.eCool)
         {
@@ -138,7 +162,8 @@ public class H_PlayerAttack : MonoBehaviour
             if (currETime > ESkillTime)
             {
                 canE = false;
-                uac.renderPostProcessing = false;
+                //uac.renderPostProcessing = false;
+                intensity = 0;
                 H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
                 currETime = 0;
                 eBuff.GetComponent<ParticleSystem>().Stop();
@@ -150,6 +175,8 @@ public class H_PlayerAttack : MonoBehaviour
             //H_PlayerManager.instance.ChangeAlpha(0);
         }
 
+        ClampedFloatParameter test = new ClampedFloatParameter(intensity, 0, 1, true);
+        myVignette.intensity = test;
     }
 
     public Transform GetNearest()
@@ -257,7 +284,6 @@ public class H_PlayerAttack : MonoBehaviour
                     }
                     //print(enemy.gameObject + ": " + attackDmg);
                 }
-
                 //nearestTarget.gameObject.GetComponent<EnemyMove>().UpdateHp(attackDmg);
                 //ObjectPoolManager.instance
             }
@@ -275,7 +301,9 @@ public class H_PlayerAttack : MonoBehaviour
             canE = true;
             H_PlayerManager.instance.attTime = 0.2f;
             
-            uac.renderPostProcessing = true;
+            //uac.renderPostProcessing = true;
+            intensity = 0.5f;
+
             eBuff.GetComponent<ParticleSystem>().Play();
         }
         else
@@ -412,5 +440,10 @@ public class H_PlayerAttack : MonoBehaviour
             dirToR = transform.forward * 10;
         }
         obj.transform.position = transform.position;
+    }
+
+    public void blackOut()
+    {
+        Camera.main.cullingMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Boss");
     }
 }
