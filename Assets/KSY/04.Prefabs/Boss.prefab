@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 3405691417183628371}
   m_Layer: 30
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,6 +121,8 @@ MonoBehaviour:
   moveSpeed: 5
   stonePrf: {fileID: 7667283773137937456, guid: c0ff4544352d69d48a1458821e5b224a,
     type: 3}
+  stone: {fileID: 0}
+  enemyStone: {fileID: 0}
   stoneSpawnPos: {fileID: 0}
   target: {fileID: 0}
   indicatorPref: {fileID: 3482020800740940013, guid: 58774e9aab8bf4543825707db10b79b1,
@@ -133,6 +135,7 @@ MonoBehaviour:
   attackGroundEff: {fileID: 553259625706109357}
   attackGroundEff_1: {fileID: 386571834326379059}
   attackHorizontalEff: {fileID: 8473574341283814360}
+  cineStart: 0
 --- !u!95 &2074159423471335069
 Animator:
   serializedVersion: 5
