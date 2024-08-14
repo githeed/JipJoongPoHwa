@@ -7498,6 +7498,7 @@ MonoBehaviour:
   bg: {fileID: 1887825490}
   e_UI: {fileID: 0}
   attTime: 7
+  attDelay: 0.3
   curAttDelay: 0
   cuteAttTime: 5
   cuteCurAttDelay: 0
@@ -12414,7 +12415,7 @@ PrefabInstance:
     - target: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4003504883933686610, guid: bf693366c5dd20347a59b16b5be63877,
         type: 3}

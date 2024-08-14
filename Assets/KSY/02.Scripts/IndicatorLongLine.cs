@@ -17,12 +17,23 @@ public class IndicatorLongLine : MonoBehaviour
     float currTime;
     public GameObject BG;
     public GameObject attackIndi;
-
-
+    Vector3 orgAttackIndiPos;
+    Vector3 orgAttackIndiScale;
+    Vector3 maxAttackIndiPos;
+    Vector3 maxAttackIndiScale;
+    public GameObject attackGroundEff;
+    private void Awake()
+    {
+        orgAttackIndiPos = attackIndi.transform.localPosition;
+        orgAttackIndiScale = attackIndi.transform.localScale;
+        maxAttackIndiPos = BG.transform.localPosition;
+        maxAttackIndiScale = BG.transform.localScale;
+    }
 
     private void OnEnable()
     {
-        attackIndi.transform.localScale = Vector3.one - Vector3.right * 0.9f;
+        attackIndi.transform.localScale = orgAttackIndiScale;
+        attackIndi.transform.localPosition = orgAttackIndiPos;
     }
 
     void Start()
@@ -37,9 +48,7 @@ public class IndicatorLongLine : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-
     
-    // Update is called once per frame
     void Update()
     {
         AttackPlayer();
@@ -63,11 +72,14 @@ public class IndicatorLongLine : MonoBehaviour
     public void AttackPlayer()
     {
         currTime += Time.deltaTime;
-        attackIndi.transform.localScale += Vector3.right * (0.9f * Time.deltaTime / attackDelay);
+        attackIndi.transform.localScale += (maxAttackIndiScale - orgAttackIndiScale) * (0.9f * Time.deltaTime / attackDelay);
+        attackIndi.transform.localPosition += (maxAttackIndiPos - orgAttackIndiPos) * (0.9f * Time.deltaTime / attackDelay);
         if (currTime > attackDelay)
         {
             currTime = 0;
+            attackGroundEff.SetActive(true);
             CheckOverlap();
         }
     }
+
 }

@@ -162,6 +162,8 @@ private void Awake()
     public void UpdateExp(float value)
     {
         if (indexLev > maxExperiences.Length) return;
+        if (GameManager.instance.canPick) return;
+
         exp += value;
         if (exp >= maxExperiences[indexLev])
         {
@@ -224,12 +226,17 @@ private void Awake()
         attTime -= attDelay;
         curAttDelay = attTime;
         briarNum++;
+
+        alphaA = 0;
+        alphaB = 0;
     }
 
     public float cuteCool = 1;
     void CuteCardPick()
     {
         cuteAttTime -= cuteCool;
+        alphaA = 0;
+        alphaB = 0;
     }
 
     void ImgShow()
