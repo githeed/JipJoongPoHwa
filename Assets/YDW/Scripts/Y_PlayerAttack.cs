@@ -134,6 +134,8 @@ public class Y_PlayerAttack : MonoBehaviour
         //    }
         //}
 
+        if (GameManager.instance.isStop) return;
+
         ////////////////////////////
         if (!hp.isDead)
         {

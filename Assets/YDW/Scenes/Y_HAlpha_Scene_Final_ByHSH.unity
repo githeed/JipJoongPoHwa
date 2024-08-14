@@ -11138,6 +11138,7 @@ MonoBehaviour:
   midBossNum: 0
   bossSpawn: 0
   canPick: 0
+  isStop: 0
   bossCs: {fileID: 0}
 --- !u!1001 &1153162869
 PrefabInstance:
@@ -13307,7 +13308,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: e24c4ddacb85af244bb6813d780cfc07, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 059741718795711408e7478ea5d00619, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1373910263
 GameObject:

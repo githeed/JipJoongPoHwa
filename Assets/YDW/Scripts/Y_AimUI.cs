@@ -24,6 +24,8 @@ public class Y_AimUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.isStop) return;
+
         if (pa.nearestTargetB != null) // && !pa.isBAttack && !pa.isESkill && !pa.isRSkill
         {
             // dirToTarget = nearestTarget.transform.position - transform.position;
