@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
 
     public bool canPick = false;
 
+    public bool isStop;
+
     private void Awake()
     {
         if (instance == null)
@@ -80,7 +82,14 @@ public class GameManager : MonoBehaviour
     public Boss bossCs;
     void Update()
     {
-        
+        if(bossCs.currState == Boss.BossState.START || bossCs.currState == Boss.BossState.IDLE)
+        {
+            isStop = true;
+        }
+        else
+        {
+            isStop = false;
+        }
 
         gameTime += Time.deltaTime;
         if (H_PlayerManager.instance.curHP <= 0)
