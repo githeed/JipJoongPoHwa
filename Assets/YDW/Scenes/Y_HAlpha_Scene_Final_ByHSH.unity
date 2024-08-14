@@ -11132,7 +11132,7 @@ MonoBehaviour:
     type: 3}
   midBoss: {fileID: 0}
   spawner: {fileID: 0}
-  bossSpawnMin: 0.05
+  bossSpawnMin: 1
   midBossSpawnPeriod: 25
   midBossSpawnTimer: 0
   midBossNum: 0
