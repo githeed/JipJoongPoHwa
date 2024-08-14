@@ -189,6 +189,7 @@ public class H_PlayerAttack : MonoBehaviour
             {
                 anim.SetTrigger("ATTACK");
 
+                SoundManager.instance.PlayBriarSound(0);
                 // 타겟의 방향을 가져오자
                 dirToTarget = (nearestTarget.position - transform.position);
                 dirToTarget.y = 0;
@@ -292,6 +293,7 @@ public class H_PlayerAttack : MonoBehaviour
         // R 눌렀을때 오브젝트 마우스 포인터 방향으로 던지기
         if (Input.GetKeyDown(KeyCode.R) && !H_PlayerManager.instance.rCool)
         {
+            SoundManager.instance.PlayBriarSound(1);
             rReady.GetComponent<ParticleSystem>().Play();
             Coroutine cr = StartCoroutine(PushRSkill());
         }
@@ -321,6 +323,7 @@ public class H_PlayerAttack : MonoBehaviour
         GameObject re = Instantiate(rEffectFac);
         re.transform.position = transform.position;
         Destroy(re, 2);
+        SoundManager.instance.PlayBriarSound(2);
 
         Collider[] cols = Physics.OverlapSphere(transform.position, rRange, targetLayer);
         foreach (Collider col in cols)
