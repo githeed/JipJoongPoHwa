@@ -6072,14 +6072,14 @@ MonoBehaviour:
   briarAudio: {fileID: 742859360}
   zayahAudio: {fileID: 0}
   enemyAudio: {fileID: 0}
-  bgmAudio: {fileID: 0}
+  bgmAudio: {fileID: 575812883}
   briarAudios:
   - {fileID: 8300000, guid: d19157ed9258cde469f383e0aff73a65, type: 3}
   - {fileID: 8300000, guid: 3c44196b26422464ba537c664c39cd95, type: 3}
   - {fileID: 8300000, guid: 84b067fee3799a54bbd6a030f2407aed, type: 3}
   zayahAudios: []
   enemyAudios: []
-  bgmAuds: {fileID: 0}
+  bgmAuds: {fileID: 8300000, guid: 9b5f8718d25267f4d97b00e5ae6c1dce, type: 3}
 --- !u!82 &575812883
 AudioSource:
   m_ObjectHideFlags: 0
