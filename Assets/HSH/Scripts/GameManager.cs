@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
     int midBossNum;
     bool bossSpawn;
 
+    public bool canPick = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -73,7 +75,7 @@ public class GameManager : MonoBehaviour
         }
         
     }
-
+    Boss bossCs;
     void Update()
     {
         gameTime += Time.deltaTime;
@@ -90,11 +92,11 @@ public class GameManager : MonoBehaviour
             timeText.gameObject.transform.parent.gameObject.SetActive(false);
             GameObject boss = Instantiate(bossprf);
             boss.transform.position = bossSpawnPos.position;
-            Boss bossCs = boss.GetComponent<Boss>();
+            bossCs = boss.GetComponent<Boss>();
             bossCs.myBossHPUI = bossHPUI;
             bossCs.bossMoveTarget = bossMoveTarget;
             bossCs.mainCamTargetPos = cameraMoveTarget;
-
+            
         }
         midBossSpawnTimer += Time.deltaTime;
         if(midBossSpawnTimer > midBossSpawnPeriod)
@@ -117,7 +119,7 @@ public class GameManager : MonoBehaviour
         //    bISWin = true;
         //    SceneManager.LoadScene("EndUIScene");
         //}
-
+        if (bossCs != null) canPick = bossCs.cineStart;
         SetHPText();
         SetHPBar();
         SetLVText();
