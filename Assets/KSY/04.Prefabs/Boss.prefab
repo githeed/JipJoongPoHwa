@@ -1112,6 +1112,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword Slash 3_horizontal_attack
       objectReference: {fileID: 0}
+    - target: {fileID: 1044528419629608, guid: f75bbccc67a182e42a8a8283f59bb91f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4513172908254008, guid: f75bbccc67a182e42a8a8283f59bb91f, type: 3}
       propertyPath: m_LocalScale.x
       value: 8

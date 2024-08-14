@@ -149,7 +149,7 @@ private void Awake()
             alphaA = Mathf.Lerp(alphaA, 1, Time.unscaledDeltaTime);
             //alphaA += Time.unscaledDeltaTime;
             img.color = new Color(1, 1, 1, alphaA);
-            print(alphaA);
+            //print(alphaA);
         }
         if (cuteImg.enabled)
         {
