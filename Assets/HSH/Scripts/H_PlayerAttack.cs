@@ -90,9 +90,6 @@ public class H_PlayerAttack : MonoBehaviour
     public GameObject globalVolume;
 
     Volume postVolume;
-
-    Vignette myVignette;
-
     public float intensity = 0;
 
     Vignette vv;

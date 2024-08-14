@@ -11523,9 +11523,16 @@ MonoBehaviour:
     type: 3}
   nocturnePrf: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
     type: 3}
+  midBoss: {fileID: 0}
+  spawner: {fileID: 0}
   bossSpawnMin: 1
   midBossSpawnPeriod: 25
+  midBossSpawnTimer: 0
+  midBossNum: 0
+  bossSpawn: 0
   canPick: 0
+  isStop: 0
+  bossCs: {fileID: 0}
 --- !u!1001 &1153162869
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16984,7 +16991,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1769178347}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 288b7674fc857d546b26bcc3ff72aad7, type: 3}
   m_Name: 
