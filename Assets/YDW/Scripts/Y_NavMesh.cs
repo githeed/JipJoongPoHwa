@@ -25,6 +25,8 @@ public class Y_NavMesh : MonoBehaviour
 
     private void Awake()
     {
+        currTime = 0;
+        changeTime = 3;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         player = GameObject.Find("Player");
@@ -53,34 +55,39 @@ public class Y_NavMesh : MonoBehaviour
         //{
         //if (GameManager.instance.canPick) bossExist = true;
         //if (bossExist) bossCs = GameManager.instance.bossCs;
+        if (currTime > changeTime && !playerAttack.isESkill && !playerAttack.isBAttack && !playerAttack.isRSkill)
+        {
+            if (GameManager.instance.bossSpawn)
+            {
+                if (bossCs == null)
+                {
+                    bossCs = GameObject.FindWithTag("Boss").GetComponent<Boss>();
+                }
+                else if (bossCs.stone.activeSelf)
+                {
 
-        if (GameManager.instance.bossSpawn)
-        {
-            if(bossCs == null)
-            {
-                bossCs = GameObject.FindWithTag("Boss").GetComponent<Boss>();
-                print("111111111");
+                    int i = Random.Range(1, 4);
+                    if (i == 1) agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 5) * Vector3.forward;
+                    if (i == 2) agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 7) * Vector3.right;
+                    if (i == 3) agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 8) * new Vector3(1, 0, 1).normalized;
+                    
+
+                }
+                else if (!bossCs.stone.activeSelf)
+                {
+                    agent.destination = bossCs.transform.position - (playerAttack.featherDist - 5) * Vector3.forward;
+                }
             }
-            else if(bossCs.stone.activeSelf)
+            else 
             {
-                agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 5) * Vector3.forward;
-                print("2222222222");
-            }
-            else if(!bossCs.stone.activeSelf)
-            {
-                agent.destination = bossCs.transform.position - (playerAttack.featherDist - 5) * Vector3.forward;
-                print("33333333333");
-            }
-        }
-        else if(!playerAttack.isESkill && !playerAttack.isBAttack && !playerAttack.isRSkill)
-        {
-            //if(currTime > changeTime)
-            //{
+                //if(currTime > changeTime)
+                //{
                 agent.destination = player.transform.position + 5 * allyFSM.moveDir; // (player.transform.position + allyFSM.moveDir)
-                //currTime = 0;
+                                                                                     //currTime = 0;
+                                                                                     //}
+            }
             //}
+            currTime = 0;
         }
-        //}
-
     }
 }

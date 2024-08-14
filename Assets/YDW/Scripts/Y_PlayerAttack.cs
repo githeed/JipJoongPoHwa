@@ -297,6 +297,7 @@ public class Y_PlayerAttack : MonoBehaviour
             Vector3 dirFrFthToAllyNor = dirFrFthToAlly.normalized;
 
             FeatherParticle(feather.gameObject, dirFrFthToAlly);
+            SoundManager.instance.PlayZayahSound(1);
 
             Vector3 destinationE = transform.position;
 
