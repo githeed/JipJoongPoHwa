@@ -64,6 +64,8 @@ public class Nokturne : MonoBehaviour, IAnimatorInterface
     Material myMaterial;
     Color orgColor;
 
+    public GameObject DashEff;
+
     private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
@@ -81,6 +83,7 @@ public class Nokturne : MonoBehaviour, IAnimatorInterface
         indicatorOrgPos = attackIndicatorPos.transform.localPosition;
         myAnim = GetComponentInChildren<Animator>();
         canReAttack = true;
+        DashEff.SetActive(false);
     }
 
     // Update is called once per frame
@@ -229,6 +232,7 @@ public class Nokturne : MonoBehaviour, IAnimatorInterface
         {
             attacking = false;
             moveDist = 0;
+            DashEff.SetActive(false);
         }
     }
 
@@ -310,7 +314,7 @@ public class Nokturne : MonoBehaviour, IAnimatorInterface
         if (stateInfo.IsName("Attack"))
         {
             attacking = true;
-            
+            DashEff.SetActive(true);
             
         }
     }
@@ -323,6 +327,7 @@ public class Nokturne : MonoBehaviour, IAnimatorInterface
             attackIndicatorPos.transform.SetParent(transform);
             attackIndicatorPos.transform.localPosition = indicatorOrgPos;
             attacking = false;
+            
             ChangeState(NokturneState.MOVE);
         }
         

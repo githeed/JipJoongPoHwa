@@ -17,6 +17,8 @@ public class EnemyAttackCanvas : MonoBehaviour
     Material attackMat;
     float duration;
 
+    public GameObject attackEff;
+
     void OnEnable()
     {
         size = 1;
@@ -28,6 +30,8 @@ public class EnemyAttackCanvas : MonoBehaviour
         attackMat.SetFloat("_Duration", 0);
         transform.localPosition = Vector3.forward * attackRange /2 +Vector3.up*0.5f;
         BG.transform.localScale = Vector3.one * maxScale ;
+        attackEff.transform.localScale = Vector3.one * 0.14f * maxScale;
+        attackEff.SetActive(false);
     }
 
     void Update()
@@ -35,6 +39,11 @@ public class EnemyAttackCanvas : MonoBehaviour
         attackImage.transform.localScale = attackRange * Vector3.one;
         duration += Time.deltaTime / attackCoolTime;
         attackMat.SetFloat("_Duration", duration);
+
+        if(IsDelayComplete(attackCoolTime - 1))
+        {
+            attackEff.SetActive(true);
+        }
 
         if(duration >= 1)
         {
@@ -53,4 +62,26 @@ public class EnemyAttackCanvas : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    float currTime;
+    bool IsDelayComplete(float delayTime) // 딜레이 시간
+    {
+        // 시간을 증가 시키자.
+        currTime += Time.deltaTime;
+        // 만약에 시간이 delayTime보다 커지면
+        if (currTime >= delayTime)
+        {
+            // 현재시간 초기화
+            currTime = 0;
+            // true 반환
+            return true;
+        }
+        // 그렇지 않으면
+        else
+        {
+            // false 반환
+            return false;
+        }
+    }
+
 }
