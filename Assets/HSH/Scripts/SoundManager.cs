@@ -37,7 +37,7 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        
+        PlayBgmSound();
     }
 
     void Update()
