@@ -29,6 +29,7 @@ public class H_EndUI : MonoBehaviour
 
     public void OnClickEndUI()
     {
+        SoundManager.instance.PlayCardSound(0);
         SceneManager.LoadScene("StartUIScene");
     }
 }

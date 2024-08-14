@@ -6185,7 +6185,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 84b067fee3799a54bbd6a030f2407aed, type: 3}
   zayahAudios: []
   enemyAudios: []
-  bgmAuds: {fileID: 8300000, guid: 9b5f8718d25267f4d97b00e5ae6c1dce, type: 3}
+  cardAudios:
+  - {fileID: 8300000, guid: 2fd9649ea0899494eb9f1f77e2afe874, type: 3}
+  - {fileID: 8300000, guid: 58de48ac63c315f40a06c46823c27f8a, type: 3}
+  - {fileID: 8300000, guid: 77440ca91d1b2864aa458dfc2067b8c0, type: 3}
+  bgmAud: {fileID: 8300000, guid: 9b5f8718d25267f4d97b00e5ae6c1dce, type: 3}
 --- !u!82 &575812883
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8690,6 +8694,7 @@ MonoBehaviour:
   effMultiplier: 0.25
   eCool: 0
   rCool: 0
+  canE: 0
   curECoolTime: 0
   curRCoolTime: 0
   skillRCooltime: 15
@@ -13695,7 +13700,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: fefd13844975b0948a27fd340812cfbc, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: ae1334e985d631d488dcb4534aeff819, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1373910263
 GameObject:

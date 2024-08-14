@@ -33,7 +33,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip[] briarAudios;
     public AudioClip[] zayahAudios;
     public AudioClip[] enemyAudios;
-    public AudioClip bgmAuds;
+    public AudioClip[] cardAudios;
+    public AudioClip bgmAud;
 
     void Start()
     {
@@ -60,12 +61,16 @@ public class SoundManager : MonoBehaviour
         enemyAudio.PlayOneShot(enemyAudios[idx]);
     }
 
+    public void PlayCardSound(int idx)
+    {
+        bgmAudio.PlayOneShot(cardAudios[idx]);
+    }
 
     // bgm Sound Play
     public void PlayBgmSound()
     {
         // 플레이 할 AudioClip 을 설정
-        bgmAudio.clip = bgmAuds;
+        bgmAudio.clip = bgmAud;
         // 플레이!
         bgmAudio.Play();
     }

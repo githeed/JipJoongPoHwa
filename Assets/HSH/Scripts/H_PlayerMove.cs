@@ -33,7 +33,7 @@ public class H_PlayerMove : MonoBehaviour
     void Player_Move()
     {
         Player_E_Move();
-        if (pa.canE || pa.canR) return;
+        if (H_PlayerManager.instance.canE || pa.canR) return;
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
@@ -50,7 +50,7 @@ public class H_PlayerMove : MonoBehaviour
 
     void Player_E_Move()
     {
-        if (pa.canE)
+        if (H_PlayerManager.instance.canE)
         {
             dir = pa.dirToTarget;
             model.transform.forward = dir;
