@@ -16,6 +16,8 @@ public class Y_NavMesh : MonoBehaviour
     Y_PlayerAttack playerAttack;
     public GameObject boss;
     public GameObject bossStone;
+    bool bossExist;
+    Boss bossCs;
 
 
     private void Awake()
@@ -44,13 +46,22 @@ public class Y_NavMesh : MonoBehaviour
         //}
         //else
         //{
-        if (bossStone.activeSelf)
+        if (GameManager.instance.canPick) bossExist = true;
+        if (bossExist) bossCs = GameManager.instance.bossCs;
+        if (bossCs != null && bossCs.stone.activeSelf)
         {
-            agent.destination = bossStone.transform.position + (playerAttack.featherDist - 5) * Vector3.forward;
+            //if (GameManager.instance.bossSpawn && bossCs2 == null)
+            //{
+            //    bossCs2 = GameObject.FindWithTag("Boss").GetComponent<Boss>();
+            //}
+            //bossCs2.stone
+            //GameObject go = Instantiate("")
+            //agent.destination = bossStone.transform.position - (playerAttack.featherDist - 5) * bossStone.transform.forward;
+            agent.destination = bossStone.transform.position + Vector3.right;
         }
         else if (boss.activeSelf)
         {
-            agent.destination = boss.transform.position + (playerAttack.featherDist - 5) * Vector3.forward;
+            agent.destination = boss.transform.position - (playerAttack.featherDist - 5) * Vector3.forward;
         }
         else if(!playerAttack.isESkill && !playerAttack.isBAttack && !playerAttack.isRSkill)
         {

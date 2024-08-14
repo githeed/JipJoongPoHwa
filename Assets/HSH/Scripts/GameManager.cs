@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     public float midBossSpawnPeriod;
     float midBossSpawnTimer;
     int midBossNum;
-    bool bossSpawn;
+    public bool bossSpawn;
 
     public bool canPick = false;
 
@@ -75,9 +75,11 @@ public class GameManager : MonoBehaviour
         }
         
     }
-    Boss bossCs;
+    public Boss bossCs;
     void Update()
     {
+        
+
         gameTime += Time.deltaTime;
         if (H_PlayerManager.instance.curHP <= 0)
         {
@@ -85,9 +87,8 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("EndUIScene");
         }
 
-        if(gameTime >= 60*bossSpawnMin & !bossSpawn)
+        if(gameTime >= 60*bossSpawnMin && !bossSpawn)
         {
-            bossSpawn = true;
             bossHPUI.SetActive(true);
             timeText.gameObject.transform.parent.gameObject.SetActive(false);
             GameObject boss = Instantiate(bossprf);
@@ -96,6 +97,7 @@ public class GameManager : MonoBehaviour
             bossCs.myBossHPUI = bossHPUI;
             bossCs.bossMoveTarget = bossMoveTarget;
             bossCs.mainCamTargetPos = cameraMoveTarget;
+            bossSpawn = true;
             
         }
         midBossSpawnTimer += Time.deltaTime;

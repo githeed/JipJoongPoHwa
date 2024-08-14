@@ -9,12 +9,12 @@ public class EnemyDamageUI : MonoBehaviour
     public IObjectPool<GameObject> damageUIPool { get; set; }
 
     public TextMeshProUGUI amountUI;
-    float startSize = 5;
+    float startSize = 2;
     float finalSize = 1;
     float size;
 
     float currTime;
-    float disableTime = 1.5f;
+    public float disableTime = 1f;
 
     private void OnEnable()
     {
