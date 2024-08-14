@@ -89,6 +89,7 @@ public class Nokturne : MonoBehaviour, IAnimatorInterface
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.isStop) return;
         target = findPlayers.target;
         toTargetDist = (target.transform.position - transform.position).magnitude;
         if (target != null)

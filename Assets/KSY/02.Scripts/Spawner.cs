@@ -46,7 +46,7 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
-        if (StopSpawn) return;
+        if (StopSpawn || GameManager.instance.isStop) return;
         currTime += Time.deltaTime;
         if (currTime >= coolTime)
         {
