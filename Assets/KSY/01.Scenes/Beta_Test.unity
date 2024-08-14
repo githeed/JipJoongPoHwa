@@ -10153,8 +10153,9 @@ MonoBehaviour:
     type: 3}
   nocturnePrf: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
     type: 3}
-  bossSpawnMin: 0
+  bossSpawnMin: 500
   midBossSpawnPeriod: 500
+  canPick: 0
 --- !u!1 &1166786338
 GameObject:
   m_ObjectHideFlags: 0
@@ -23797,11 +23798,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MidBoss
-      objectReference: {fileID: 0}
-    - target: {fileID: 1965155572743053120, guid: 78643d921cbd8104d8541515870c014e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3965301794408898081, guid: 78643d921cbd8104d8541515870c014e,
         type: 3}
