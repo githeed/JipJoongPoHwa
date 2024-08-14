@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5868691353022744248}
   - component: {fileID: 848406656484920518}
   - component: {fileID: 4021523302678144100}
+  - component: {fileID: 7333334519404039932}
   m_Layer: 6
   m_Name: Feather
   m_TagString: Untagged
@@ -109,6 +110,18 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &7333334519404039932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560146333889575406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d31484bc16febad43855cf549eff836d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1125293948745392884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -274,6 +287,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VFX_Trail_Electric
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818205763518135594, guid: 395d5ec7f996d364f94e11cfb40736d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
