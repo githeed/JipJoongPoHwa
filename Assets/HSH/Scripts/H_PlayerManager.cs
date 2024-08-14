@@ -56,6 +56,8 @@ public class H_PlayerManager : MonoBehaviour
     public bool eCool = false;
     public bool rCool = false;
 
+    public bool canE = false;
+
     public float curECoolTime = 0;
     public float curRCoolTime = 0;
     public float skillRCooltime = 50.0f;
@@ -178,7 +180,7 @@ private void Awake()
                 cuteImg.enabled = true;
 
             }
-
+            SoundManager.instance.PlayCardSound(2);
             bg.enabled = true;
             bIsPicking = true;
             indexLev++;
@@ -222,10 +224,17 @@ private void Awake()
         xBox += boxMultiplier;
         boxDist += distMultiplier;
         effScale += effMultiplier;
-        attTime = curAttDelay;
-        attTime -= attDelay;
-        curAttDelay = attTime;
+        if(canE)
+        {
+            curAttDelay -= attDelay;
+        }
+        else
+        {
+            attTime -= attDelay;
+            curAttDelay = attTime;
+        }
         briarNum++;
+        SoundManager.instance.PlayCardSound(1);
 
         alphaA = 0;
         alphaB = 0;
@@ -234,6 +243,7 @@ private void Awake()
     public float cuteCool = 1;
     void CuteCardPick()
     {
+        SoundManager.instance.PlayCardSound(1);
         cuteAttTime -= cuteCool;
         alphaA = 0;
         alphaB = 0;
