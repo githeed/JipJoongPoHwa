@@ -6176,7 +6176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   briarAudio: {fileID: 742859360}
-  zayahAudio: {fileID: 0}
+  zayahAudio: {fileID: 1673552149}
   enemyAudio: {fileID: 0}
   bgmAudio: {fileID: 575812883}
   briarAudios:
@@ -16254,6 +16254,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669608456}
   m_Mesh: {fileID: 4409830665004640803, guid: 6642d04b9523c67459dd8fa173b56e79, type: 3}
+--- !u!82 &1673552149 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5459496185196819298, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 378312211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1679733854
 PrefabInstance:
   m_ObjectHideFlags: 0
