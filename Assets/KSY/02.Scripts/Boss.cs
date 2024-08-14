@@ -134,7 +134,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         //toTargetDir = target.transform.position - transform.position;
         toTargetDir = new Vector3(target.transform.position.x - transform.position.x, 0, target.transform.position.z - transform.position.z);
         toTargetDist = toTargetDir.magnitude;
-        print(mainCam.name);
+        //print(mainCam.name);
 
         switch (currState)
         {

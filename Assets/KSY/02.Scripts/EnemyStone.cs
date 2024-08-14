@@ -120,7 +120,7 @@ public class EnemyStone : MonoBehaviour
             isStart = false;
             return;
         }
-        if (distToPlayer0 > myMaxRange)
+        if (distToPlayer0 > myMaxRange && isStart)
         {
             player0.transform.Translate((transform.position - player0.transform.position).normalized * drawSpeed * Time.deltaTime, Space.World);
             player1.transform.position = transform.position + (player1.transform.position - transform.position).normalized * (myMaxRange-2);
