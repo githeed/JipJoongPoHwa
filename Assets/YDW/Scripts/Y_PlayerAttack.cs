@@ -471,7 +471,6 @@ public class Y_PlayerAttack : MonoBehaviour
         {
             // 쏘아지는 이펙트 만들고 파괴
             FeatherParticle(gameObject, dirB);
-            print("!!!!!!!!!!!!!!! " + i);
 
             // 레이캐스트로 적 감지 후 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, dirB, featherDist, targetLayer); //dirFrAllyToEnm

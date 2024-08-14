@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d649a8e3f779044a9bd4862ae2b826f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimUI: {fileID: 625548757306226011}
 --- !u!1 &717393243456683065
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +486,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 25
+  boss: {fileID: 0}
+  bossStone: {fileID: 0}
 --- !u!114 &134947103529716514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,15 +500,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928104106d2a7a64c9f8b0b3d2336396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicAttTime: 2
-  ESkillTime: 3
-  RSkillTime: 50
-  PSkillDuration: 10
+  basicAttTime: 4
+  ESkillTime: 9
+  RSkillTime: 209999
+  PSkillDuration: 15
+  EvSkillTime: 3
+  EvSkillDuration: 0
   curBAttTime: 0
   curEAttTime: 0
   curRAttTime: 0
   curPAttTime: 0
+  curEvAttTime: 0
   skillTimeRate: 1.3
+  featherEftTime: 0.2
+  particleEftTime: 0.2
   scanRange: 100
   targetLayer:
     serializedVersion: 2
@@ -516,26 +524,27 @@ MonoBehaviour:
   targets: []
   feathersE: []
   feathersR: []
-  attackDmg: 2
+  nearestTarget: {fileID: 0}
+  attackDmg: 50
   featherFactory: {fileID: 1560146333889575406, guid: 0fca7898fcdca6f48baf1ea78291eab5,
     type: 3}
   featherEFactory: {fileID: 1560146333889575406, guid: 7844c1f9bd6fe4c4e8074cf1ae50a1e5,
     type: 3}
   featherAFactory: {fileID: 1560146333889575406, guid: bc7be00cb80b851498a76a65cdf371c0,
     type: 3}
-  basicAttEffFactory: {fileID: 1033462822675242, guid: f2e599cdad1ce10488dda1dbf3708344,
+  basicAttEffFactory: {fileID: 1699459221867030, guid: 0794f688184ecee4a94867bc145cda8b,
     type: 3}
   basicAttackNo: 3
-  featherDist: 0
-  featherTime: 0
-  eAttRate: 0
-  enmStopTime: 0
-  featherRNo: 0
+  featherDist: 14
+  featherTime: 10
+  eAttRate: 1.2
+  enmStopTime: 3
+  featherRNo: 24
   unbeatable: 0
   pAttacking: 0
   batRate: 2
-  featherSpeedB: 20
-  featherSpeedE: 20
+  featherSpeedB: 50
+  featherSpeedE: 100
   featherSpeed: 10
   isBAttack: 0
   isESkill: 0
@@ -595,7 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153b37e372fab2c48b9a84f16396016b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 1000
   currHealth: 0
   timeTillReborn: 0
   isDead: 0
@@ -604,6 +613,8 @@ MonoBehaviour:
   ally: {fileID: 0}
   playerBody: {fileID: 0}
   hpBar: {fileID: 395112403493968711}
+  aimUI: {fileID: 625548757306226011}
+  hpUI: {fileID: 3186736913574315114}
 --- !u!54 &903240349669280049
 Rigidbody:
   m_ObjectHideFlags: 0

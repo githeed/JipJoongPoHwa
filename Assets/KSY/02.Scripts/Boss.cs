@@ -31,7 +31,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 
     [Header("터치 금지")]
     public GameObject stonePrf;
-    GameObject stone;
+    public GameObject stone;
     EnemyStone enemyStone;
     public Transform stoneSpawnPos;
 
