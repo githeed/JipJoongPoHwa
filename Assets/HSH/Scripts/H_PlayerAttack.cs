@@ -95,6 +95,7 @@ public class H_PlayerAttack : MonoBehaviour
 
     public float intensity = 0;
 
+    Vignette vv;
     // Start is called before the first frame update
     void Start()
     {
@@ -112,10 +113,9 @@ public class H_PlayerAttack : MonoBehaviour
         }
 
         postVolume = globalVolume.GetComponent<Volume>();
-        Vignette vv;
         if (postVolume.profile.TryGet<Vignette>(out vv))
         {
-            myVignette = vv;
+            postVolume.profile.TryGet<Vignette>(out vv);
         }
 
         uac = Camera.main.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
@@ -169,14 +169,17 @@ public class H_PlayerAttack : MonoBehaviour
                 eBuff.GetComponent<ParticleSystem>().Stop();
                 UpdateHp(-1 * healPower);
             }
+            else
+            {
+                intensity = ((Mathf.Cos(currETime * 20f) + 1) * 0.5f) > 0.3 ? 0.3f : 0;
+            }
         }
         else
         {
             //H_PlayerManager.instance.ChangeAlpha(0);
         }
 
-        ClampedFloatParameter test = new ClampedFloatParameter(intensity, 0, 1, true);
-        myVignette.intensity = test;
+        vv.intensity.value = intensity;
     }
 
     public Transform GetNearest()
