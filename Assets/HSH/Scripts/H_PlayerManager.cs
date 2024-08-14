@@ -162,6 +162,8 @@ private void Awake()
     public void UpdateExp(float value)
     {
         if (indexLev > maxExperiences.Length) return;
+        if (GameManager.instance.canPick) return;
+
         exp += value;
         if (exp >= maxExperiences[indexLev])
         {

@@ -74,6 +74,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     public GameObject attackGroundEff;
     public GameObject attackGroundEff_1;
     public GameObject attackHorizontalEff;
+
+    public bool cineStart = false;
     private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
@@ -86,7 +88,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     }
     void Start()
     {
-        
+        cineStart = true;
         enemyHp.onDie = OnDie;
         enemyHp.damageEff = DamageEff;
         myMaterial = GetComponentInChildren<SkinnedMeshRenderer>().material;
@@ -408,6 +410,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             AttackPattern_3();
             mainCam.transform.SetParent(mainCamOrgParent);
             mainCam.transform.localPosition = Vector3.zero;
+            cineStart = false;
+
         }
     }
 
