@@ -4245,6 +4245,11 @@ PrefabInstance:
       propertyPath: bossStone
       value: 
       objectReference: {fileID: 123746696}
+    - target: {fileID: 5459496185196819298, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8101318993530173819, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6073,7 +6078,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3c44196b26422464ba537c664c39cd95, type: 3}
   - {fileID: 8300000, guid: 84b067fee3799a54bbd6a030f2407aed, type: 3}
   zayahAudios:
-  - {fileID: 8300000, guid: 7f677b1871c2c0447b3b9d4e4ab7a379, type: 3}
+  - {fileID: 8300000, guid: 6c026f93d9da36d4aa77de034e2932ba, type: 3}
   - {fileID: 8300000, guid: 2454c1e1b4f127b4084c1410e6f8d975, type: 3}
   enemyAudios: []
   bgmAuds: {fileID: 8300000, guid: 9b5f8718d25267f4d97b00e5ae6c1dce, type: 3}
