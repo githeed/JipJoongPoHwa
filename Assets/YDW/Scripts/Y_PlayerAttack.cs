@@ -56,7 +56,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
 
     public float eAttRate = 1.2f;
-    public float enmStopTime = 1.5f;
+    public float enmStopTime = 3f;
 
     public float featherRNo = 24;
 
@@ -139,21 +139,22 @@ public class Y_PlayerAttack : MonoBehaviour
         {
 
             curBAttTime += Time.deltaTime * skillTimeRate;
-            if (curBAttTime > basicAttTime && !isESkill && !isRSkill)
+            curEAttTime += Time.deltaTime * skillTimeRate;
+            curRAttTime += Time.deltaTime * skillTimeRate;
+
+            if (curBAttTime > basicAttTime) // && !isESkill && !isRSkill
             {
                 BasicAttack();
                 curBAttTime = 0;
             }
 
-            curEAttTime += Time.deltaTime * skillTimeRate;
-            if (curEAttTime > ESkillTime && !isBAttack && !isRSkill) 
+            else if (curEAttTime > ESkillTime) // && !isBAttack && !isRSkill
             {
                 StartCoroutine(ESkill());
                 curEAttTime = 0;
             }
 
-            curRAttTime += Time.deltaTime * skillTimeRate;
-            if (curRAttTime > RSkillTime && !isBAttack && !isESkill)
+            else if (curRAttTime > RSkillTime) // && !isBAttack && !isESkill
             {
                 StartCoroutine(RSkill());
                 curRAttTime = 0;
@@ -170,6 +171,11 @@ public class Y_PlayerAttack : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
             StartCoroutine(RSkill());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            StartCoroutine(ESkill());
         }
 
 
@@ -296,8 +302,15 @@ public class Y_PlayerAttack : MonoBehaviour
 
             feather.transform.position = transform.position;
 
-            StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
-            StartCoroutine(ReleaseFeather(feather.gameObject, 0.1f)); ///////////////
+            if(feather != null)
+            {
+                feather.GetComponent<Y_Feather>().StopDestroy();
+                feather.GetComponent<Y_Feather>().StartDestroy(featherTime); 
+
+            }
+
+            //StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
+            //StartCoroutine(ReleaseFeather(feather.gameObject, 0.1f)); ///////////////
 
             //StartCoroutine(MoveFeather(feather, dirFrFthToAllyNor, destinationE, 0.1f));
 
@@ -348,8 +361,10 @@ public class Y_PlayerAttack : MonoBehaviour
             // 깃털 360도로 퍼지게
             GameObject feather = ObjectPoolManager.instance.featherPool.Get();
             feather.layer = LayerMask.NameToLayer("Feather");
+            //feather.transform.rotation = Quaternion.LookRotation(transform.forward, transform.up);
             feather.transform.localEulerAngles = new Vector3(0, (360 / featherRNo) * i, 0);
             feather.transform.position = transform.position + featherDist * feather.transform.forward;
+            feather.name = "feather " + i;
 
             // 파티클 재생
             FeatherParticle(gameObject, feather.transform.forward);
@@ -370,8 +385,12 @@ public class Y_PlayerAttack : MonoBehaviour
             // 시간 지나면 깃털 파괴
             if (feather != null)
             {
-                StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
-                StartCoroutine(ReleaseFeather(feather, featherTime));
+
+                feather.GetComponent<Y_Feather>().StopDestroy();
+                feather.GetComponent<Y_Feather>().StartDestroy(featherTime);
+
+                //StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
+                //StartCoroutine(ReleaseFeather(feather, featherTime));
             }
             //Destroy(feather, featherTime);
 
@@ -397,7 +416,7 @@ public class Y_PlayerAttack : MonoBehaviour
         GameObject basicAttEff = Instantiate(basicAttEffFactory);
         basicAttEff.transform.forward = dir;
         basicAttEff.transform.localScale = Vector3.one * 8.0f;
-        basicAttEff.transform.position = obj.transform.position;
+        basicAttEff.transform.position = obj.transform.position + 3 * Vector3.up;
         Destroy(basicAttEff, particleEftTime);
     }
 
@@ -407,14 +426,21 @@ public class Y_PlayerAttack : MonoBehaviour
 
         foreach (Collider feather in feathers)
         {
-            StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
-            StartCoroutine(ReleaseFeather(feather.gameObject, featherTime));
+            if(feather != null)
+            {
+                feather.gameObject.GetComponent<Y_Feather>().StopDestroy();
+                feather.gameObject.GetComponent<Y_Feather>().StartDestroy(featherEftTime);
+
+            }
+            //StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
+            //StartCoroutine(ReleaseFeather(feather.gameObject, featherTime));
         }
     }
 
     void DamageParticle(Vector3 dir)
     {
         GameObject dp = Instantiate(damageParticle);
+        dp.transform.localScale = Vector3.one * 5.0f;
         dp.transform.position = dir;
     }
 
@@ -495,8 +521,10 @@ public class Y_PlayerAttack : MonoBehaviour
             //    yield return null;
             //}
 
-            StopCoroutine(ReleaseFeather(featherB.gameObject, featherTime));
-            StartCoroutine(ReleaseFeather(featherB, featherTime));
+            //StopCoroutine(ReleaseFeather(featherB.gameObject, featherTime));
+            //StartCoroutine(ReleaseFeather(featherB, featherTime));
+            featherB.GetComponent<Y_Feather>().StopDestroy();
+            featherB.GetComponent<Y_Feather>().StartDestroy(featherTime);
 
 
             i++;
@@ -637,11 +665,11 @@ public class Y_PlayerAttack : MonoBehaviour
                 GameObject feather1 = Instantiate(featherAFactory);
                 feather1.transform.position = transform.position;
                 feather1.layer = LayerMask.NameToLayer("PassiveFeather");
-                //feather1.name = "feather111111111";
+                feather1.name = "feather";
                 GameObject feather2 = Instantiate(featherAFactory);
                 feather2.transform.position = transform.position;
                 feather2.layer = LayerMask.NameToLayer("PassiveFeather");
-                //feather2.name = "feather222222";
+                feather2.name = "feather";
 
                 dirP = p4 - transform.position;
 
@@ -734,8 +762,10 @@ public class Y_PlayerAttack : MonoBehaviour
 
             yield return null;
         }
-        StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
-        StartCoroutine(ReleaseFeather(feather.gameObject, destroyTime));
+        feather.gameObject.GetComponent<Y_Feather>().StopDestroy();
+        feather.gameObject.GetComponent<Y_Feather>().StartDestroy(destroyTime);
+        //StopCoroutine(ReleaseFeather(feather.gameObject, featherTime));
+        //StartCoroutine(ReleaseFeather(feather.gameObject, destroyTime));
     }
 
     
@@ -752,14 +782,14 @@ public class Y_PlayerAttack : MonoBehaviour
 
     
 
-    private IEnumerator ReleaseFeather(GameObject feather, float featherTime)
-    {
-        yield return new WaitForSeconds(featherTime);
-        if (feather != null && feather.activeSelf)
-        {
-            pool.Release(feather);
-        }
-    }
+    //private IEnumerator ReleaseFeather(GameObject feather, float featherTime)
+    //{
+    //    yield return new WaitForSeconds(featherTime);
+    //    if (feather != null && feather.activeSelf)
+    //    {
+    //        pool.Release(feather);
+    //    }
+    //}
     
 
     private void OnDrawGizmos()
