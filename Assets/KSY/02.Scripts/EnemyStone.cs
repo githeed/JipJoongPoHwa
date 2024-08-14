@@ -34,7 +34,7 @@ public class EnemyStone : MonoBehaviour
     public GameObject rangeCanvasGo;
     public GameObject indicatorPrf;
     public GameObject indicator;
-    IndicatorPref indicatorCs;
+    IndicatorPrefOfStone indicatorCs;
     int minIndiCnt = 10;
     float currTime;
     EnemyHp myHp;
@@ -58,10 +58,11 @@ public class EnemyStone : MonoBehaviour
             indicator = Instantiate(indicatorPrf);
             indiList.Add(indicator);
             indicator.SetActive(false);
-            indicatorCs = indicator.GetComponent<IndicatorPref>();
+            indicatorCs = indicator.GetComponent<IndicatorPrefOfStone>();
             indicatorCs.attackPower = attackPower;
             indicatorCs.attackCoolTime = attackCoolTime;
             indicatorCs.attackRange = attackRange;
+            indicatorCs.enemyStone = this;
         }
         player0 = GameObject.FindWithTag("Player");
         player1 = GameObject.FindWithTag("Player1");
@@ -86,10 +87,11 @@ public class EnemyStone : MonoBehaviour
             if(indiList.Count == 0)
             {
                 indicator = Instantiate(indicatorPrf);
-                indicatorCs = indicator.GetComponent<IndicatorPref>();
+                indicatorCs = indicator.GetComponent<IndicatorPrefOfStone>();
                 indicatorCs.attackPower = attackPower;
                 indicatorCs.attackCoolTime = attackCoolTime;
                 indicatorCs.attackRange = attackRange;
+                indicatorCs.enemyStone = this;
             }
             else
             {

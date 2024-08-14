@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 114995049663184070}
   - component: {fileID: -3213112545633893191}
   m_Layer: 0
-  m_Name: Stone_lightning
+  m_Name: Stone_lightning_K
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5015,7 +5015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EffectsOnCollision:
-  - {fileID: 1065618375357958, guid: 6f8068e2c99ffb04b932ec74e5773db5, type: 3}
+  - {fileID: 1065618375357958, guid: 57a33efa95b83744896e7c061315add6, type: 3}
   DestroyTimeDelay: 1
   UseWorldSpacePosition: 1
   Offset: 0.1

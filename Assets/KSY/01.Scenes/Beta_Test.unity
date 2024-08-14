@@ -10153,9 +10153,15 @@ MonoBehaviour:
     type: 3}
   nocturnePrf: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
     type: 3}
+  midBoss: {fileID: 0}
+  spawner: {fileID: 0}
   bossSpawnMin: 500
   midBossSpawnPeriod: 500
+  midBossSpawnTimer: 0
+  midBossNum: 0
+  bossSpawn: 0
   canPick: 0
+  bossCs: {fileID: 0}
 --- !u!1 &1166786338
 GameObject:
   m_ObjectHideFlags: 0
@@ -12361,7 +12367,7 @@ PrefabInstance:
     - target: {fileID: 2223390492084490485, guid: bf693366c5dd20347a59b16b5be63877,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 2223390492084490485, guid: bf693366c5dd20347a59b16b5be63877,
         type: 3}
@@ -12371,7 +12377,7 @@ PrefabInstance:
     - target: {fileID: 2223390492084490485, guid: bf693366c5dd20347a59b16b5be63877,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.42
+      value: -13.73
       objectReference: {fileID: 0}
     - target: {fileID: 2223390492084490485, guid: bf693366c5dd20347a59b16b5be63877,
         type: 3}
@@ -12416,16 +12422,6 @@ PrefabInstance:
     - target: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4003504883933686610, guid: bf693366c5dd20347a59b16b5be63877,
-        type: 3}
-      propertyPath: attackDelay
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4003504883933686610, guid: bf693366c5dd20347a59b16b5be63877,
-        type: 3}
-      propertyPath: motionDelay
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -23799,6 +23795,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MidBoss
       objectReference: {fileID: 0}
+    - target: {fileID: 1965155572743053120, guid: 78643d921cbd8104d8541515870c014e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3965301794408898081, guid: 78643d921cbd8104d8541515870c014e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -33551,11 +33552,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stone
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667283773137937456, guid: c0ff4544352d69d48a1458821e5b224a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

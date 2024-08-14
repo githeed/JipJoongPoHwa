@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CircleIndicator_Attack
+  m_Name: CircleIndicator_ofStone
   m_Shader: {fileID: 4800000, guid: 72beee40b6b178d44b2e3f86888273ac, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -92,7 +92,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0, b: 0.06594753, a: 1}
+    - _Color: {r: 0, g: 0.9928827, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _FlowColor: {r: 0.5471698, g: 0, b: 0.085338466, a: 1}
+    - _FlowColor: {r: 0, g: 0.19012117, b: 1, a: 1}
   m_BuildTextureStacks: []

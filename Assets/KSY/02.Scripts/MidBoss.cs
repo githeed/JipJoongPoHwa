@@ -46,7 +46,6 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
     Material myMaterial;
     Color orgColor;
 
-    
 
     void Start()
     {
@@ -101,7 +100,7 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
 
         currTime = 0;
         currState = state;
-        agent.isStopped = true;
+        //agent.isStopped = true;
         agent.enabled = false;
 
 
@@ -113,7 +112,7 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
             case MidBossState.MOVE:
                 myAnim.SetTrigger("MOVE");
                 agent.enabled = true;
-                agent.isStopped = false;
+                //agent.isStopped = false;
                 break;
             case MidBossState.ATTACK:
                 OnAttack();
@@ -161,8 +160,9 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
     {
         Vector3 dir = target.transform.position - transform.position;
         transform.forward = (dir - Vector3.up * dir.y).normalized;
-        myAnim.SetTrigger("ATTACK");
         ChangeState(MidBossState.ATTACK_DELAY);
+        myAnim.SetTrigger("ATTACK");
+        
     }
     void UpdateAttack_Delay()
     {
@@ -216,6 +216,8 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
         myMaterial.color = orgColor;
     }
 
+
+
     void OnDie()
     {
         H_PlayerManager.instance.SpawnExp(transform.position);
@@ -232,6 +234,9 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
 
     public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        if (stateInfo.IsName("Attack"))
+        {
+            
+        }
     }
 }
