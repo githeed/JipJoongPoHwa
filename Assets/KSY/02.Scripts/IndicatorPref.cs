@@ -33,23 +33,29 @@ public class IndicatorPref : MonoBehaviour
         indicator.transform.localScale = size * Vector3.one;
         if (size >= maxScale)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange / 2f, players);
-            foreach (var c in colliders)
-            {
-                if (c.gameObject.tag == "Player")
-                {
-                    c.GetComponent<H_PlayerAttack>().UpdateHp(attackPower);
-                    print("indicator로 H 플레이어 맞음");
-                }
-                else if (c.gameObject.tag == "Player1")
-                {
-                    c.GetComponent<Y_PlayerAttack>().UpdateHp(attackPower);
-                    print("indicator로 Y 플레이어 맞음");
-                }
-            }
-            if(isDestroy) Destroy(gameObject);
-            if (enemyStone != null) enemyStone.indiList.Add(gameObject);
-            gameObject.SetActive(false);
+            AttackCheck();
         }
+    }
+
+
+    void AttackCheck()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange / 2f, players);
+        foreach (var c in colliders)
+        {
+            if (c.gameObject.tag == "Player")
+            {
+                c.GetComponent<H_PlayerAttack>().UpdateHp(attackPower);
+                print("indicator로 H 플레이어 맞음");
+            }
+            else if (c.gameObject.tag == "Player1")
+            {
+                c.GetComponent<Y_PlayerAttack>().UpdateHp(attackPower);
+                print("indicator로 Y 플레이어 맞음");
+            }
+        }
+        if (isDestroy) Destroy(gameObject);
+        if (enemyStone != null) enemyStone.indiList.Add(gameObject);
+        gameObject.SetActive(false);
     }
 }

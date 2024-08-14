@@ -31,8 +31,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 
     [Header("터치 금지")]
     public GameObject stonePrf;
-    GameObject stone;
-    EnemyStone enemyStone;
+    public GameObject stone;
+    public EnemyStone enemyStone;
     public Transform stoneSpawnPos;
 
     public GameObject target;
@@ -134,7 +134,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         //toTargetDir = target.transform.position - transform.position;
         toTargetDir = new Vector3(target.transform.position.x - transform.position.x, 0, target.transform.position.z - transform.position.z);
         toTargetDist = toTargetDir.magnitude;
-        print(mainCam.name);
+        //print(mainCam.name);
 
         switch (currState)
         {
@@ -201,7 +201,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             return;
         }
         transform.forward = (startDir - Vector3.up * startDir.y).normalized;
-        transform.Translate(startDir * moveSpeed * Time.deltaTime, Space.World);
+        transform.Translate(startDir * moveSpeed*2 * Time.deltaTime, Space.World);
         if (Vector3.Distance(mainCam.transform.position, mainCamTargetPos.position) < 0.5f) 
         {
             mainCam.transform.position = mainCamTargetPos.position;
@@ -350,7 +350,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicator.SetActive(true);
             indicator.transform.position = attackPos;
             indicatorCS.attackCoolTime = 1f; // 애니메이션에서 공격타이밍에 맞춤
-            StartCoroutine(DelayAndStart(0.9f, () => attackGroundEff_1.SetActive(true))); // 이펙트 키기.
+            StartCoroutine(DelayAndStart(0.8f, () => attackGroundEff_1.SetActive(true))); // 이펙트 키기.
             StartCoroutine(DelayAndStart(2f, () => attackGroundEff_1.SetActive(false))); // 이펙트 끄기.
         }
         if (stateInfo.IsName("Attack_Dash"))
@@ -359,7 +359,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicator.SetActive(true);
             indicator.transform.position = attackPos;
             indicatorCS.attackCoolTime = 1.5f; // 애니메이션에서 공격타이밍에 맞춤
-            StartCoroutine(DelayAndStart(1.5f, () => attackHorizontalEff.SetActive(true))); // 이펙트 키기.
+            StartCoroutine(DelayAndStart(1.2f, () => attackHorizontalEff.SetActive(true))); // 이펙트 키기.
             StartCoroutine(DelayAndStart(2.5f, () => attackHorizontalEff.SetActive(false))); // 이펙트 끄기.
         }
         if (stateInfo.IsName("Attack_Jump02"))
@@ -368,8 +368,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicator.SetActive(true);
             indicator.transform.position = attackPos;
             indicatorCS.attackCoolTime = 2.5f; // 애니메이션에서 공격타이밍에 맞춤
-            StartCoroutine(DelayAndStart(2.5f, () => attackHorizontalEff.SetActive(true))); // 이펙트 키기.
-            StartCoroutine(DelayAndStart(3.5f, () => attackHorizontalEff.SetActive(false))); // 이펙트 끄기.
+            StartCoroutine(DelayAndStart(2.2f, () => attackGroundEff_1.SetActive(true))); // 이펙트 키기.
+            StartCoroutine(DelayAndStart(3.5f, () => attackGroundEff_1.SetActive(false))); // 이펙트 끄기.
         }
 
         if (stateInfo.IsName("Attack_Jump01"))

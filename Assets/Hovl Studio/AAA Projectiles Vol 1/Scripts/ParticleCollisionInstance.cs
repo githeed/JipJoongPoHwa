@@ -1,4 +1,4 @@
-/*This script created by using docs.unity3d.com/ScriptReference/MonoBehaviour.OnParticleCollision.html*/
+﻿/*This script created by using docs.unity3d.com/ScriptReference/MonoBehaviour.OnParticleCollision.html*/
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ public class ParticleCollisionInstance : MonoBehaviour
         part = GetComponent<ParticleSystem>();
     }
     void OnParticleCollision(GameObject other)
-    {      
+    {
         int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);     
         for (int i = 0; i < numCollisionEvents; i++)
         {
@@ -42,7 +42,7 @@ public class ParticleCollisionInstance : MonoBehaviour
         }
         if (DestoyMainEffect == true)
         {
-            Destroy(gameObject, DestroyTimeDelay + 0.5f);
+            //Destroy(gameObject, DestroyTimeDelay + 0.5f);
         }
     }
 }

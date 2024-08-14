@@ -28,8 +28,8 @@ RectTransform:
   m_GameObject: {fileID: 625548757306226011}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3643249506694011028}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d649a8e3f779044a9bd4862ae2b826f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimUI: {fileID: 625548757306226011}
 --- !u!1 &717393243456683065
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,8 +340,8 @@ RectTransform:
   m_GameObject: {fileID: 3186736913574315114}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3722833060973905509}
   - {fileID: 7168688070133015834}
@@ -349,7 +350,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 5.2}
+  m_AnchoredPosition: {x: 0, y: 10.95}
   m_SizeDelta: {x: 3, y: 0.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6642228167959280424
@@ -416,12 +417,11 @@ GameObject:
   - component: {fileID: 5138367024975127787}
   - component: {fileID: 134947103529716514}
   - component: {fileID: 7464471282532875005}
-  - component: {fileID: 903240349669280049}
   - component: {fileID: 8291568361171659326}
-  - component: {fileID: 2729323406258461537}
   - component: {fileID: 68575355992860265}
   - component: {fileID: 3328628787391695227}
   - component: {fileID: 8114436309264310196}
+  - component: {fileID: 5459496185196819298}
   m_Layer: 31
   m_Name: Ally
   m_TagString: Player1
@@ -439,7 +439,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.04, y: 1.77, z: -7.1}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3643249506694011028}
@@ -484,7 +484,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1606fb89e510da843be0848112b56e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
   moveSpeed: 25
+  boss: {fileID: 0}
+  bossStone: {fileID: 0}
 --- !u!114 &134947103529716514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,15 +500,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928104106d2a7a64c9f8b0b3d2336396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicAttTime: 2
-  ESkillTime: 3
-  RSkillTime: 50
-  PSkillDuration: 10
+  basicAttTime: 4
+  ESkillTime: 9
+  RSkillTime: 209999
+  PSkillDuration: 15
+  EvSkillTime: 3
+  EvSkillDuration: 0
   curBAttTime: 0
   curEAttTime: 0
   curRAttTime: 0
   curPAttTime: 0
+  curEvAttTime: 0
   skillTimeRate: 1.3
+  featherEftTime: 0.2
+  particleEftTime: 0.2
   scanRange: 100
   targetLayer:
     serializedVersion: 2
@@ -516,26 +524,27 @@ MonoBehaviour:
   targets: []
   feathersE: []
   feathersR: []
-  attackDmg: 2
+  nearestTarget: {fileID: 0}
+  attackDmg: 50
   featherFactory: {fileID: 1560146333889575406, guid: 0fca7898fcdca6f48baf1ea78291eab5,
     type: 3}
   featherEFactory: {fileID: 1560146333889575406, guid: 7844c1f9bd6fe4c4e8074cf1ae50a1e5,
     type: 3}
   featherAFactory: {fileID: 1560146333889575406, guid: bc7be00cb80b851498a76a65cdf371c0,
     type: 3}
-  basicAttEffFactory: {fileID: 1033462822675242, guid: f2e599cdad1ce10488dda1dbf3708344,
+  basicAttEffFactory: {fileID: 1699459221867030, guid: 0794f688184ecee4a94867bc145cda8b,
     type: 3}
   basicAttackNo: 3
-  featherDist: 0
-  featherTime: 0
-  eAttRate: 0
-  enmStopTime: 0
-  featherRNo: 0
+  featherDist: 14
+  featherTime: 10
+  eAttRate: 1.2
+  enmStopTime: 3
+  featherRNo: 24
   unbeatable: 0
   pAttacking: 0
   batRate: 2
-  featherSpeedB: 20
-  featherSpeedE: 20
+  featherSpeedB: 50
+  featherSpeedE: 100
   featherSpeed: 10
   isBAttack: 0
   isESkill: 0
@@ -595,7 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153b37e372fab2c48b9a84f16396016b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 2000
   currHealth: 0
   timeTillReborn: 0
   isDead: 0
@@ -604,33 +613,8 @@ MonoBehaviour:
   ally: {fileID: 0}
   playerBody: {fileID: 0}
   hpBar: {fileID: 395112403493968711}
---- !u!54 &903240349669280049
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3904714552585844357}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
+  aimUI: {fileID: 625548757306226011}
+  hpUI: {fileID: 3186736913574315114}
 --- !u!136 &8291568361171659326
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -654,32 +638,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!143 &2729323406258461537
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3904714552585844357}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &68575355992860265
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -689,13 +647,13 @@ NavMeshAgent:
   m_GameObject: {fileID: 3904714552585844357}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
+  m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
@@ -730,6 +688,102 @@ MonoBehaviour:
   y_location: 0
   width: 0
   height: 0
+--- !u!82 &5459496185196819298
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904714552585844357}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4061577447621903695
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,7 +811,7 @@ Transform:
   m_GameObject: {fileID: 4061577447621903695}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -14.87, z: -0}
+  m_LocalPosition: {x: 0, y: -9.11, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -988,7 +1042,7 @@ Transform:
   m_LocalRotation: {x: -0.2655561, y: 0, z: 0, w: 0.9640955}
   m_LocalPosition: {x: 0, y: 22.2, z: -12.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7549239383408383860}
   m_Father: {fileID: 8101318993530173819}
@@ -1076,6 +1130,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8101318993530173819}
     m_Modifications:
+    - target: {fileID: 3546300765234506981, guid: 7568b89a3580eab4bacb566ce2183dd1,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546300765234506981, guid: 7568b89a3580eab4bacb566ce2183dd1,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546300765234506981, guid: 7568b89a3580eab4bacb566ce2183dd1,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3546300765234506981, guid: 7568b89a3580eab4bacb566ce2183dd1,
         type: 3}
       propertyPath: m_LocalPosition.x

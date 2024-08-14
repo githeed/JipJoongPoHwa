@@ -11028,8 +11028,9 @@ MonoBehaviour:
     type: 3}
   nocturnePrf: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
     type: 3}
-  bossSpawnMin: 0
+  bossSpawnMin: 2
   midBossSpawnPeriod: 50
+  canPick: 0
 --- !u!1001 &1153162869
 PrefabInstance:
   m_ObjectHideFlags: 0

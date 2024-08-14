@@ -33,8 +33,8 @@ public class EnemyStone : MonoBehaviour
 
     public GameObject rangeCanvasGo;
     public GameObject indicatorPrf;
-    GameObject indicator;
-    IndicatorPref indicatorCs;
+    public GameObject indicator;
+    IndicatorPrefOfStone indicatorCs;
     int minIndiCnt = 10;
     float currTime;
     EnemyHp myHp;
@@ -42,7 +42,7 @@ public class EnemyStone : MonoBehaviour
     Material myMaterial;
     Color orgColor;
 
-    bool isStart;
+    public bool isStart;
 
     void Start()
     {
@@ -58,10 +58,11 @@ public class EnemyStone : MonoBehaviour
             indicator = Instantiate(indicatorPrf);
             indiList.Add(indicator);
             indicator.SetActive(false);
-            indicatorCs = indicator.GetComponent<IndicatorPref>();
+            indicatorCs = indicator.GetComponent<IndicatorPrefOfStone>();
             indicatorCs.attackPower = attackPower;
             indicatorCs.attackCoolTime = attackCoolTime;
             indicatorCs.attackRange = attackRange;
+            indicatorCs.enemyStone = this;
         }
         player0 = GameObject.FindWithTag("Player");
         player1 = GameObject.FindWithTag("Player1");
@@ -86,10 +87,11 @@ public class EnemyStone : MonoBehaviour
             if(indiList.Count == 0)
             {
                 indicator = Instantiate(indicatorPrf);
-                indicatorCs = indicator.GetComponent<IndicatorPref>();
+                indicatorCs = indicator.GetComponent<IndicatorPrefOfStone>();
                 indicatorCs.attackPower = attackPower;
                 indicatorCs.attackCoolTime = attackCoolTime;
                 indicatorCs.attackRange = attackRange;
+                indicatorCs.enemyStone = this;
             }
             else
             {
@@ -120,9 +122,10 @@ public class EnemyStone : MonoBehaviour
             isStart = false;
             return;
         }
-        if (distToPlayer0 > myMaxRange)
+        if (distToPlayer0 > myMaxRange && isStart)
         {
             player0.transform.Translate((transform.position - player0.transform.position).normalized * drawSpeed * Time.deltaTime, Space.World);
+            player1.transform.position = transform.position + (player1.transform.position - transform.position).normalized * (myMaxRange-2);
         }
         
     }

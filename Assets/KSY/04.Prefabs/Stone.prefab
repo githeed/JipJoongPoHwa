@@ -474,7 +474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effTime: 0.1
   attackPower: 5
-  attackRange: 2
+  attackRange: 5
   attackCoolTime: 1
   myMaxRange: 20
   indiSpawnCoolTime: 0.3
@@ -482,8 +482,10 @@ MonoBehaviour:
   indiList: []
   boss: {fileID: 0}
   rangeCanvasGo: {fileID: 4259548514787753977}
-  indicatorPrf: {fileID: 3482020800740940013, guid: 58774e9aab8bf4543825707db10b79b1,
+  indicatorPrf: {fileID: 3482020800740940013, guid: 8fe4b09b2139bb24a84d015059372eb8,
     type: 3}
+  indicator: {fileID: 0}
+  isStart: 0
 --- !u!1001 &7676559112224045911
 PrefabInstance:
   m_ObjectHideFlags: 0

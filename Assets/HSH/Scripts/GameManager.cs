@@ -33,17 +33,19 @@ public class GameManager : MonoBehaviour
     public GameObject bossprf;
     public GameObject midBossPrf;
     public GameObject nocturnePrf;
-    GameObject midBoss;
-    GameObject spawner;
+    public GameObject midBoss;
+    public GameObject spawner;
 
     [Header("조절 가능")]
     [Tooltip("게임 시작 후 보스 스폰 시간(분 단위로 입력)")]
     public float bossSpawnMin;
     [Tooltip("게임 시작 후 중간 보스 스폰 시간(초 단위로 입력)")]
     public float midBossSpawnPeriod;
-    float midBossSpawnTimer;
-    int midBossNum;
-    bool bossSpawn;
+
+    [Header("조절 금지")]
+    public float midBossSpawnTimer;
+    public int midBossNum;
+    public bool bossSpawn;
 
     public bool canPick = false;
 
@@ -75,9 +77,11 @@ public class GameManager : MonoBehaviour
         }
         
     }
-    Boss bossCs;
+    public Boss bossCs;
     void Update()
     {
+        
+
         gameTime += Time.deltaTime;
         if (H_PlayerManager.instance.curHP <= 0)
         {
@@ -85,9 +89,8 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("EndUIScene");
         }
 
-        if(gameTime >= 60*bossSpawnMin & !bossSpawn)
+        if(gameTime >= 60*bossSpawnMin && !bossSpawn)
         {
-            bossSpawn = true;
             bossHPUI.SetActive(true);
             timeText.gameObject.transform.parent.gameObject.SetActive(false);
             GameObject boss = Instantiate(bossprf);
@@ -96,6 +99,7 @@ public class GameManager : MonoBehaviour
             bossCs.myBossHPUI = bossHPUI;
             bossCs.bossMoveTarget = bossMoveTarget;
             bossCs.mainCamTargetPos = cameraMoveTarget;
+            bossSpawn = true;
             
         }
         midBossSpawnTimer += Time.deltaTime;

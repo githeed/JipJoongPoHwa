@@ -46,7 +46,6 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
     Material myMaterial;
     Color orgColor;
 
-    
 
     void Start()
     {
@@ -75,15 +74,7 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
     {
         target = findPlayers.target;
         distToTarget = Vector3.Distance(transform.position, target.transform.position);
-        Vector2 forward = new Vector2(transform.position.z, transform.position.x);
-        Vector2 steeringTarget = new Vector2(agent.steeringTarget.z, agent.steeringTarget.x);
-
-        // 방향을 구한 뒤, 역함수로 각을 구함.
-        Vector2 dir = steeringTarget - forward;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        // 방향적용
-        transform.eulerAngles = Vector3.up * angle;
+        
 
         switch (currState)
         {
@@ -109,7 +100,8 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
 
         currTime = 0;
         currState = state;
-        agent.isStopped = true;
+        //agent.isStopped = true;
+        agent.enabled = false;
 
 
         switch (currState)
@@ -119,11 +111,12 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
                 break;
             case MidBossState.MOVE:
                 myAnim.SetTrigger("MOVE");
-                agent.isStopped = false;
+                agent.enabled = true;
+                //agent.isStopped = false;
                 break;
             case MidBossState.ATTACK:
                 OnAttack();
-                myAnim.SetTrigger("ATTACK");
+                
                 break;
             case MidBossState.ATTACK_DELAY:
                 myAnim.SetTrigger(currState.ToString());
@@ -144,7 +137,16 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
     void UpdateMove()
     {
         agent.SetDestination(target.transform.position);
-        if(distToTarget <= attackRange)
+        Vector2 forward = new Vector2(transform.position.z, transform.position.x);
+        Vector2 steeringTarget = new Vector2(agent.steeringTarget.z, agent.steeringTarget.x);
+
+        // 방향을 구한 뒤, 역함수로 각을 구함.
+        Vector2 dir = steeringTarget - forward;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        // 방향적용
+        transform.eulerAngles = Vector3.up * angle;
+        if (distToTarget <= attackRange)
         {
             ChangeState(MidBossState.ATTACK);
         }
@@ -159,6 +161,8 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
         Vector3 dir = target.transform.position - transform.position;
         transform.forward = (dir - Vector3.up * dir.y).normalized;
         ChangeState(MidBossState.ATTACK_DELAY);
+        myAnim.SetTrigger("ATTACK");
+        
     }
     void UpdateAttack_Delay()
     {
@@ -212,6 +216,8 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
         myMaterial.color = orgColor;
     }
 
+
+
     void OnDie()
     {
         H_PlayerManager.instance.SpawnExp(transform.position);
@@ -228,6 +234,9 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
 
     public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        if (stateInfo.IsName("Attack"))
+        {
+            
+        }
     }
 }

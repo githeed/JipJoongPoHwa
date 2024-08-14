@@ -14,6 +14,7 @@ public class ObjectPoolManager : MonoBehaviour
     public GameObject damageUIPrefab;
     public GameObject featherPrefab;
     public GameObject ally;
+    public GameObject feather;
 
     public enum ObjectPoolName
     {
@@ -39,10 +40,6 @@ public class ObjectPoolManager : MonoBehaviour
         Init();
     }
 
-    //private void Start()
-    //{
-    //    ally = GameObject.Find("Ally");
-    //}
 
     private void Init()
     {
@@ -83,6 +80,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         GameObject feather = Instantiate(featherPrefab);
         ally.GetComponent<Y_PlayerAttack>().pool = this.featherPool;
+
         return feather;
     }
 
