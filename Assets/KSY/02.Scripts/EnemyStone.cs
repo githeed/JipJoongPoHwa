@@ -33,7 +33,7 @@ public class EnemyStone : MonoBehaviour
 
     public GameObject rangeCanvasGo;
     public GameObject indicatorPrf;
-    GameObject indicator;
+    public GameObject indicator;
     IndicatorPref indicatorCs;
     int minIndiCnt = 10;
     float currTime;
@@ -42,7 +42,7 @@ public class EnemyStone : MonoBehaviour
     Material myMaterial;
     Color orgColor;
 
-    bool isStart;
+    public bool isStart;
 
     void Start()
     {

@@ -33,16 +33,18 @@ public class GameManager : MonoBehaviour
     public GameObject bossprf;
     public GameObject midBossPrf;
     public GameObject nocturnePrf;
-    GameObject midBoss;
-    GameObject spawner;
+    public GameObject midBoss;
+    public GameObject spawner;
 
     [Header("조절 가능")]
     [Tooltip("게임 시작 후 보스 스폰 시간(분 단위로 입력)")]
     public float bossSpawnMin;
     [Tooltip("게임 시작 후 중간 보스 스폰 시간(초 단위로 입력)")]
     public float midBossSpawnPeriod;
-    float midBossSpawnTimer;
-    int midBossNum;
+
+    [Header("조절 금지")]
+    public float midBossSpawnTimer;
+    public int midBossNum;
     public bool bossSpawn;
 
     public bool canPick = false;
