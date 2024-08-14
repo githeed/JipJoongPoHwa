@@ -4230,20 +4230,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
-        type: 3}
-      propertyPath: RSkillTime
-      value: 209999
-      objectReference: {fileID: 0}
     - target: {fileID: 3904714552585844357, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: m_Name
       value: Ally
-      objectReference: {fileID: 0}
-    - target: {fileID: 4061577447621903695, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5138367024975127787, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -4255,11 +4245,6 @@ PrefabInstance:
       propertyPath: bossStone
       value: 
       objectReference: {fileID: 123746696}
-    - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
-        type: 3}
-      propertyPath: maxHealth
-      value: 2000
-      objectReference: {fileID: 0}
     - target: {fileID: 8101318993530173819, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6080,14 +6065,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   briarAudio: {fileID: 742859360}
-  zayahAudio: {fileID: 0}
+  zayahAudio: {fileID: 1238804518}
   enemyAudio: {fileID: 0}
   bgmAudio: {fileID: 575812883}
   briarAudios:
   - {fileID: 8300000, guid: d19157ed9258cde469f383e0aff73a65, type: 3}
   - {fileID: 8300000, guid: 3c44196b26422464ba537c664c39cd95, type: 3}
   - {fileID: 8300000, guid: 84b067fee3799a54bbd6a030f2407aed, type: 3}
-  zayahAudios: []
+  zayahAudios:
+  - {fileID: 8300000, guid: 7f677b1871c2c0447b3b9d4e4ab7a379, type: 3}
+  - {fileID: 8300000, guid: 2454c1e1b4f127b4084c1410e6f8d975, type: 3}
   enemyAudios: []
   bgmAuds: {fileID: 8300000, guid: 9b5f8718d25267f4d97b00e5ae6c1dce, type: 3}
 --- !u!82 &575812883
@@ -6102,7 +6089,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -11098,8 +11085,12 @@ MonoBehaviour:
     type: 3}
   nocturnePrf: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
     type: 3}
+  midBoss: {fileID: 0}
+  spawner: {fileID: 0}
   bossSpawnMin: 1
   midBossSpawnPeriod: 25
+  midBossSpawnTimer: 0
+  midBossNum: 0
   bossSpawn: 0
   canPick: 0
   bossCs: {fileID: 0}
@@ -12227,6 +12218,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237183864}
   m_Mesh: {fileID: 9041752608173605621, guid: 6642d04b9523c67459dd8fa173b56e79, type: 3}
+--- !u!82 &1238804518 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5459496185196819298, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 378312211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1242810070
 GameObject:
   m_ObjectHideFlags: 0

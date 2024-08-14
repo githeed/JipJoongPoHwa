@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -46,26 +47,27 @@ public class Y_NavMesh : MonoBehaviour
         //}
         //else
         //{
-        if (GameManager.instance.canPick) bossExist = true;
-        if (bossExist) bossCs = GameManager.instance.bossCs;
-        if (bossCs != null && bossCs.stone.activeSelf)
+        //if (GameManager.instance.canPick) bossExist = true;
+        //if (bossExist) bossCs = GameManager.instance.bossCs;
+
+        if (GameManager.instance.bossSpawn)
         {
-            //if (GameManager.instance.bossSpawn && bossCs2 == null)
-            //{
-            //    bossCs2 = GameObject.FindWithTag("Boss").GetComponent<Boss>();
-            //}
-            //bossCs2.stone
-            //GameObject go = Instantiate("")
-            //agent.destination = bossStone.transform.position - (playerAttack.featherDist - 5) * bossStone.transform.forward;
-            agent.destination = bossStone.transform.position + Vector3.right;
-        }
-        else if (boss.activeSelf)
-        {
-            agent.destination = boss.transform.position - (playerAttack.featherDist - 5) * Vector3.forward;
+            if(bossCs == null)
+            {
+                bossCs = GameObject.FindWithTag("Boss").GetComponent<Boss>();
+            }
+            else if(bossCs.stone != null)
+            {
+                agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 5) * Vector3.forward;
+            }
+            else if(!bossCs.stone.activeSelf)
+            {
+                agent.destination = bossCs.transform.position - (playerAttack.featherDist - 5) * Vector3.forward;
+            }
         }
         else if(!playerAttack.isESkill && !playerAttack.isBAttack && !playerAttack.isRSkill)
         {
-            agent.destination = (transform.position + allyFSM.moveDir);
+            agent.destination = player.transform.position; // (player.transform.position + allyFSM.moveDir)
         }
         //}
 
