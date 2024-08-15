@@ -29,7 +29,12 @@ public class Spawner : MonoBehaviour
     [Tooltip("특정한 곳에 소환 시키고 싶으면 체크")]
     public bool spawnAtSpecificPos;
     [Tooltip("소환위치에서 한 쿨타임에 소환되는 에너미 숫자")]
-    public int spawnEnemyCntAtOnce;
+    public int startEnemyCntAtOnce;
+    public int whenLv4EnemyCnt;
+    public int whenLv6EnemyCnt;
+    public int whenStoneExistEnemyCnt;
+    public int afterStoneDieEnemyCnt;
+    int spawnEnemyCntAtOnce;
     Transform player;
     Vector2 distance;
     float rand;
@@ -43,7 +48,6 @@ public class Spawner : MonoBehaviour
     Vector3 rightBottom;
     int spawnCnt = 0;
 
-
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
@@ -52,12 +56,26 @@ public class Spawner : MonoBehaviour
         if (rightBottomTr == null) rightBottomTr = GameObject.Find("RightBottom").transform;
         leftTop = leftTopTr.position;
         rightBottom = rightBottomTr.position;
+        spawnEnemyCntAtOnce = startEnemyCntAtOnce;
         
     }
 
     void Update()
     {
         if (StopSpawn || GameManager.instance.isStop) return;
+        if (H_PlayerManager.instance.indexLev == 4) spawnEnemyCntAtOnce = whenLv4EnemyCnt;
+        if (H_PlayerManager.instance.indexLev == 6) spawnEnemyCntAtOnce = whenLv6EnemyCnt;
+        if(GameManager.instance.bossCs != null)
+        {
+            if(GameManager.instance.bossCs.currState == Boss.BossState.START)
+            {
+                spawnEnemyCntAtOnce = whenStoneExistEnemyCnt;
+            }
+            if(GameManager.instance.bossCs.currState == Boss.BossState.ATTACK)
+            {
+                spawnEnemyCntAtOnce = afterStoneDieEnemyCnt;
+            }
+        }
         if (spawnRandPos) // 플레이어 기준 랜덤한 곳에서 소환.
         {
             currTime += Time.deltaTime;  
