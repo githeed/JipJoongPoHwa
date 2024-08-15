@@ -656,7 +656,7 @@ public class Y_PlayerAttack : MonoBehaviour
                 //GameObject shield = Instantiate(shield);
                 shield.transform.position = transform.position;
                 hp.Heal(hp.maxHealth * 0.1f * i);
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(5f);
                 shield.SetActive(false);
             }
         }
