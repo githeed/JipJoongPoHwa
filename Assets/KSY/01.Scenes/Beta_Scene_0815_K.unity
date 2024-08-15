@@ -24441,6 +24441,21 @@ PrefabInstance:
       propertyPath: rightBottomTr
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: spawnEnemyCntAtOnce
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: spawnPos.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: spawnPos.Array.data[0]
+      value: 
+      objectReference: {fileID: 123746697}
     - target: {fileID: 8545535845617597451, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
       propertyPath: m_Name

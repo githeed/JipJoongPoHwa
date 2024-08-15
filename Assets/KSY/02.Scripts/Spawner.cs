@@ -52,6 +52,7 @@ public class Spawner : MonoBehaviour
         if (rightBottomTr == null) rightBottomTr = GameObject.Find("RightBottom").transform;
         leftTop = leftTopTr.position;
         rightBottom = rightBottomTr.position;
+        
     }
 
     void Update()
@@ -71,6 +72,7 @@ public class Spawner : MonoBehaviour
             if (currTime >= coolTime)
             {
                 SpawnPosAtPoint();
+                currTime = 0;
             }
         }
     }
