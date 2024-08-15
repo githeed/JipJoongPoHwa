@@ -82,14 +82,14 @@ public class GameManager : MonoBehaviour
     public Boss bossCs;
     void Update()
     {
-        //if (bossCs.currState == Boss.BossState.START || bossCs.currState == Boss.BossState.IDLE)
-        //{
-        //    isStop = true;
-        //}
-        //else
-        //{
-        //    isStop = false;
-        //}
+        if (bossCs.currState == Boss.BossState.START || bossCs.currState == Boss.BossState.IDLE)
+        {
+            isStop = true;
+        }
+        else
+        {
+            isStop = false;
+        }
 
         gameTime += Time.deltaTime;
         if (H_PlayerManager.instance.curHP <= 0)
