@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -46,6 +47,8 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
     Material myMaterial;
     Color orgColor;
 
+    AudioSource myAudio;
+
 
     void Start()
     {
@@ -68,6 +71,7 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
         myAttackCanvas.attackCoolTime = indicatorDelay;
         myAnim = GetComponent<Animator>();
         ChangeState(MidBossState.IDLE);
+        myAudio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -217,7 +221,11 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
         myMaterial.color = orgColor;
     }
 
-
+    IEnumerator DelayAction(float t, Action action)
+    {
+        yield return new WaitForSeconds(t);
+        action();
+    }
 
     void OnDie()
     {
@@ -230,6 +238,7 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
         if (stateInfo.IsName("Attack"))
         {
             myIndicator.SetActive(true);
+            StartCoroutine(DelayAction(indicatorDelay, () => myAudio.Play()));
         }
     }
 
