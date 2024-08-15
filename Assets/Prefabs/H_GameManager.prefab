@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4014867349097628220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4893807764834132692}
+  - component: {fileID: 5126623575827710080}
+  m_Layer: 0
+  m_Name: H_GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4893807764834132692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4014867349097628220}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5126623575827710080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4014867349097628220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec17e62954ebcd442a2a7cb991370966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpBar: {fileID: 0}
+  expBar: {fileID: 0}
+  hpText: {fileID: 0}
+  lvText: {fileID: 0}
+  eCool: {fileID: 0}
+  rCool: {fileID: 0}
+  eCoolText: {fileID: 0}
+  rCoolText: {fileID: 0}
+  timeText: {fileID: 0}
+  bossHPUI: {fileID: 0}
+  gameTime: 0
+  player: {fileID: 0}
+  bISWin: 0
+  bossSpawnPos: {fileID: 0}
+  bossMoveTarget: {fileID: 0}
+  cameraMoveTarget: {fileID: 0}
+  bossprf: {fileID: 1151405840507370767, guid: 0a3851991f425d04ba8bc2da82023ae4, type: 3}
+  midBossPrf: {fileID: 1965155572743053120, guid: 78643d921cbd8104d8541515870c014e,
+    type: 3}
+  nocturnePrf: {fileID: 3109291741602106895, guid: bf693366c5dd20347a59b16b5be63877,
+    type: 3}
+  midBoss: {fileID: 0}
+  spawner: {fileID: 0}
+  bossSpawnMin: 2
+  midBossSpawnPeriod: 25
+  midBossSpawnTimer: 0
+  midBossNum: 0
+  bossSpawn: 0
+  canPick: 0
+  isStop: 0
+  bossCs: {fileID: 0}
