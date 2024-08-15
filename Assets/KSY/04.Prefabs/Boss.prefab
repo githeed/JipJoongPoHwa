@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26aad83e6139747469481333dd00d728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10000
+  maxHp: 20000
   curHp: 0
 --- !u!114 &108914142148593840
 MonoBehaviour:
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d61a4036cc9801f49b16560f880a3706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 50
+  attackPower: 75
   attackRange: 15
   moveSpeed: 5
   stonePrf: {fileID: 7667283773137937456, guid: c0ff4544352d69d48a1458821e5b224a,
@@ -138,6 +138,7 @@ MonoBehaviour:
   attackGroundEff_1: {fileID: 386571834326379059}
   attackHorizontalEff: {fileID: 8473574341283814360}
   cineStart: 0
+  hitColor: {r: 1, g: 0, b: 0, a: 0.5}
   dieTime: 5
 --- !u!95 &2074159423471335069
 Animator:

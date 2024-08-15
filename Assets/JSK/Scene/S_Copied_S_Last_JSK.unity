@@ -9994,6 +9994,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: attackDmg
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 134947103529716514, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: basicAttackNo
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3904714552585844357, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: m_Name
@@ -10002,7 +10012,7 @@ PrefabInstance:
     - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: maxHealth
-      value: 5000
+      value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 8101318993530173819, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
@@ -17297,12 +17307,22 @@ PrefabInstance:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: rDamage
-      value: 100
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      propertyPath: attackDmg
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
       propertyPath: healPower
-      value: 30
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      propertyPath: ESkillTime
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
@@ -54686,7 +54706,7 @@ PrefabInstance:
     - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
       propertyPath: coolTime
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
@@ -54695,8 +54715,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
+      propertyPath: distanceMax
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: distanceMin
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
       propertyPath: rightBottomTr
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: whenLv4EnemyCnt
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: whenLv6EnemyCnt
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
@@ -54707,6 +54747,11 @@ PrefabInstance:
         type: 3}
       propertyPath: spawnPos.Array.size
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: startEnemyCntAtOnce
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
@@ -55159,6 +55204,11 @@ PrefabInstance:
       objectReference: {fileID: 1576272622}
     - target: {fileID: 5126623575827710080, guid: 14a3555247901ea41a653910f58224ba,
         type: 3}
+      propertyPath: bossSpawnMin
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126623575827710080, guid: 14a3555247901ea41a653910f58224ba,
+        type: 3}
       propertyPath: bossSpawnPos
       value: 
       objectReference: {fileID: 559392720}
@@ -55172,6 +55222,11 @@ PrefabInstance:
       propertyPath: cameraMoveTarget
       value: 
       objectReference: {fileID: 380173192}
+    - target: {fileID: 5126623575827710080, guid: 14a3555247901ea41a653910f58224ba,
+        type: 3}
+      propertyPath: midBossSpawnPeriod
+      value: 23
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -55242,8 +55297,23 @@ PrefabInstance:
       objectReference: {fileID: 1887825490}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
-      propertyPath: effScale
+      propertyPath: xBox
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
+      propertyPath: maxHP
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
+      propertyPath: boxDist
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
+      propertyPath: effScale
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
@@ -55267,43 +55337,68 @@ PrefabInstance:
       objectReference: {fileID: 843351935}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
+      propertyPath: boxMultiplier
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
       propertyPath: effMultiplier
       value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
       propertyPath: distMultiplier
-      value: 0.4
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
-      propertyPath: maxExperiences.Array.data[2]
+      propertyPath: skillECooltime
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
+      propertyPath: skillRCooltime
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
+      propertyPath: maxExperiences.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
+      propertyPath: maxExperiences.Array.data[2]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
       propertyPath: maxExperiences.Array.data[3]
-      value: 40
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
       propertyPath: maxExperiences.Array.data[4]
-      value: 60
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
       propertyPath: maxExperiences.Array.data[5]
-      value: 60
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
       propertyPath: maxExperiences.Array.data[6]
-      value: 60
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
       propertyPath: maxExperiences.Array.data[7]
-      value: 60
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
+      propertyPath: maxExperiences.Array.data[8]
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7688758057843203899, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}

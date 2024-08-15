@@ -473,7 +473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effTime: 0.1
-  attackPower: 5
+  attackPower: 66
   attackRange: 5
   attackCoolTime: 1
   myMaxRange: 20
