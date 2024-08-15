@@ -75,6 +75,9 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     public GameObject attackGroundEff_1;
     public GameObject attackHorizontalEff;
 
+    AudioClip[] bossAudio;
+    AudioSource myAudio;
+
     public bool cineStart = false;
     private void Awake()
     {
@@ -85,6 +88,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         mainCam = Camera.main.gameObject;
         mainCamOrgParent = mainCam.transform.parent;
         agent.enabled = false;
+        myAudio = GetComponent<AudioSource>();
     }
     void Start()
     {
@@ -123,6 +127,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             hPImage = myBossHPUI.transform.GetChild(1).GetComponent<Image>();
             bossHPUItext = myBossHPUI.GetComponentInChildren<TextMeshProUGUI>();
         }
+
+        
     }
 
     void Update()
@@ -221,6 +227,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     void OnIdle()
     {
         myAnim.SetTrigger("Roar");
+        myAudio.clip = SoundManager.instance.enemyAudios[5];
+        myAudio.Play();
     }
 
     void UpdateMove()
@@ -374,7 +382,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicator.SetActive(true);
             indicator.transform.position = attackPos;
             indicatorCS.attackCoolTime = 1.5f; // 애니메이션에서 공격타이밍에 맞춤
-            StartCoroutine(DelayAndStart(1.2f, () => attackHorizontalEff.SetActive(true))); // 이펙트 키기.
+            StartCoroutine(DelayAndStart(1.2f, () => { attackHorizontalEff.SetActive(true);  })); // 이펙트 키기.
             StartCoroutine(DelayAndStart(2.5f, () => attackHorizontalEff.SetActive(false))); // 이펙트 끄기.
         }
         if (stateInfo.IsName("Attack_Jump02"))
@@ -385,7 +393,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             indicatorCS.transform.forward = toTargetDir.normalized;
             indicator.transform.position = attackPos;
             indicatorCS.attackCoolTime = 2.5f; // 애니메이션에서 공격타이밍에 맞춤
-            StartCoroutine(DelayAndStart(2.2f, () => attackGroundEff_1.SetActive(true))); // 이펙트 키기.
+            StartCoroutine(DelayAndStart(2.2f, () => { attackGroundEff_1.SetActive(true); })); // 이펙트 키기.
             StartCoroutine(DelayAndStart(3.5f, () => attackGroundEff_1.SetActive(false))); // 이펙트 끄기.
         }
 

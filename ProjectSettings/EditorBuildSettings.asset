@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/StartUIScene.unity
     guid: f600f79a5512d1d4dadc8db35406b237
   - enabled: 1
-    path: Assets/JSK/Scene/Alpha_Scene_Final_ByJSK_0811_Test 1.unity
+    path: Assets/JSK/Scene/Nope/Alpha_Scene_Final_ByJSK_0811_Test 1.unity
     guid: 1e58169c5422dd54ab5ed92b4e3a4998
   - enabled: 1
     path: Assets/Scenes/EndUIScene.unity
