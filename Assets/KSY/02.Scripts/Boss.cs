@@ -234,6 +234,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 
     void UpdateAttack_Delay()
     {
+        if (enemyStone.gameObject.activeSelf) return;
         if(toTargetDist < attackRange)
         {
             ChangeState(BossState.ATTACK);
@@ -327,6 +328,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         enemyStone = stone.GetComponent<EnemyStone>();
         enemyStone.boss = this;
         transform.position = Vector3.up * 1000;
+        ChangeState(BossState.ATTACK_DELAY);
     }
 
 

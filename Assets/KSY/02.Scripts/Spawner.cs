@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UIElements;
 
 
 
@@ -21,6 +22,14 @@ public class Spawner : MonoBehaviour
     public float distanceMax;
     [Tooltip("체크 시 스폰 중지")]
     public bool StopSpawn;
+    [Tooltip("여기에 소환시키고 싶은 위치 넣기")]
+    public Transform[] spawnPos;
+    [Tooltip("랜덤하게 소환 시키고 싶으면 체크")]
+    public bool spawnRandPos;
+    [Tooltip("특정한 곳에 소환 시키고 싶으면 체크")]
+    public bool spawnAtSpecificPos;
+    [Tooltip("소환위치에서 한 쿨타임에 소환되는 에너미 숫자")]
+    public int spawnEnemyCntAtOnce;
     Transform player;
     Vector2 distance;
     float rand;
@@ -33,6 +42,7 @@ public class Spawner : MonoBehaviour
     Vector3 leftTop;
     Vector3 rightBottom;
     int spawnCnt = 0;
+
 
     void Start()
     {
@@ -47,15 +57,44 @@ public class Spawner : MonoBehaviour
     void Update()
     {
         if (StopSpawn || GameManager.instance.isStop) return;
-        currTime += Time.deltaTime;
-        if (currTime >= coolTime)
+        if (spawnRandPos) // 플레이어 기준 랜덤한 곳에서 소환.
         {
-            RandomSpawn();
+            currTime += Time.deltaTime;  
+            if (currTime >= coolTime)
+            {
+                RandomSpawn();
+            }
+        }
+        if (spawnAtSpecificPos) // 특정한 곳에서 소환
+        {
+            SpawnPosAtPoint();
         }
     }
+
+    public void SpawnPosAtPoint() // 특정한 포지션에서 소환되게 해주는 함수.
+    {
+        if(spawnPos.Length == 0)
+        {
+            Debug.LogError("SpawnPos 리스트에 스폰시키고 싶은 위치의 게임오브젝트 넣어주세요");
+        }
+        for(int i = 0; i < spawnPos.Length; i++)
+        {
+            for(int j = 0; j < spawnEnemyCntAtOnce; j++)
+            {
+                if (spawnPos[i].gameObject.activeSelf)
+                {
+                    GameObject go = ObjectPoolManager.instance.pool.Get();
+                    go.GetComponent<EnemyMove>().OnNav();
+                    go.transform.position = spawnPos[i].transform.position;
+                }
+
+            }
+        }
+    }
+
     public void RandomSpawn()
     {
-
+        
         spawnCnt++;
         currTime = 0;
         rand = Random.Range(distanceMin, distanceMax);
