@@ -93,6 +93,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public IObjectPool<GameObject> pool { get; set; }
     public IObjectPool<GameObject> particlePool { get; set; } 
+    public IObjectPool<GameObject> dmgParticlePool { get; set; } 
 
 
 
@@ -138,7 +139,7 @@ public class Y_PlayerAttack : MonoBehaviour
         //    }
         //}
 
-        //if (GameManager.instance.isStop) return;
+        if (GameManager.instance.isStop) return;
 
         ////////////////////////////
         if (!hp.isDead)
@@ -169,7 +170,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
             else if (curEvAttTime > EvSkillTime)
             {
-                if(pm.indexLev >= 7)
+                if (pm.indexLev >= 7)
                 {
                     StartCoroutine(EvolveCrt());
                     curEvAttTime = 0;
@@ -181,7 +182,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            StartCoroutine(EvolveCrt());
+            StartCoroutine(PassiveAttack());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha8))
@@ -466,9 +467,18 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void DamageParticle(Vector3 dir)
     {
-        GameObject dp = Instantiate(damageParticle);
+        //GameObject dp = Instantiate(damageParticle);
+        GameObject dp = ObjectPoolManager.instance.damageParticlePool.Get();
         dp.transform.localScale = Vector3.one * 5.0f;
         dp.transform.position = dir;
+        //dmgParticlePool.Release(dp);
+        StartCoroutine(ReleaseDmgParticle(dp, 1f));
+    }
+
+    IEnumerator ReleaseDmgParticle(GameObject particle, float time)
+    {
+        yield return new WaitForSeconds(time);
+        dmgParticlePool.Release(particle);
     }
 
 
@@ -675,12 +685,13 @@ public class Y_PlayerAttack : MonoBehaviour
 
         while (curPAttTime < PSkillDuration)
         {
+            if (hp.isDead) yield break;
 
             //curPAttTime += Time.deltaTime;
 
-            p1 = transform.position;
-            p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
-            p3 = transform.position - 5f * transform.right;
+            //p1 = transform.position;
+            //p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
+            //p3 = transform.position - 5f * transform.right;
 
             Transform targetP = GetNearest();
             p4 = targetP.position;
@@ -718,6 +729,11 @@ public class Y_PlayerAttack : MonoBehaviour
 
                 while (true)
                 {
+                    if (hp.isDead) yield break;
+
+                    p1 = transform.position;
+                    p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
+                    p3 = transform.position - 5f * transform.right;
 
                     dirP = p4 - transform.position;
 

@@ -38,6 +38,7 @@ public class Y_NavMesh : MonoBehaviour
     void Start()
     {
         agent.speed = moveSpeed;
+        agent.destination = transform.position + new Vector3(1, 0, 1).normalized * 10; 
     }
 
     // Update is called once per frame
