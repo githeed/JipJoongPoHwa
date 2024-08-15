@@ -117,17 +117,22 @@ public class EnemyStone : MonoBehaviour
 
     void IsStart()
     {
-        if (distToPlayer0 < myMaxRange)
+        if (distToPlayer0 < myMaxRange && distToPlayer1 < myMaxRange)
         {
             isStart = false;
             return;
         }
-        if (distToPlayer0 > myMaxRange && isStart)
+        if (isStart)
         {
-            player0.transform.Translate((transform.position - player0.transform.position).normalized * drawSpeed * Time.deltaTime, Space.World);
-            player1.transform.position = transform.position + (player1.transform.position - transform.position).normalized * (myMaxRange-2);
+            if(distToPlayer0 >= myMaxRange)
+            {
+                player0.transform.Translate((transform.position - player0.transform.position).normalized * drawSpeed * Time.deltaTime, Space.World);
+            }
+            if (distToPlayer1 >= myMaxRange)
+            {
+                player1.transform.Translate((transform.position - player1.transform.position).normalized * drawSpeed * Time.deltaTime, Space.World);
+            }
         }
-        
     }
 
     void DamageEff()
