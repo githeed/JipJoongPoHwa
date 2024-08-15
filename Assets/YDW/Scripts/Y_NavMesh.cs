@@ -68,9 +68,9 @@ public class Y_NavMesh : MonoBehaviour
                 {
 
                     int i = Random.Range(1, 4);
-                    if (i == 1) agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 5) * Vector3.forward;
-                    if (i == 2) agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 7) * Vector3.right;
-                    if (i == 3) agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 8) * new Vector3(1, 0, 1).normalized;
+                    if (i == 1) agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 3) * Vector3.forward;
+                    if (i == 2) agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 1) * Vector3.right;
+                    if (i == 3) agent.destination = bossCs.stone.transform.position - (playerAttack.featherDist - 2) * new Vector3(1, 0, 1).normalized;
                     
 
                 }
