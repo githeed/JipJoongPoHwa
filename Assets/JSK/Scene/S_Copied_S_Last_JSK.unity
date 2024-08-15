@@ -17296,6 +17296,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
+      propertyPath: rDamage
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      propertyPath: healPower
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      propertyPath: drainPower
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
       propertyPath: globalVolume
       value: 
       objectReference: {fileID: 1769178347}
@@ -42821,7 +42836,7 @@ Transform:
   m_GameObject: {fileID: 1677317884}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 38.4}
+  m_LocalPosition: {x: 0, y: 0.2, z: 38.4}
   m_LocalScale: {x: 24.923733, y: 15.12, z: 15.12}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -55245,6 +55260,16 @@ PrefabInstance:
       propertyPath: cuteSkillBox
       value: 
       objectReference: {fileID: 843351935}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
+      propertyPath: effMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
+      propertyPath: distMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
       propertyPath: maxExperiences.Array.data[2]
