@@ -82,14 +82,7 @@ public class GameManager : MonoBehaviour
     public Boss bossCs;
     void Update()
     {
-        if (bossCs.currState == Boss.BossState.START || bossCs.currState == Boss.BossState.IDLE)
-        {
-            isStop = true;
-        }
-        else
-        {
-            isStop = false;
-        }
+        if (bossCs != null) IsStop();
 
         gameTime += Time.deltaTime;
         if (H_PlayerManager.instance.curHP <= 0)
@@ -140,6 +133,17 @@ public class GameManager : MonoBehaviour
         SetECool();
         SetRCool();
         SetTimeText();
+    }
+    void IsStop()
+    {
+        if (bossCs.currState == Boss.BossState.START || bossCs.currState == Boss.BossState.IDLE)
+        {
+            isStop = true;
+        }
+        else
+        {
+            isStop = false;
+        }
     }
 
     void SetHPBar()
