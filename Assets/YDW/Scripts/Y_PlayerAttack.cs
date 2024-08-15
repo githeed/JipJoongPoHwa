@@ -189,7 +189,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            StartCoroutine(ESkill());
+            StartCoroutine(EvolveCrt());
         }
 
 
