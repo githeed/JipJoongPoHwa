@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
     public Boss bossCs;
     void Update()
     {
-        if(bossCs.currState == Boss.BossState.START || bossCs.currState == Boss.BossState.IDLE)
+        if (bossCs.currState == Boss.BossState.START || bossCs.currState == Boss.BossState.IDLE)
         {
             isStop = true;
         }

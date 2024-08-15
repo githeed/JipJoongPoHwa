@@ -4,18 +4,21 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Y_ScoreManager : MonoBehaviour
+public class Y_LvUp : MonoBehaviour
 {
-    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI textMeshPro;
+    int lvInt;
 
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        levelText.text = H_PlayerManager.instance.indexLev.ToString();
+        lvInt = H_PlayerManager.instance.indexLev;
+        textMeshPro.text = lvInt.ToString();
     }
 }

@@ -38,12 +38,13 @@ public class Y_NavMesh : MonoBehaviour
     void Start()
     {
         agent.speed = moveSpeed;
+        agent.destination = transform.position + new Vector3(1, 0, 1).normalized * 10; 
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (GameManager.instance.isStop) return;
         currTime += Time.deltaTime;
         //float distToTarget = Vector3.Distance(player.transform.position, transform.position);
 

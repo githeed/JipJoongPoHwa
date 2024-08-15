@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Unity.Entities.UniversalDelegates;
+using Unity.PlasticSCM.Editor.WebApi;
 using Unity.Transforms;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -20,7 +21,7 @@ public class Y_PlayerAttack : MonoBehaviour
     public float ESkillTime;
     public float RSkillTime;
     public float PSkillDuration = 15;
-    public float EvSkillTime = 3;
+    public float EvSkillTime = 10;
     public float EvSkillDuration;
     public float curBAttTime = 0;
     public float curEAttTime = 0;
@@ -87,8 +88,12 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public GameObject nearestTargetB;
 
+    public GameObject shield;
+
 
     public IObjectPool<GameObject> pool { get; set; }
+    public IObjectPool<GameObject> particlePool { get; set; } 
+    public IObjectPool<GameObject> dmgParticlePool { get; set; } 
 
 
 
@@ -134,6 +139,8 @@ public class Y_PlayerAttack : MonoBehaviour
         //    }
         //}
 
+        //if (GameManager.instance.isStop) return;
+
         ////////////////////////////
         if (!hp.isDead)
         {
@@ -141,6 +148,7 @@ public class Y_PlayerAttack : MonoBehaviour
             curBAttTime += Time.deltaTime * skillTimeRate;
             curEAttTime += Time.deltaTime * skillTimeRate;
             curRAttTime += Time.deltaTime * skillTimeRate;
+            curEvAttTime += Time.deltaTime * skillTimeRate;
 
             if (curBAttTime > basicAttTime) // && !isESkill && !isRSkill
             {
@@ -159,13 +167,22 @@ public class Y_PlayerAttack : MonoBehaviour
                 StartCoroutine(RSkill());
                 curRAttTime = 0;
             }
+
+            else if (curEvAttTime > EvSkillTime)
+            {
+                if (pm.indexLev >= 7)
+                {
+                    StartCoroutine(EvolveCrt());
+                    curEvAttTime = 0;
+                }
+            }
         }
 
         
 
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            StartCoroutine(EvolveCrt());
+            StartCoroutine(PassiveAttack());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha8))
@@ -215,15 +232,15 @@ public class Y_PlayerAttack : MonoBehaviour
             RSkillTime = 20;
         }
 
-        if(pm.indexLev >= 5)
-        {
-            curEvAttTime += Time.deltaTime;
-            if(curEvAttTime > EvSkillTime)
-            {
-                StartCoroutine(EvolveCrt());
-                curEvAttTime = 0;
-            }
-        }
+        //if(pm.indexLev >= 5)
+        //{
+        //    curEvAttTime += Time.deltaTime;
+        //    if(curEvAttTime > EvSkillTime)
+        //    {
+        //        StartCoroutine(EvolveCrt());
+        //        curEvAttTime = 0;
+        //    }
+        //}
 
 
         batRate = 1.05f + 0.1f * pm.indexLev;
@@ -296,7 +313,7 @@ public class Y_PlayerAttack : MonoBehaviour
             dirFrFthToAlly.y = 0;
             Vector3 dirFrFthToAllyNor = dirFrFthToAlly.normalized;
 
-            FeatherParticle(feather.gameObject, dirFrFthToAlly);
+            AttackParticle(feather.gameObject, dirFrFthToAlly);
             SoundManager.instance.PlayZayahSound(1);
 
             Vector3 destinationE = transform.position;
@@ -368,7 +385,7 @@ public class Y_PlayerAttack : MonoBehaviour
             feather.name = "feather " + i;
 
             // 파티클 재생
-            FeatherParticle(gameObject, feather.transform.forward);
+            AttackParticle(gameObject, feather.transform.forward);
 
             // Enemy 에게 데미지 주기
             RaycastHit[] hitInfos = Physics.RaycastAll(transform.position + Vector3.up * 0.5f, feather.transform.forward, featherDist, targetLayer);
@@ -412,13 +429,23 @@ public class Y_PlayerAttack : MonoBehaviour
     }
 
 
-    void FeatherParticle(GameObject obj, Vector3 dir)
+    void AttackParticle(GameObject obj, Vector3 dir)
     {
-        GameObject basicAttEff = Instantiate(basicAttEffFactory);
+        GameObject basicAttEff = ObjectPoolManager.instance.attackParticlePool.Get();
+        //GameObject basicAttEff = Instantiate(basicAttEffFactory);
+        basicAttEff.transform.position = transform.position;
         basicAttEff.transform.forward = dir;
         basicAttEff.transform.localScale = Vector3.one * 8.0f;
         basicAttEff.transform.position = obj.transform.position + 3 * Vector3.up;
-        Destroy(basicAttEff, particleEftTime);
+        StartCoroutine(ReleaseAttParticle(basicAttEff, particleEftTime));
+        //Destroy(basicAttEff, particleEftTime);
+        //pool.Release(basicAttEff);
+    }
+
+    IEnumerator ReleaseAttParticle(GameObject basicAttEff, float time)
+    {
+        yield return new WaitForSeconds(time);
+        particlePool.Release(basicAttEff);
     }
 
     public void RemoveFeather()
@@ -440,9 +467,18 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void DamageParticle(Vector3 dir)
     {
-        GameObject dp = Instantiate(damageParticle);
+        //GameObject dp = Instantiate(damageParticle);
+        GameObject dp = ObjectPoolManager.instance.damageParticlePool.Get();
         dp.transform.localScale = Vector3.one * 5.0f;
         dp.transform.position = dir;
+        //dmgParticlePool.Release(dp);
+        StartCoroutine(ReleaseDmgParticle(dp, 1f));
+    }
+
+    IEnumerator ReleaseDmgParticle(GameObject particle, float time)
+    {
+        yield return new WaitForSeconds(time);
+        dmgParticlePool.Release(particle);
     }
 
 
@@ -471,7 +507,7 @@ public class Y_PlayerAttack : MonoBehaviour
         while (i < basicAttackNo)
         {
             // 쏘아지는 이펙트 만들고 파괴
-            FeatherParticle(gameObject, dirB);
+            AttackParticle(gameObject, dirB);
             SoundManager.instance.PlayZayahSound(0);
 
             // 레이캐스트로 적 감지 후 데미지 주기
@@ -543,13 +579,15 @@ public class Y_PlayerAttack : MonoBehaviour
     // 기본무기 강화 (연인의 도탄)
     private IEnumerator EvolveCrt()
     {
+        print("EvolveCrt 실행");
+        // Initiate feather
         GameObject feather = Instantiate(featherEFactory);
         feather.layer = LayerMask.NameToLayer("Feather");
         feather.transform.position = transform.position;
         feather.transform.localEulerAngles = new Vector3(0, 0, 0);
 
+        // 리스트 만들어줌
         List<(Vector3 dir, Collider collider)> targets = new List<(Vector3 dir, Collider collider)>();
-
         // OverlapSphere 로 근처에 있는 에너미들 정보 가져오고
         Collider[] hitInfos = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
         // 리스트에 추가해줌
@@ -561,6 +599,7 @@ public class Y_PlayerAttack : MonoBehaviour
         // 리스트 거리 순으로 소팅
         var enemies = targets.OrderBy(target => target.dir.magnitude).ToList();
 
+        // 튕기게 하기
         for (int i = 0; i < 4; i++)
         {
             if (i >= enemies.Count || enemies[i].collider == null)
@@ -572,7 +611,6 @@ public class Y_PlayerAttack : MonoBehaviour
             {
                 Vector3 dirEW;
                 Vector3 destination;
-
 
                 float dist = 0;
                 float nextDist = dist - 1;
@@ -597,7 +635,7 @@ public class Y_PlayerAttack : MonoBehaviour
                     ////// 나중에 break
                     if (enemies[i].collider == null)
                     {
-                        if (feather != null && feather.activeSelf) pool.Release(feather.gameObject);
+                        if (feather != null && feather.activeSelf) Destroy(feather);
                         yield break;
                     }
 
@@ -614,8 +652,13 @@ public class Y_PlayerAttack : MonoBehaviour
 
             if (i == 3)
             {
-                if (feather != null && feather.activeSelf) pool.Release(feather.gameObject);
+                if (feather != null && feather.activeSelf) Destroy(feather);
+                shield.SetActive(true);
+                //GameObject shield = Instantiate(shield);
+                shield.transform.position = transform.position;
                 hp.Heal(hp.maxHealth * 0.1f * i);
+                yield return new WaitForSeconds(2f);
+                shield.SetActive(false);
             }
         }
         //yield return null;
@@ -642,12 +685,13 @@ public class Y_PlayerAttack : MonoBehaviour
 
         while (curPAttTime < PSkillDuration)
         {
+            if (hp.isDead) yield break;
 
             //curPAttTime += Time.deltaTime;
 
-            p1 = transform.position;
-            p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
-            p3 = transform.position - 5f * transform.right;
+            //p1 = transform.position;
+            //p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
+            //p3 = transform.position - 5f * transform.right;
 
             Transform targetP = GetNearest();
             p4 = targetP.position;
@@ -685,6 +729,11 @@ public class Y_PlayerAttack : MonoBehaviour
 
                 while (true)
                 {
+                    if (hp.isDead) yield break;
+
+                    p1 = transform.position;
+                    p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
+                    p3 = transform.position - 5f * transform.right;
 
                     dirP = p4 - transform.position;
 

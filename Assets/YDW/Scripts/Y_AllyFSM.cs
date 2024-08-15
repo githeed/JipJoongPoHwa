@@ -76,7 +76,9 @@ public class Y_AllyFSM : MonoBehaviour
 
     void Update()
     {
-        switch(a_State)
+        if (GameManager.instance.isStop) return;
+
+        switch (a_State)
         {
             case AllyState.Move:
                 Move();

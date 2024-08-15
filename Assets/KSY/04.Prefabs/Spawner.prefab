@@ -45,8 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coolTime: 0.5
+  startCoolTime: 0
+  changeCoolForLev: 0
   distanceMin: 20
   distanceMax: 30
   StopSpawn: 0
+  spawnPos: []
+  spawnRandPos: 0
+  spawnAtSpecificPos: 1
+  spawnEnemyCntAtOnce: 0
   leftTopTr: {fileID: 0}
   rightBottomTr: {fileID: 0}

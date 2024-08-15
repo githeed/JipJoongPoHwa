@@ -50,7 +50,6 @@ public class H_PlayerAttack : MonoBehaviour
 
 
     // E스킬 사용 가능여부
-    public bool canE = false;
     public bool canR = false;
 
     // E 스킬 지속시간
@@ -90,11 +89,9 @@ public class H_PlayerAttack : MonoBehaviour
     public GameObject globalVolume;
 
     Volume postVolume;
-
-    Vignette myVignette;
-
     public float intensity = 0;
 
+    Vignette vv;
     // Start is called before the first frame update
     void Start()
     {
@@ -112,10 +109,9 @@ public class H_PlayerAttack : MonoBehaviour
         }
 
         postVolume = globalVolume.GetComponent<Volume>();
-        Vignette vv;
         if (postVolume.profile.TryGet<Vignette>(out vv))
         {
-            myVignette = vv;
+            postVolume.profile.TryGet<Vignette>(out vv);
         }
 
         uac = Camera.main.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
@@ -130,9 +126,10 @@ public class H_PlayerAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            blackOut();
-            print("BlakOut");
+            UpdateHp(-1000);
         }
+
+
         BasicAttack();
         if (Input.GetKeyDown(KeyCode.E) && !H_PlayerManager.instance.eCool)
         {
@@ -147,36 +144,24 @@ public class H_PlayerAttack : MonoBehaviour
             CuteRocketAttack();
         }
 
-        if (canE)
+        if (H_PlayerManager.instance.canE)
         {
-            curA += Time.deltaTime;
-            //if(curA <= 1)
-            {
-                //H_PlayerManager.instance.ChangeAlpha(Mathf.Lerp(0, 1, curA));
-                //H_PlayerManager.instance.ChangeAlpha(0.8f);
-                curA = 0;
-            }
-
             currETime += Time.deltaTime;
-            //|| dirToTarget == Vector3.zero
             if (currETime > ESkillTime)
             {
-                canE = false;
-                //uac.renderPostProcessing = false;
+                H_PlayerManager.instance.canE = false;
                 intensity = 0;
                 H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
                 currETime = 0;
                 eBuff.GetComponent<ParticleSystem>().Stop();
                 UpdateHp(-1 * healPower);
             }
+            else
+            {
+                intensity = ((Mathf.Cos(currETime * 20f) + 1) * 0.5f) > 0.3 ? 0.3f : 0;
+            }
         }
-        else
-        {
-            //H_PlayerManager.instance.ChangeAlpha(0);
-        }
-
-        ClampedFloatParameter test = new ClampedFloatParameter(intensity, 0, 1, true);
-        myVignette.intensity = test;
+        vv.intensity.value = intensity;
     }
 
     public Transform GetNearest()
@@ -199,7 +184,6 @@ public class H_PlayerAttack : MonoBehaviour
                 result = target.transform;
             }
         }
-
         return result;
     }
 
@@ -277,7 +261,7 @@ public class H_PlayerAttack : MonoBehaviour
                         he.transform.localScale = Vector3.one * 5;
                         he.transform.position = enemy.gameObject.transform.position + Vector3.up * 3.0f;
                         Destroy(he, 0.4f);
-                        if(canE)
+                        if(H_PlayerManager.instance.canE)
                         {
                             UpdateHp(-1 * drainPower);
                         }
@@ -294,11 +278,11 @@ public class H_PlayerAttack : MonoBehaviour
     void BrierESkill()
     {
         // 광란스킬
-        if (!canE)
+        if (!H_PlayerManager.instance.canE)
         {
             //mat.color = new Color(0, 1, 0);
             // e 를 사용하면 기본공격의 쿨타임을 줄이자
-            canE = true;
+            H_PlayerManager.instance.canE = true;
             H_PlayerManager.instance.attTime = 0.2f;
             
             //uac.renderPostProcessing = true;
@@ -309,7 +293,7 @@ public class H_PlayerAttack : MonoBehaviour
         else
         {
             // e를 사용중이라면 돌아가자
-            canE = false;
+            H_PlayerManager.instance.canE = false;
             H_PlayerManager.instance.attTime = H_PlayerManager.instance.curAttDelay;
             currETime = 0;
             eBuff.GetComponent<ParticleSystem>().Stop();

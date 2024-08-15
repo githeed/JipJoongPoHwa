@@ -22,6 +22,7 @@ public class H_StartUIClick : MonoBehaviour
     public void OnClickButton()
     {
         StartUIClick.enabled = true;
+        SoundManager.instance.PlayCardSound(0);
         StartCoroutine(SceneLoader());
     }
 

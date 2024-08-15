@@ -21,7 +21,8 @@ public class Y_PlayerBodyRot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!pa.isBAttack && !pa.isESkill && !pa.isRSkill)
+        if (GameManager.instance.isStop) return;
+        if (!pa.isBAttack && !pa.isESkill && !pa.isRSkill)
             allyBody.transform.forward = yn.agent.destination - transform.position;
     }
 }
