@@ -161,6 +161,7 @@ private void Awake()
         }
     }
 
+    public float cardPickingTime = 10.0f;
     public void UpdateExp(float value)
     {
         if (indexLev > maxExperiences.Length) return;
@@ -185,7 +186,7 @@ private void Awake()
             bIsPicking = true;
             indexLev++;
             exp = 0;
-            pc = StartCoroutine(PickCard(10));
+            pc = StartCoroutine(PickCard(cardPickingTime));
         }
     }
 
