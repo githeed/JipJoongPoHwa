@@ -79,6 +79,11 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     AudioSource myAudio;
 
     public bool cineStart = false;
+
+    // 모델 바디 컬러
+    private Renderer[] renderers;
+    public Color hitColor = new Color(1f, 0f, 0f, 0.5f);
+
     private void Awake()
     {
         enemyHp = GetComponent<EnemyHp>();
@@ -89,6 +94,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         mainCamOrgParent = mainCam.transform.parent;
         agent.enabled = false;
         myAudio = GetComponent<AudioSource>();
+        renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
     }
     void Start()
     {
@@ -131,6 +137,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         
     }
 
+    GameObject camPos;
     void Update()
     {
         hPImage.fillAmount = enemyHp.curHp / enemyHp.maxHp;
@@ -163,6 +170,13 @@ public class Boss : MonoBehaviour, IAnimatorInterface
                 break;
         }
 
+
+
+        if (GameManager.instance.bISWin)
+        {
+            
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, camPos.transform.position, 10 * Time.deltaTime);
+        }
     }
 
     
@@ -345,15 +359,30 @@ public class Boss : MonoBehaviour, IAnimatorInterface
         myMaterial.color = orgColor;
     }
 
-
     void OnDie()
     {
         GameManager.instance.bISWin = true;
-        SceneManager.LoadScene("EndUIScene");
         gameObject.layer = LayerMask.NameToLayer("Boss");
-        GameObject.FindWithTag("Player").GetComponent<H_PlayerAttack>().blackOut();
+        GameObject player = GameObject.FindWithTag("Player");
+        player.GetComponent<H_PlayerAttack>().blackOut();
+        StartCoroutine(SceneChange());
+
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer != null)
+            {
+                renderer.material.color = hitColor;
+            }
+        }
     }
 
+    public float dieTime = 5f;
+    IEnumerator SceneChange()
+    {
+        yield return new WaitForSeconds(dieTime);
+        SceneManager.LoadScene("EndUIScene");
+
+    }
 
     public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
