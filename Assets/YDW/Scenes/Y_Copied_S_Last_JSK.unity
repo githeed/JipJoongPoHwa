@@ -9999,6 +9999,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ally
       objectReference: {fileID: 0}
+    - target: {fileID: 7464471282532875005, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
+        type: 3}
+      propertyPath: maxHealth
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 8101318993530173819, guid: f58ae58a0eac0ad40bf9bbc34bdca0b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -55220,6 +55225,11 @@ PrefabInstance:
       propertyPath: bg
       value: 
       objectReference: {fileID: 1887825490}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
+      propertyPath: maxHP
+      value: 3000
+      objectReference: {fileID: 0}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
       propertyPath: cardButton
