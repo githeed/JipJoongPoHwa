@@ -123,14 +123,15 @@ public class H_PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.isStop) return;
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             UpdateHp(-1000);
         }
 
-
         BasicAttack();
+
         if (Input.GetKeyDown(KeyCode.E) && !H_PlayerManager.instance.eCool)
         {
             GameManager.instance.eCoolText.enabled = true;

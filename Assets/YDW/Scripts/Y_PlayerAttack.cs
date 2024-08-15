@@ -273,7 +273,7 @@ public class Y_PlayerAttack : MonoBehaviour
     void BasicAttack()
     {
         isBAttack = true;
-        // 오버랩 스피어
+        // 오버랩 스피어wwww
         // targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
         nearestTargetB = GetNearest().gameObject;
 
