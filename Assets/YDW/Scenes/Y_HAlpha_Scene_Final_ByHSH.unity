@@ -27739,6 +27739,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1699459221867030, guid: 0794f688184ecee4a94867bc145cda8b,
         type: 3}
+    - target: {fileID: 3116014020008234532, guid: f95589c96f700cf4da40457085011b51,
+        type: 3}
+      propertyPath: damageParticlePrefab
+      value: 
+      objectReference: {fileID: 8338916966635446596, guid: d0e40affc0d90e64dac724b7c79ad2c5,
+        type: 3}
     - target: {fileID: 8070851433425353638, guid: f95589c96f700cf4da40457085011b51,
         type: 3}
       propertyPath: m_LocalPosition.x
