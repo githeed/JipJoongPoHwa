@@ -67,7 +67,11 @@ public class Spawner : MonoBehaviour
         }
         if (spawnAtSpecificPos) // 특정한 곳에서 소환
         {
-            SpawnPosAtPoint();
+            currTime += Time.deltaTime;
+            if (currTime >= coolTime)
+            {
+                SpawnPosAtPoint();
+            }
         }
     }
 

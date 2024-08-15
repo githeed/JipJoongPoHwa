@@ -349,6 +349,8 @@ public class Boss : MonoBehaviour, IAnimatorInterface
     {
         GameManager.instance.bISWin = true;
         SceneManager.LoadScene("EndUIScene");
+        gameObject.layer = LayerMask.NameToLayer("Boss");
+        GameObject.FindWithTag("Player").GetComponent<H_PlayerAttack>().blackOut();
     }
 
 
