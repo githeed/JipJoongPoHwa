@@ -73,6 +73,7 @@ public class Spawner : MonoBehaviour
             {
                 SpawnPosAtPoint();
                 currTime = 0;
+                coolTime = Random.Range(3f, 8f);
             }
         }
     }
