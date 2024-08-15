@@ -8,13 +8,15 @@ public class ObjectPoolManager : MonoBehaviour
     public static ObjectPoolManager instance;
 
     public int defaultCapacity = 40;
-    public int defaultFeatherCap = 100;
+    public int defaultFeatherCap = 50;
+    public int defaultDParticleCap = 50;
     public int maxPoolSize = 100000;
     public GameObject enemyPrefab;
     public GameObject damageUIPrefab;
     public GameObject featherPrefab;
+    public GameObject attackParticlePrefab;
     public GameObject ally;
-    public GameObject feather;
+    //public GameObject attackParticle;
 
     public enum ObjectPoolName
     {
@@ -25,6 +27,7 @@ public class ObjectPoolManager : MonoBehaviour
     public IObjectPool<GameObject> pool { get; private set; }
     public IObjectPool<GameObject> damageUIPool { get; private set; }
     public IObjectPool<GameObject> featherPool { get; private set; }
+    public IObjectPool<GameObject> attackParticlePool { get; private set; }
 
     private void Awake()
     {
@@ -47,6 +50,7 @@ public class ObjectPoolManager : MonoBehaviour
         pool = new ObjectPool<GameObject>(CreatePooledEnemy, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject,true,defaultCapacity, maxPoolSize);
         damageUIPool = new ObjectPool<GameObject>(CreateDamagePool, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject,true,defaultCapacity, maxPoolSize);
         featherPool = new ObjectPool<GameObject>(CreateFeatherPool, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, defaultCapacity, maxPoolSize);
+        attackParticlePool = new ObjectPool<GameObject>(CreateAttackParticlePool, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, defaultCapacity, maxPoolSize);
 
         // 미리 오브젝트 생성 해놓기
         for (int i = 0; i<defaultCapacity; i++)
@@ -59,6 +63,12 @@ public class ObjectPoolManager : MonoBehaviour
         {
             var feather = CreateFeatherPool();
             ally.GetComponent<Y_PlayerAttack>().pool.Release(feather.gameObject);
+        }
+
+        for (int i = 0; i < defaultDParticleCap; i++)
+        {
+            var attackParticle = CreateAttackParticlePool();
+            ally.GetComponent<Y_PlayerAttack>().particlePool.Release(attackParticle.gameObject); ///// gameObject?
         }
 
     }
@@ -82,6 +92,14 @@ public class ObjectPoolManager : MonoBehaviour
         ally.GetComponent<Y_PlayerAttack>().pool = this.featherPool;
 
         return feather;
+    }
+
+    private GameObject CreateAttackParticlePool()
+    {
+        GameObject attackParticle = Instantiate(attackParticlePrefab);
+        ally.GetComponent<Y_PlayerAttack>().particlePool = this.attackParticlePool;
+
+        return attackParticle;
     }
 
     private void OnTakeFromPool(GameObject poolGo)
