@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7688758057843203899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1932014581733291224}
+  - component: {fileID: 7526989977519076595}
+  m_Layer: 0
+  m_Name: H_PlayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1932014581733291224
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7688758057843203899}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7526989977519076595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7688758057843203899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a81bd2a7be4e774a9fb6b009789bd39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardButton: {fileID: 0}
+  cuteButton: {fileID: 0}
+  cuteSkillBox: {fileID: 0}
+  isCuteOn: 0
+  bg: {fileID: 0}
+  e_UI: {fileID: 0}
+  attTime: 2
+  attDelay: 0.3
+  curAttDelay: 0
+  cuteAttTime: 2
+  cuteCurAttDelay: 0
+  maxExperiences:
+  - 0
+  - 10
+  - 10
+  - 10
+  - 10
+  - 10
+  - 10
+  - 10
+  - 100
+  indexLev: 0
+  expMultiplier: 20
+  exp: 0
+  maxExp: 0
+  bIsPicking: 0
+  xBox: 3
+  boxMultiplier: 1
+  boxDist: 2
+  distMultiplier: 0.3
+  effScale: 1.3
+  effMultiplier: 0.25
+  eCool: 0
+  rCool: 0
+  canE: 0
+  curECoolTime: 0
+  curRCoolTime: 0
+  skillRCooltime: 15
+  skillECooltime: 5
+  maxHP: 500
+  curHP: 0
+  exps: []
+  expFac: {fileID: 9144319922721178804, guid: 4fff541acbd56ca4fadea792064c1c32, type: 3}
+  playerHPBar: {fileID: 0}
+  cuteCool: 0.4
