@@ -55242,6 +55242,11 @@ PrefabInstance:
       objectReference: {fileID: 1887825490}
     - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
         type: 3}
+      propertyPath: effScale
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526989977519076595, guid: 8a5a142995cf68c4e998895bef1a1784,
+        type: 3}
       propertyPath: cardButton
       value: 
       objectReference: {fileID: 11557450}
