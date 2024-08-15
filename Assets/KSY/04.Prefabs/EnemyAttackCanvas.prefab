@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1.6499939, y: 0.80999756}
+  m_AnchoredPosition: {x: -1.6500244, y: 0.80999756}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4593343116661933328
@@ -81,6 +81,8 @@ MonoBehaviour:
   attackPower: 5
   attackRange: 5
   attackCoolTime: 2
+  maxScale: 0
+  attackEff: {fileID: 0}
 --- !u!114 &2805152963274959956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +105,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &3890373401555829781
 MonoBehaviour:
   m_ObjectHideFlags: 0

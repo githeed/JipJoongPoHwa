@@ -30,6 +30,7 @@ public class IndicatorPref : MonoBehaviour
         attackIndiMat = circleIndi.GetComponent<MeshRenderer>().material;
         arrowIndi.transform.localScale = Vector3.one;
         size = 1;
+        duration = 0;
     }
 
     void Update()

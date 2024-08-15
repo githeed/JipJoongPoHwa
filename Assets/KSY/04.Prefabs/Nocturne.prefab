@@ -272,7 +272,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowIndicator_
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8417112254296287780, guid: 796d59260d87490498468defc3a37923, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

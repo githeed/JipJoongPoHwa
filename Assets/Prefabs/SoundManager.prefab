@@ -56,7 +56,15 @@ MonoBehaviour:
   zayahAudios:
   - {fileID: 8300000, guid: 6c026f93d9da36d4aa77de034e2932ba, type: 3}
   - {fileID: 8300000, guid: 2454c1e1b4f127b4084c1410e6f8d975, type: 3}
-  enemyAudios: []
+  enemyAudios:
+  - {fileID: 8300000, guid: 57b7e9d082927e04b94ab11a7b721425, type: 3}
+  - {fileID: 8300000, guid: 9157b29eb3d11c34c90cbafaf51419e6, type: 3}
+  - {fileID: 8300000, guid: a357ea23c87a87a4f822c405606c9ca8, type: 3}
+  - {fileID: 8300000, guid: 4377cdfc21b5a4749aa88b58146ebac5, type: 3}
+  - {fileID: 8300000, guid: e258a8f0b45880f4485e86e79f94e65a, type: 3}
+  - {fileID: 8300000, guid: 0040ae62f9b1deb499c47118fbd865b1, type: 3}
+  - {fileID: 8300000, guid: a9dd90c7a1c88b3489e51ca152ced12c, type: 3}
+  - {fileID: 8300000, guid: 1734673f631bb424bbde68e387ff1908, type: 3}
   cardAudios:
   - {fileID: 8300000, guid: 2fd9649ea0899494eb9f1f77e2afe874, type: 3}
   - {fileID: 8300000, guid: 58de48ac63c315f40a06c46823c27f8a, type: 3}

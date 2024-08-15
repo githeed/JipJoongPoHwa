@@ -162,7 +162,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -238,6 +238,7 @@ MonoBehaviour:
   attackDelay: 3.37
   currState: 0
   indicatorDelay: 1.3
+  isAttacking: 0
 --- !u!95 &677555958759430059
 Animator:
   serializedVersion: 5
@@ -646,7 +647,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 68ffd130d1684184893921f093898ed2, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7338553830921072794, guid: daf079189e9e74b46bfda037a9d9a712, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1070,7 +1072,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e0004d3d68de1fa4ea8ae6aefc7b1ba6, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7338553830921072794, guid: daf079189e9e74b46bfda037a9d9a712, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

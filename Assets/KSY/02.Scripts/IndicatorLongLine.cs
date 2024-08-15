@@ -22,12 +22,14 @@ public class IndicatorLongLine : MonoBehaviour
     Vector3 maxAttackIndiPos;
     Vector3 maxAttackIndiScale;
     public GameObject attackGroundEff;
+    BoxCollider myBoxCol;
     private void Awake()
     {
         orgAttackIndiPos = attackIndi.transform.localPosition;
         orgAttackIndiScale = attackIndi.transform.localScale;
         maxAttackIndiPos = BG.transform.localPosition;
         maxAttackIndiScale = BG.transform.localScale;
+        myBoxCol = GetComponent<BoxCollider>();
     }
 
     private void OnEnable()
@@ -56,15 +58,28 @@ public class IndicatorLongLine : MonoBehaviour
 
     public void CheckOverlap()
     {
-        if (myCollider.bounds.Intersects(collider0.bounds))
+        //if (myCollider.bounds.Intersects(collider0.bounds))
+        //{
+        //    H_Player.UpdateHp(attackPower);
+        //    print("H플레이어 때림");
+        //}
+        //if (myCollider.bounds.Intersects(collider1.bounds))
+        //{
+        //    Y_Player.UpdateHp(attackPower);
+        //    print("Y플레이어 때림");
+        //}
+        Collider[] colliders = Physics.OverlapBox(BG.transform.position, myBoxCol.size * 0.5f);
+        foreach (var c in colliders)
         {
-            H_Player.UpdateHp(attackPower);
-            print("H플레이어 때림");
-        }
-        if (myCollider.bounds.Intersects(collider1.bounds))
-        {
-            Y_Player.UpdateHp(attackPower);
-            print("Y플레이어 때림");
+            if (c.gameObject.tag == "Player")
+            {
+                c.GetComponent<H_PlayerAttack>().UpdateHp(attackPower);
+            }
+            else if (c.gameObject.tag == "Player1")
+            {
+                c.GetComponent<Y_PlayerAttack>().UpdateHp(attackPower);
+            }
+            
         }
         gameObject.SetActive(false);
     }
