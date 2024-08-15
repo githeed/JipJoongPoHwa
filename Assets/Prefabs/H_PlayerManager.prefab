@@ -58,12 +58,12 @@ MonoBehaviour:
   maxExperiences:
   - 0
   - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
+  - 20
+  - 40
+  - 60
+  - 60
+  - 60
+  - 60
   - 100
   indexLev: 0
   expMultiplier: 20
@@ -88,4 +88,5 @@ MonoBehaviour:
   exps: []
   expFac: {fileID: 9144319922721178804, guid: 4fff541acbd56ca4fadea792064c1c32, type: 3}
   playerHPBar: {fileID: 0}
+  cardPickingTime: 60
   cuteCool: 0.4
