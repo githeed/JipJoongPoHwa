@@ -2429,7 +2429,7 @@ GameObject:
   - component: {fileID: 139627995}
   - component: {fileID: 139627994}
   - component: {fileID: 139627993}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Black (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5863,7 +5863,7 @@ GameObject:
   - component: {fileID: 245752501}
   - component: {fileID: 245752500}
   - component: {fileID: 245752499}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Black (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6921,7 +6921,7 @@ GameObject:
   - component: {fileID: 269377145}
   - component: {fileID: 269377144}
   - component: {fileID: 269377143}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Black (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16446,6 +16446,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
         type: 3}
+      propertyPath: attackDmg
+      value: 500000
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
+      propertyPath: drainPower
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 125704264292031012, guid: 08b89f6259071f64f8b7efd12593ff13,
+        type: 3}
       propertyPath: globalVolume
       value: 
       objectReference: {fileID: 1769178347}
@@ -19528,7 +19538,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 803858621}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20993,7 +21003,7 @@ GameObject:
   - component: {fileID: 868869931}
   - component: {fileID: 868869930}
   - component: {fileID: 868869929}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52980,6 +52990,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
+      propertyPath: whenLv4EnemyCnt
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: whenLv6EnemyCnt
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
       propertyPath: spawnEnemyCntAtOnce
       value: 1
       objectReference: {fileID: 0}
@@ -52987,6 +53007,16 @@ PrefabInstance:
         type: 3}
       propertyPath: spawnPos.Array.size
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: startEnemyCntAtOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: afterStoneDieEnemyCnt
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
@@ -53023,6 +53053,11 @@ PrefabInstance:
       propertyPath: spawnPos.Array.data[6]
       value: 
       objectReference: {fileID: 328590794}
+    - target: {fileID: 1495167059717150524, guid: 91093604671c09845afcca1beb47f3c1,
+        type: 3}
+      propertyPath: whenStoneExistEnemyCnt
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8545535845617597451, guid: 91093604671c09845afcca1beb47f3c1,
         type: 3}
       propertyPath: m_Name
@@ -53565,6 +53600,11 @@ PrefabInstance:
       propertyPath: rCoolText
       value: 
       objectReference: {fileID: 1576272622}
+    - target: {fileID: 5126623575827710080, guid: 14a3555247901ea41a653910f58224ba,
+        type: 3}
+      propertyPath: bossSpawnMin
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 5126623575827710080, guid: 14a3555247901ea41a653910f58224ba,
         type: 3}
       propertyPath: bossSpawnPos

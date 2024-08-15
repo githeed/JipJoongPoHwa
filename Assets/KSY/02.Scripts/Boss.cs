@@ -207,7 +207,7 @@ public class Boss : MonoBehaviour, IAnimatorInterface
             case BossState.ATTACK_DELAY:
                 break;
             case BossState.DEAD:
-                myAnim.SetBool("DEAD", true);
+                myAnim.SetTrigger("DEAD");
                 break;
             default:
                 break;
@@ -362,12 +362,12 @@ public class Boss : MonoBehaviour, IAnimatorInterface
 
     void OnDie()
     {
+        ChangeState(BossState.DEAD);
         GameManager.instance.bISWin = true;
         gameObject.layer = LayerMask.NameToLayer("Boss");
         GameObject player = GameObject.FindWithTag("Player");
         player.GetComponent<H_PlayerAttack>().blackOut();
         StartCoroutine(SceneChange());
-        ChangeState(BossState.DEAD);
         foreach (Renderer renderer in renderers)
         {
             if (renderer != null)
