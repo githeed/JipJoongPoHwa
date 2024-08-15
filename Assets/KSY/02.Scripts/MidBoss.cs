@@ -48,7 +48,7 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
     Color orgColor;
 
     AudioSource myAudio;
-
+    public bool isAttacking;
 
     void Start()
     {
@@ -165,12 +165,13 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
     {
         Vector3 dir = target.transform.position - transform.position;
         transform.forward = (dir - Vector3.up * dir.y).normalized;
-        ChangeState(MidBossState.ATTACK_DELAY);
+        
         myAnim.SetTrigger("ATTACK");
         
     }
     void UpdateAttack_Delay()
     {
+        if (isAttacking) return;
         if (IsDelayComplete(attackDelay))
         {
             DecideState();
@@ -239,6 +240,7 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
         {
             myIndicator.SetActive(true);
             StartCoroutine(DelayAction(indicatorDelay, () => myAudio.Play()));
+            ChangeState(MidBossState.ATTACK_DELAY);
         }
     }
 
@@ -246,7 +248,7 @@ public class MidBoss : MonoBehaviour, IAnimatorInterface
     {
         if (stateInfo.IsName("Attack"))
         {
-            
+            isAttacking = false;
         }
     }
 }
