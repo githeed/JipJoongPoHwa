@@ -93,6 +93,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
     public IObjectPool<GameObject> pool { get; set; }
     public IObjectPool<GameObject> particlePool { get; set; } 
+    public IObjectPool<GameObject> dmgParticlePool { get; set; } 
 
 
 
@@ -466,9 +467,18 @@ public class Y_PlayerAttack : MonoBehaviour
 
     void DamageParticle(Vector3 dir)
     {
-        GameObject dp = Instantiate(damageParticle);
+        //GameObject dp = Instantiate(damageParticle);
+        GameObject dp = ObjectPoolManager.instance.damageParticlePool.Get();
         dp.transform.localScale = Vector3.one * 5.0f;
         dp.transform.position = dir;
+        //dmgParticlePool.Release(dp);
+        StartCoroutine(ReleaseDmgParticle(dp, 1f));
+    }
+
+    IEnumerator ReleaseDmgParticle(GameObject particle, float time)
+    {
+        yield return new WaitForSeconds(time);
+        dmgParticlePool.Release(particle);
     }
 
 
