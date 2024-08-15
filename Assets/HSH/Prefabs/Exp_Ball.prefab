@@ -97,4 +97,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectRange: 10
-  dieRange: 1
+  dieRange: 0.9
