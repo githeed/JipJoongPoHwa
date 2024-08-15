@@ -170,7 +170,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
             else if (curEvAttTime > EvSkillTime)
             {
-                if(pm.indexLev >= 7)
+                if (pm.indexLev >= 7)
                 {
                     StartCoroutine(EvolveCrt());
                     curEvAttTime = 0;
@@ -182,7 +182,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            StartCoroutine(EvolveCrt());
+            StartCoroutine(PassiveAttack());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha8))
@@ -685,12 +685,13 @@ public class Y_PlayerAttack : MonoBehaviour
 
         while (curPAttTime < PSkillDuration)
         {
+            if (hp.isDead) yield break;
 
             //curPAttTime += Time.deltaTime;
 
-            p1 = transform.position;
-            p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
-            p3 = transform.position - 5f * transform.right;
+            //p1 = transform.position;
+            //p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
+            //p3 = transform.position - 5f * transform.right;
 
             Transform targetP = GetNearest();
             p4 = targetP.position;
@@ -728,6 +729,11 @@ public class Y_PlayerAttack : MonoBehaviour
 
                 while (true)
                 {
+                    if (hp.isDead) yield break;
+
+                    p1 = transform.position;
+                    p2 = transform.position + 5f * transform.right;// + transform.forward * -10f;
+                    p3 = transform.position - 5f * transform.right;
 
                     dirP = p4 - transform.position;
 
