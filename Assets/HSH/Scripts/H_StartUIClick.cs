@@ -30,6 +30,6 @@ public class H_StartUIClick : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        SceneManager.LoadScene("Alpha_Scene_Final_ByJSK_0811_Test 1");
+        SceneManager.LoadScene(1);
     }
 }

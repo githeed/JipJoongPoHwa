@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Unity.Entities.UniversalDelegates;
-using Unity.PlasticSCM.Editor.WebApi;
 using Unity.Transforms;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
@@ -268,14 +265,16 @@ public class Y_PlayerAttack : MonoBehaviour
 
         return result;
     }
-
+    
     public Vector3 dirB;
     void BasicAttack()
     {
         isBAttack = true;
         // 오버랩 스피어wwww
         // targets = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
-        nearestTargetB = GetNearest().gameObject;
+        nearestTarget = GetNearest();
+        if (nearestTarget == null) return;
+        nearestTargetB = nearestTarget.gameObject;
 
         dirB = nearestTargetB.transform.position - transform.position;
         if (nearestTargetB == null) return;
@@ -293,7 +292,7 @@ public class Y_PlayerAttack : MonoBehaviour
 
 
 
-
+    
     private IEnumerator ESkill()
     {
         isESkill = true;
