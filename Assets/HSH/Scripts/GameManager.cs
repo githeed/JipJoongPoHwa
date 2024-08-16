@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
     }
     void IsStop()
     {
-        if (bossCs.currState == Boss.BossState.START || bossCs.currState == Boss.BossState.IDLE)
+        if (bossCs.currState == Boss.BossState.START || bossCs.currState == Boss.BossState.IDLE || bossCs.currState == Boss.BossState.DEAD)
         {
             isStop = true;
         }
