@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/StartUIScene.unity
     guid: f600f79a5512d1d4dadc8db35406b237
   - enabled: 1
-    path: Assets/YDW/Scenes/Y_Final_S_Copied_S_Last_JSK.unity
-    guid: a98fcb5c9e61a464cab0267d2171ca3d
+    path: Assets/JSK/Scene/S_Copied_S_Last_JSK.unity
+    guid: 7591ba0debc9ced41a04ca115bf88b50
   - enabled: 1
     path: Assets/Scenes/EndUIScene.unity
     guid: c52105446ad06164f81034a3c85570cc
