@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyStone : MonoBehaviour
 {
@@ -44,6 +45,9 @@ public class EnemyStone : MonoBehaviour
 
     public bool isStart;
 
+    public GameObject myHPUI;
+    Image myImage;
+
     void Start()
     {
         myHp = GetComponent<EnemyHp>();
@@ -52,6 +56,7 @@ public class EnemyStone : MonoBehaviour
         myMaterial = GetComponentInChildren<MeshRenderer>().material;
         effTimeSec = new WaitForSeconds(effTime);
         orgColor = myMaterial.color;
+        myImage = myHPUI.GetComponent<Image>();
         rangeCanvasGo.transform.localScale = Vector3.one * myMaxRange * 2.5f;
         for(int i = 0; i < minIndiCnt; i++)
         {
@@ -75,7 +80,8 @@ public class EnemyStone : MonoBehaviour
         distToPlayer1 = Vector3.Distance(transform.position, player1.transform.position);
 
         IsStart();
-
+        myImage.fillAmount = myHp.curHp / myHp.maxHp;
+        
 
         if (isStart) return;
 
